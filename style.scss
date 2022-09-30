@@ -73,16 +73,33 @@ nav{
         box-sizing: border-box;
         height: 100%;
         padding: 24px 0;
+
+        a{
+            text-decoration: none;
+        }
     }
 
     .donate{
         height: 100%;
-        width: 100px;
+        width: 120px;
         background: none;
         border: 2px solid var(--primary);
         color: var(--primary);
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 600;
+        padding:  20px 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @include desktop{
+            width: 140px;
+            height: 75%;
+            font-size: 24px;
+            padding: 30px 10px;
+        }
+
     }
 }
 
@@ -99,7 +116,7 @@ main{
     .img-div{
         width: 100%;
         position: relative;
-        background-image: url('assets/new-img.png');
+        background-image: url('assets/landing-img.jpeg');
         height: 40vh;
         background-position: center;
         background-size: cover;
