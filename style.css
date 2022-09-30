@@ -122,6 +122,7 @@ main .img-div {
 @media (min-width: 600px) {
   main .img-div {
     height: 80vh;
+    width: 75%;
   }
 }
 main .img-div .field {
