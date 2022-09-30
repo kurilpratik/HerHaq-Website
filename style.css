@@ -42,6 +42,12 @@ nav {
   display: flex;
   justify-content: space-between;
   padding: 15px 0;
+  margin-top: 15px !important;
+}
+@media (min-width: 600px) {
+  nav {
+    margin-top: 0 !important;
+  }
 }
 nav .logo {
   box-sizing: border-box;
@@ -55,9 +61,6 @@ nav .nav-links {
   box-sizing: border-box;
   height: 100%;
   padding: 24px 0;
-}
-nav .nav-links a {
-  text-decoration: none;
 }
 nav .donate {
   height: 100%;
@@ -76,9 +79,18 @@ nav .donate {
   nav .donate {
     width: 140px;
     height: 75%;
-    font-size: 24px;
+    font-size: 20px;
     padding: 30px 10px;
   }
+}
+nav a {
+  text-decoration: none;
+}
+nav button:hover {
+  cursor: pointer;
+  background-color: var(--primary);
+  color: #fff;
+  transition: linear 0.4s;
 }
 
 main {
