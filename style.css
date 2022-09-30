@@ -47,6 +47,9 @@ nav {
 @media (min-width: 600px) {
   nav {
     margin-top: 0 !important;
+    height: 10%;
+    padding: 10px;
+    margin-bottom: 10px !important;
   }
 }
 nav .logo {
@@ -80,7 +83,7 @@ nav .donate {
     width: 140px;
     height: 75%;
     font-size: 20px;
-    padding: 30px 10px;
+    padding: 24px 10px;
   }
 }
 nav a {
