@@ -179,11 +179,28 @@ main{
             padding-bottom: 0;
         }
     }
+    .mobile{
+        display: inline;
 
+        @include desktop{
+            display: none;
+        }
+    }
+    .desktop{
+        display: none;
+
+        @include desktop{
+            display: inline;
+        }
+    }
     h2{
         font-size: 36px;
         line-height: 43px;
         font-weight: 400;
+
+        @include desktop{
+            font-size: 42px;
+        }
     }
     strong{
         font-family: 'Ageo-bold', sans-serif;
@@ -205,6 +222,11 @@ main{
         font-size: 16px;
         line-height: 25px;
         padding: 20px 0;
+
+        @include desktop{
+            font-size: 20px;
+            line-height: 32px;
+        }
     }
     
     .btn-container{

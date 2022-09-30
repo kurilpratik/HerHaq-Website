@@ -155,10 +155,31 @@ main .info {
     padding-bottom: 0;
   }
 }
+main .mobile {
+  display: inline;
+}
+@media (min-width: 600px) {
+  main .mobile {
+    display: none;
+  }
+}
+main .desktop {
+  display: none;
+}
+@media (min-width: 600px) {
+  main .desktop {
+    display: inline;
+  }
+}
 main h2 {
   font-size: 36px;
   line-height: 43px;
   font-weight: 400;
+}
+@media (min-width: 600px) {
+  main h2 {
+    font-size: 42px;
+  }
 }
 main strong {
   font-family: "Ageo-bold", sans-serif;
@@ -179,6 +200,12 @@ main p {
   font-size: 16px;
   line-height: 25px;
   padding: 20px 0;
+}
+@media (min-width: 600px) {
+  main p {
+    font-size: 20px;
+    line-height: 32px;
+  }
 }
 main .btn-container {
   position: absolute;
