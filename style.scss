@@ -6,6 +6,7 @@
 :root{
     --primary: #DB4152;
     --accent: #FCB415;
+    --mobile: 600px;
 }
 
 @font-face {
@@ -16,6 +17,18 @@
     font-family: Ageo-bold;
     src: url(assets/Ageo-Bold.otf);
 }
+
+//Hard coded mobile value
+@mixin desktop {
+    @media(min-width: 600px){
+        @content;
+    }
+}
+@mixin tablet {
+    @media (min-width: 544px ) {
+        @content
+    }
+}
 *{
     font-family: 'Ageo', sans-serif;
 }
@@ -25,6 +38,10 @@
 .container{
     width: 85%;
     margin: 0 auto;
+
+    @include desktop{
+        width: 70%;
+    }
 }
 
 body{
@@ -50,9 +67,12 @@ nav{
     }
 
     .nav-links{
+
+        //display: none;
+
         box-sizing: border-box;
         height: 100%;
-        padding: 20px 0;
+        padding: 24px 0;
     }
 
     .donate{
@@ -70,13 +90,23 @@ main{
 
     width: 100%;
 
+    @include desktop{
+        display: flex;
+        width: 70%;
+        margin: 0 auto;
+    }
+
     .img-div{
         width: 100%;
         position: relative;
-        background-image: url('assets/image.png');
+        background-image: url('assets/new-img.png');
         height: 40vh;
         background-position: center;
         background-size: cover;
+
+        @include desktop{
+            height: 80vh;
+        }
 
         .field{
             position: absolute;
@@ -88,12 +118,29 @@ main{
             color: #fff;
             padding: 6px 16px;
             border-radius: 18px;
+
+            @include desktop{
+                left: 24px;
+            }
         }
     }
     
 
     .info{
         margin-top: 42px;
+
+        @include desktop{
+            //position: absolute;
+            //bottom: 24px
+            position: relative;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            padding: 40px;
+            padding-right: 0;
+            padding-bottom: 0;
+        }
     }
 
     h2{
@@ -109,6 +156,11 @@ main{
         display: flex;
         justify-content: space-between;
         position: relative;
+
+        @include desktop{
+            bottom: 0;
+        }
+       
     }
     p{
         width: 50%;
@@ -123,6 +175,12 @@ main{
         position: absolute;
         bottom: 30px;
         right: 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
                 
         .btn{
             height: 86px;
@@ -133,6 +191,7 @@ main{
             justify-content: center;
             align-items: center;
             animation: pulse 1.5s ease-in-out 0s infinite alternate;
+            margin: 0;
         }
 
         @keyframes pulse {
@@ -144,8 +203,26 @@ main{
             }
         }
 
-        p{
+        .continue{
             display: none;
+
+            color: var(--primary);
+            text-decoration: none;
+            //margin-top: 10px;
+            font-weight: 400;
+            font-size: 20px;
+            width: 200%;
+            text-align: center !important;
+
+            p{
+                text-align: center;
+                margin: 0 auto;
+                padding: 0;
+                padding-top: 20px;
+            }
+            @include desktop{
+                display: inline;
+            }
         }
     }
     
@@ -166,5 +243,18 @@ main{
     color: var(--accent);
     font-weight: 200;
     text-align: center;
+
+    flex-direction: column;
+}
+
+video{    
+    width: 90%;
+    height: auto;
+    margin-top: 10px;
+
+    @include desktop{
+        height: 50vh;
+        margin-top: 50px;
+    }
 }
 
