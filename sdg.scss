@@ -1,0 +1,761 @@
+*, html, body{
+    margin: 0;
+    padding: 0;
+}
+
+html,body{
+    width: 100%;
+    overflow-x: hidden !important;
+}
+body{
+    height: 100vh !important;
+    scroll-behavior: smooth;
+}
+
+:root{
+    --primary: #DB4152;
+    --accent: #FCB415;
+    --mobile: 600px;
+}
+
+$mobile : 600px;
+
+@font-face {
+    font-family: Ageo;
+    src: url(assets/font/Ageo.otf);
+}
+@font-face {
+    font-family: Ageo-bold;
+    src: url(assets/font/Ageo-Bold.otf);
+}
+@font-face {
+    font-family: Ageo-light;
+    src: url(assets/font/Ageo-Thin.ttf);
+}
+
+@mixin mobile {
+    @media (max-width: #{$mobile}) {
+        @content
+    }
+}
+
+*{
+    font-family: 'Ageo', sans-serif;
+}
+
+
+//Desktop First Approach
+.container {
+    width: 80%;
+    margin: 0 auto;
+
+    @include mobile{
+        width: 90%;
+    }
+}
+.btn-primary{
+    height: 42px;
+    background: #fff;
+    border: none;
+    color: var(--primary);
+    width: 140px;
+    font-size: 18px;
+    font-family: 'Ageo-Bold';
+}
+.btn-outline{
+    height: 42px;
+    width: 140px !important;
+    background: none;
+    border: 2px #fff solid;
+    color: #fff;
+    width: 140px;
+    font-size: 18px;
+}
+button{
+    margin-right: 16px;
+}
+button:hover{
+    cursor: pointer;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-top: 10px !important;
+
+    .nav-links{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-links a{
+        padding: 0 12px;
+        margin: 0 8px;
+        color: #000;
+        text-decoration: none;
+    }
+    .nav-links a:hover{
+        color: var(--primary);
+    }
+    .menu {
+        padding: 0 !important;
+    }
+    .menu img{
+        height: 42px;
+        width: 42px;
+    }
+
+    .desktop-link{
+        @include mobile{
+            display: none;
+        }
+    }
+    .active{
+        font-family: 'Ageo-bold';
+        color: var(--primary) !important;
+    }
+    .menu{
+        display: none;
+        @include mobile{
+            display: block;
+        }
+    }
+    
+    button{
+        border: 2px var(--primary) solid ;
+        width: 140px;
+        height: 42px;
+        background: none;
+        color: var(--primary);
+        font-size: 18px;
+        font-family: 'Ageo-Bold';
+    }
+    button:hover{
+        cursor: pointer;
+    }
+}
+.mobile-nav{
+    display: none;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    box-sizing: content-box;
+    ul{
+        width: 100%;
+        //height: $nav-height*1.5;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        justify-content: center;
+        a{
+            display: block;
+            width: 50%;
+            color: #000;
+            text-decoration: none;
+            list-style: none;
+            padding: 1rem;
+            text-align: center;
+            font-family: 'Ageo-bold';
+            font-weight: 600;
+            &:focus{
+                border: 2px lightblue solid;
+            }
+        }
+
+        li{
+            width: 100%;
+        }
+    }
+
+    @include mobile{
+        display: none;
+    }
+}
+
+.subhero{
+    height: 70vh;
+    width: 100%;
+    color: #fff;
+    position: relative;
+    margin: 48px 0;
+
+    @include mobile{
+        margin: 0;
+    }
+    .left{
+        height: 70vh;
+        width: 70%;
+        position: relative;
+        background-color: var(--primary);
+        display: flex;
+        align-items: center;
+        @include mobile{
+            height: auto;
+            width: 100%;
+            padding: 56px 0;
+            margin: 0 auto;
+            float: left;
+        }
+        .text{
+            width: 50%;
+            margin-left: 15%;
+            @include mobile{
+                width: 100%;
+                margin-left: 5%;
+            }
+        }
+        h1{
+            font-size: 42px;
+            font-family: 'Ageo';
+
+            @include mobile{
+                font-size: 32px;
+            }
+            span{
+                font-family: 'Ageo-bold';
+            }
+        }
+        p{
+            font-family: 'Ageo', sans-serif;
+            font-size: 16px;
+            line-height: 150%;
+            width: 70%;
+            padding: 14px 0;
+            margin-bottom: 14px;
+            @include mobile{
+                width: 100%;
+            }
+        }
+        
+    }
+    .img{
+        background-image: url('assets/IMG_2673\ \(1\).JPG');
+        background-size: cover;
+        background-position: center;
+        height: 50vh;
+        width: 50%;
+        float: right;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        @include mobile{
+            height: 30vh;
+            position: relative;
+            left: 0;
+            width: 100%;
+            right: initial;
+            top: 0;
+            transform: translateY(0);
+        }
+    }
+}
+
+.ourSDG{
+    height: 80vh;
+    margin: 10vh auto;
+    display: flex;
+    width: 70%;
+    max-width: 100%;
+    overflow: hidden;
+
+    @media (max-width: 1200px) {
+        height: auto;
+    }
+
+    @include mobile{
+        height: 100%;
+        width: 90%;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+    .left{
+        width: 50%;
+        padding: 96px 0;
+        min-width: 40%;
+        @media (max-width: 1200px) {
+            padding: 36px 0;
+        }
+        @include mobile{
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            padding: 0px;
+            margin-top: 28px;
+        }
+        h1{
+            font-size: 42px;
+            font-weight: 100;
+            @include mobile{
+                font-size: 32px;
+            }
+            span{
+                font-family: 'Ageo-bold', sans-serif;
+            }
+        }
+        .line{
+            height: 2px;
+            width: 40%;
+            background-color: var(--accent);
+            margin: 20px 0;
+        }
+        p{
+            font-family: 'Ageo', sans-serif;
+            font-size: 16px;
+            line-height: 150%;
+            width: 70%;
+            padding: 14px 0;
+            margin-bottom: 14px;
+            @include mobile{
+                width: 90%;
+            }
+        }
+        .btn-primary{
+            height: 42px;
+            background: var(--primary);
+            border: none;
+            color: #fff;
+            width: 160px;
+            font-size: 18px;
+            font-family: 'Ageo-Bold';
+        }
+    }
+    .right{
+
+        @include mobile{
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .top{
+            display: flex;
+        }
+        .bottom{
+            display: flex;
+
+        }
+        .box{
+            height: 200px;
+            width: 200px;
+            padding: 12PX;
+            background: #F5F5F5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 16px;
+
+            @include mobile{
+                height: 150px;
+                width: 150px;
+                margin: 8px;
+            }
+
+            @media (max-width: 1200px) {
+                height: 160px;
+                width: 160px;
+            }
+
+            .icon{
+                height: 48px;
+                width: auto;
+                //width: 48px;
+                //background: #333;
+                margin-bottom: 12px;
+                margin-top: 16px;
+                @include mobile{
+                    height: 36px;
+                }
+
+                @media (max-width: 1200px) {
+                    height: 36px;
+                }
+            }
+
+            h1{
+                font-size: 32px;
+                color: var(--primary);
+                font-family: 'Ageo-Bold';
+                text-align: center;
+                margin-top: 12px;
+                margin-bottom: 12PX;
+                color: #fff;
+
+                @include mobile{
+                    font-size: 20px;
+                    margin-bottom: 12px;
+                }
+
+                @media (max-width: 1200px) {
+                    font-size: 24px;
+                }
+            }
+            
+        }
+        .one{
+            background-color: #28a745;
+        }
+        .two{
+            background-color: var(--primary);
+        }
+        .three{
+            background-color: #ff9832;
+        }
+        .four{
+            background-color: #dc1769;
+        }
+    }
+}
+
+#ourway{
+    height: 60vh;
+    margin-top: 36px;
+    margin-bottom: 60px;
+
+    @include mobile{
+        margin-top: 8px;
+        height: 100%;
+        margin-bottom: 180px;
+    }
+    h1{
+        text-align: center;
+        font-size: 36px;
+        @include mobile(){
+            font-size: 28px;
+        }
+        span{
+            color: var(--primary);
+            font-family: 'Ageo-Bold';
+        }
+    }
+    .columns{
+        display: flex;
+        margin: 35px 0;
+        @include mobile{
+            flex-direction: column;
+        }
+        .col{
+            margin: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            @include mobile{
+                margin: 8px 0;
+            }
+            .icon{
+                height: 64px;
+                margin: 12px 0;
+                @include mobile{
+                    height: 36px;
+                    margin: 4px 0;
+                }
+            }
+            h1{
+                font-size: 24px;
+                margin: 20px 0;
+            }
+            .dot{
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+                background-color: var(--accent);
+                margin-bottom: 20px;
+            }
+            p{
+                line-height: 160%;
+                width: 90%;
+            }
+        }
+    }
+}
+
+.gallery{
+    height: 70vh;
+    @include mobile{
+        height: auto;
+        margin-bottom: 20px;
+    }
+    h1{
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    .images{
+        display: flex;
+        justify-content: space-between;
+        padding: 24px 0;
+        @include mobile{
+            flex-direction: column;
+        }
+    }
+
+    .img{
+        width: 30%;
+        height: 300px;
+        background-image: url('assets/IMG_5778.jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+        @include mobile{
+            width: 100%;
+            margin-bottom: 16px;
+        }
+    }
+    .s{
+        background-image: url('assets/IMG_2527.jpg');
+    }
+    .t{
+        background-image: url('assets/banner/banner\ 1.png');
+    }
+    a{
+        display: flex;
+        text-decoration: none;
+    }
+    .btn-primary{
+        background: var(--primary);
+        color: #fff;
+        margin: 0 auto;
+    }
+}
+
+.pillars{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include mobile{
+        margin-top: 10vh;
+    }
+    h1{
+        text-align: center;
+        font-size: 36px;
+        @include mobile{
+            font-size: 28px;
+        }
+        span{
+            color: var(--primary);
+            font-family: 'Ageo-Bold';
+        }
+    }
+    p{
+        text-align: center;
+        width: 60%;
+        margin: 0 auto;
+        margin-top: 20px;
+        opacity: 0.75;
+        @include mobile{
+            width: 80%;
+        }
+    }
+    .container{
+        display: flex;
+        justify-content: center;
+    }
+    .btn-primary{
+        background-color: var(--primary);
+        color: #fff;
+        height: 120px;
+        width: 120px;
+        font-size: 20px;
+        border-radius: 50%;
+        border: 4px solid white;
+        transform: translateY(50%);
+        @include mobile{
+            transform: translateY(-50%);
+            margin-top: 70%;
+            margin-bottom: -30px;
+        }
+    }
+    .columns{
+        width: 100%;
+        height: 50vh;
+        display: flex;
+        @include mobile{
+            flex-direction: column;
+            height: auto;
+        }
+        a{
+            text-decoration: none;
+        }
+        .col{
+            height: 50vh;
+            width: 100%;
+            //background-color: #ff9832;
+            display: flex;
+            margin: 0 auto;
+            align-items: center;
+            text-align: center;
+            @include mobile{
+                height: 25vh;
+            }
+            .info-mhm, .info-fl, .info-ll{
+                opacity: 0;
+                height: 50vh;
+                width: 100%;
+                background-color: rgba($color: #000000, $alpha: 0.75);
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                @include mobile{
+                    height: 25vh;
+                    opacity: 1;
+                }
+            }
+           
+        }
+        
+        .mhm{
+            background-image: url('assets/mhm.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .mhm:hover{
+            cursor: pointer;
+            .info-mhm{
+                opacity: 1;
+            }
+        }
+        .fl{
+            background-image: url('assets/banner\ 3.JPG');
+            background-size: cover;
+        }
+        .fl:hover{
+            cursor: pointer;
+            .info-fl{
+                opacity: 1;
+            }
+        }
+        .ll{
+            background-image: url('assets/banner\ 2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .ll:hover{
+            cursor: pointer;
+            .info-ll{
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.pillars-info{
+    padding-bottom: 10vh;
+
+    @include mobile{
+        margin-top: 25%;
+    }
+    .mhm, .ll, .fl{
+        padding: 16px 0;
+        @include mobile{
+            padding: 8px 0;
+        }
+        h1{
+            font-family: 'Ageo-Bold';
+            color: var(--primary);
+            margin: 20px 0;
+        }
+        p{  
+            margin: 20px 0;
+            line-height: 150%;
+            span{
+                font-family: 'Ageo-Bold';
+            }
+        }
+    }
+    a{
+        display: flex;
+        text-decoration: none;
+        justify-content: center;
+    }
+    .btn-primary{
+        background-color: var(--primary);
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+footer{
+    height: 40vh;
+    width: 100%;
+    border-top: var(--primary) solid 4px;
+    @include mobile{
+        height: auto;
+    }
+    
+    .top{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        @include mobile{
+            justify-content: space-evenly;
+        }
+        
+        .col{
+            margin: 16px;
+            width: 1fr !important;
+            display: flex;
+            flex-direction: column;
+        }
+        h2{
+            margin-bottom: 20px;
+            font-family: 'Ageo-bold';
+        }
+        a{
+            color: black;
+            margin: 12px 0;
+            margin-left: 20px;
+            text-decoration: none;
+            @include mobile{
+                margin-left: 0;
+                font-size: 20px;
+            }
+        }
+        a.logo{
+            margin: 0;
+        }
+        .post{
+            @include mobile{
+                display: none;
+            }
+        }
+        .insta{
+            width: 160px;
+            height: 160px;
+        }
+    }
+    .footnotes{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 24px;
+        padding-bottom: 48px;
+        @include mobile{
+            margin-bottom: 40px;
+        }
+        h3{
+            font-size: 16px;
+            color: var(--primary);
+            font-family: 'Ageo-Bold';
+        }
+        p{
+            color: #747474;
+            a{
+                color: #747474 !important;
+                font-family: 'Ageo-Bold';
+            }
+        }
+    }
+}

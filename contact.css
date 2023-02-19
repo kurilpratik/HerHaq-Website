@@ -1,0 +1,379 @@
+*, html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden !important;
+}
+
+body {
+  height: 100vh !important;
+}
+
+:root {
+  --primary: #DB4152;
+  --accent: #FCB415;
+  --mobile: 600px;
+}
+
+@font-face {
+  font-family: Ageo;
+  src: url(assets/font/Ageo.otf);
+}
+@font-face {
+  font-family: Ageo-bold;
+  src: url(assets/font/Ageo-Bold.otf);
+}
+@font-face {
+  font-family: Ageo-light;
+  src: url(assets/font/Ageo-Thin.ttf);
+}
+* {
+  font-family: "Ageo", sans-serif;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+  }
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  margin-top: 10px !important;
+}
+nav .nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav .nav-links a {
+  padding: 0 12px;
+  margin: 0 8px;
+  color: #000;
+  text-decoration: none;
+}
+nav .nav-links a:hover {
+  color: var(--primary);
+}
+nav .menu {
+  padding: 0 !important;
+}
+nav .menu img {
+  height: 42px;
+  width: 42px;
+}
+@media (max-width: 600px) {
+  nav .desktop-link {
+    display: none;
+  }
+}
+nav .menu {
+  display: none;
+}
+@media (max-width: 600px) {
+  nav .menu {
+    display: block;
+  }
+}
+nav button {
+  border: 2px var(--primary) solid;
+  width: 140px;
+  height: 42px;
+  background: none;
+  color: var(--primary);
+  font-size: 18px;
+  font-family: "Ageo-Bold";
+}
+nav button:hover {
+  cursor: pointer;
+}
+
+.mobile-nav {
+  display: none;
+  width: 100%;
+  padding-bottom: 0.5rem;
+  box-sizing: content-box;
+}
+.mobile-nav ul {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  justify-content: center;
+}
+.mobile-nav ul a {
+  display: block;
+  width: 50%;
+  color: #000;
+  text-decoration: none;
+  list-style: none;
+  padding: 1rem;
+  text-align: center;
+  font-family: "Ageo-bold";
+  font-weight: 600;
+}
+.mobile-nav ul a:focus {
+  border: 2px lightblue solid;
+}
+.mobile-nav ul li {
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+
+.contact {
+  height: 90vh;
+  width: 100%;
+  background-color: #000;
+  background-image: url("assets/contact-bg.png");
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .contact {
+    height: auto;
+    flex-direction: column;
+  }
+}
+.contact .info {
+  margin-top: -10vh;
+  margin-left: 10%;
+  width: 50%;
+}
+@media (max-width: 600px) {
+  .contact .info {
+    margin-top: 0;
+    margin-left: 0;
+    width: 80%;
+    margin: 0 auto;
+    padding: 36px 0;
+  }
+}
+.contact .info h1 {
+  font-size: 32px;
+  margin: 24px 0;
+}
+@media (max-width: 600px) {
+  .contact .info h1 {
+    font-size: 24px;
+  }
+}
+.contact .info p {
+  font-size: 20px;
+  font-family: "Ageo-light";
+  width: 70%;
+  margin: 24px 0;
+}
+@media (max-width: 600px) {
+  .contact .info p {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+.contact .info h4 {
+  margin: 12px 0;
+}
+.contact .info h4 span {
+  color: var(--primary);
+}
+.contact form {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  height: 65vh;
+  margin-right: 10%;
+}
+@media (max-width: 600px) {
+  .contact form {
+    width: 90% !important;
+    max-width: 90%;
+    margin: 0 auto;
+    height: 540px;
+    margin-bottom: 48px;
+  }
+}
+.contact form .inputs {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+@media (max-width: 600px) {
+  .contact form .inputs {
+    flex-direction: column;
+    width: 90%;
+  }
+}
+.contact form .inputs input, .contact form .inputs textarea {
+  width: 90%;
+  height: 20px;
+  margin-block: 12px;
+  margin-inline: auto;
+  background: none;
+  border: 2px rgba(255, 255, 255, 0.5) solid;
+  color: #fff !important;
+  padding: 12px;
+  resize: none;
+}
+@media (max-width: 600px) {
+  .contact form .inputs input, .contact form .inputs textarea {
+    width: 90% !important;
+    height: 32px;
+    margin: 12px auto;
+  }
+}
+.contact form .inputs ::-moz-placeholder {
+  color: #fff;
+}
+.contact form .inputs ::placeholder {
+  color: #fff;
+}
+.contact form .inputs input:focus {
+  border: 2px rgb(255, 255, 255) solid;
+}
+.contact form .inputs #message {
+  height: 80px;
+  width: 90%;
+}
+.contact form .inputs #message ::-moz-placeholder {
+  margin-top: 0;
+}
+.contact form .inputs #message ::placeholder {
+  margin-top: 0;
+}
+.contact form .inputs #subject {
+  width: 90%;
+}
+.contact form .submit {
+  float: left;
+}
+@media (max-width: 600px) {
+  .contact form .submit {
+    float: none;
+    display: flex;
+    align-items: center;
+    width: 90%;
+  }
+}
+.contact form .submit button {
+  height: 42px;
+  background: #fff;
+  border: none;
+  color: var(--primary) !important;
+  width: 140px;
+  font-size: 18px;
+  font-family: "Ageo-Bold";
+  margin: 12px;
+  float: left;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .contact form .submit button {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 100%;
+    height: 48px;
+    float: none;
+  }
+}
+.contact form .submit button:hover {
+  cursor: pointer;
+}
+
+footer {
+  height: 40vh;
+  width: 100%;
+  border-top: var(--primary) solid 4px;
+}
+@media (max-width: 600px) {
+  footer {
+    height: auto;
+  }
+}
+footer .top {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+@media (max-width: 600px) {
+  footer .top {
+    justify-content: space-evenly;
+  }
+}
+footer .top .col {
+  margin: 16px;
+  width: 1fr !important;
+  display: flex;
+  flex-direction: column;
+}
+footer .top h2 {
+  margin-bottom: 20px;
+  font-family: "Ageo-bold";
+}
+footer .top a {
+  color: black;
+  margin: 12px 0;
+  margin-left: 20px;
+  text-decoration: none;
+}
+@media (max-width: 600px) {
+  footer .top a {
+    margin-left: 0;
+    font-size: 20px;
+  }
+}
+footer .top a.logo {
+  margin: 0;
+}
+@media (max-width: 600px) {
+  footer .top .post {
+    display: none;
+  }
+}
+footer .top .insta {
+  width: 160px;
+  height: 160px;
+}
+footer .footnotes {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+@media (max-width: 600px) {
+  footer .footnotes {
+    margin-bottom: 40px;
+  }
+}
+footer .footnotes h3 {
+  font-size: 16px;
+  color: var(--primary);
+  font-family: "Ageo-Bold";
+}
+footer .footnotes p {
+  color: #747474;
+}
+footer .footnotes p a {
+  color: #747474 !important;
+  font-family: "Ageo-Bold";
+}/*# sourceMappingURL=contact.css.map */

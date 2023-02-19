@@ -1,0 +1,736 @@
+*, html, body{
+    margin: 0;
+    padding: 0;
+}
+
+html,body{
+    width: 100%;
+    overflow-x: hidden !important;
+}
+body{
+    height: 100vh !important;
+}
+
+:root{
+    --primary: #DB4152;
+    --accent: #FCB415;
+    --mobile: 600px;
+}
+
+$mobile : 600px;
+
+@font-face {
+    font-family: Ageo;
+    src: url(assets/font/Ageo.otf);
+}
+@font-face {
+    font-family: Ageo-bold;
+    src: url(assets/font/Ageo-Bold.otf);
+}
+@font-face {
+    font-family: Ageo-light;
+    src: url(assets/font/Ageo-Thin.ttf);
+}
+
+@mixin mobile {
+    @media (max-width: #{$mobile}) {
+        @content
+    }
+}
+
+*{
+    font-family: 'Ageo', sans-serif;
+}
+
+
+//Desktop First Approach
+.container {
+    width: 80%;
+    margin: 0 auto;
+
+    @include mobile{
+        width: 90%;
+    }
+}
+
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-top: 10px !important;
+
+    img{
+        @include mobile{
+            height: 42px;
+        }
+    }
+    .nav-links{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-links a{
+        padding: 0 12px;
+        margin: 0 8px;
+        color: #000;
+        text-decoration: none;
+        @include mobile{
+            padding: 0 2px;
+        }
+    }
+    .nav-links a:hover{
+        color: var(--primary);
+    }
+    
+    
+    .desktop-link{
+        @include mobile{
+            display: none;
+        }
+    }
+    .menu{
+        display: none;
+        padding: 0 !important;
+        @include mobile{
+            display: block;
+        }
+    }
+    .menu img{
+        height: 42px;
+        width: 42px;
+    }
+
+    
+    button{
+        border: 2px var(--primary) solid ;
+        width: 140px;
+        height: 42px;
+        background: none;
+        color: var(--primary);
+        font-size: 18px;
+        font-family: 'Ageo-Bold';
+
+        
+    }
+    button:hover{
+        cursor: pointer;
+    }
+}
+.mobile-nav{
+    display: none;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    box-sizing: content-box;
+    ul{
+        width: 100%;
+        //height: $nav-height*1.5;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        justify-content: center;
+        a{
+            display: block;
+            width: 100%;
+            color: #000;
+            text-decoration: none;
+            list-style: none;
+            padding: 1rem;
+            text-align: center;
+            font-family: 'Ageo-bold';
+            font-weight: 600;
+            &:focus{
+                border: 2px lightblue solid;
+            }
+        }
+        .l{
+            //text-align: left;
+        }
+        .r{
+            //text-align: right;
+        }
+
+        li{
+            width: 100%;
+        }
+    }
+
+    @include mobile{
+        display: none;
+    }
+}
+
+.hero{
+    height: 75vh;
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    position: relative;
+
+    @include mobile{
+        height: 90vh;
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 0;
+    }
+
+    .hero-info{
+        position: absolute;
+        width: 40%;
+        left: 10%;
+        top: 50%;
+        transform: translateY(-50%);
+
+        @include mobile{
+            position: relative;
+            width: 100% !important;
+            height: 120%;
+            top: 30%;
+            padding: 8px;
+            left: 5%;
+        }
+
+        h1{
+            font-size: 42px;
+            font-family: 'Ageo';
+            display: inline !important;
+            @include mobile{
+                font-size: 32px;
+            }
+            span{
+                font-family: 'Ageo-bold';
+            }
+        }
+        p{
+            font-family: 'Ageo', sans-serif;
+            font-size: 16px;
+            line-height: 150%;
+            width: 70%;
+            padding: 14px 0;
+            margin-bottom: 14px;
+        }
+        .btn-primary{
+            height: 42px;
+            background: #fff;
+            border: none;
+            color: var(--primary);
+            width: 140px;
+            font-size: 18px;
+            font-family: 'Ageo-Bold';
+        }
+        .btn-outline{
+            height: 42px;
+            width: 140px !important;
+            background: none;
+            border: 2px #fff solid;
+            color: #fff;
+            width: 140px;
+            font-size: 18px;
+        }
+        button{
+            margin-right: 16px;
+        }
+        button:hover{
+            cursor: pointer;
+        }
+    }
+    .hero-slider{
+        width: 55%;
+        float: right;
+
+        @include mobile{
+            height: 40vh;
+            width: 100%;
+            margin: 0;
+        }
+        .slides{
+            display: none;
+            @include mobile{
+                height: 40vh;
+            }
+        }
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+
+            @include mobile{
+                margin-top: 0;
+                top: 25%;
+            }
+        }
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+        .img{
+            height: 75vh;
+            background-size: cover;
+
+            @include mobile{
+                height: 40vh;
+            }
+        }
+        .f{
+            //background-image: url('assets/banner/banner\ 1.png');
+            background-image: url('assets/banner/image00035\ \(1\).jpeg');
+        }
+        .s{
+            //background-image: url('assets/banner/banner\ 2.jpg');
+            background-image: url('assets/banner/s.jpeg');
+        }
+        .t{
+            //background-image: url('assets/banner/banner\ 3.JPG');
+            background-image: url('assets/WhatsApp\ Image\ 2023-01-13\ at\ 23.30.19.jpeg');
+        }
+    }
+    
+}
+
+.stats{
+    height: 100vh;
+    margin: 10vh auto;
+    display: flex;
+    width: 70%;
+    max-width: 100%;
+    overflow: hidden;
+
+    @include mobile{
+        height: 100%;
+        width: 90%;
+        flex-direction: column;
+        margin: 0 auto;
+        margin-top: 30px;
+        margin-bottom: 10vh;
+    }
+    .left{
+        width: 50%;
+        padding: 72px 0;
+        @include mobile{
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            padding: 0px;
+            margin-top: 28px;
+        }
+        h1{
+            font-size: 42px;
+            font-weight: 100;
+            @include mobile{
+                font-size: 32px;
+            }
+            span{
+                font-family: 'Ageo-bold', sans-serif;
+            }
+        }
+        .line{
+            height: 2px;
+            width: 40%;
+            background-color: var(--accent);
+            margin: 20px 0;
+        }
+        p{
+            font-family: 'Ageo', sans-serif;
+            font-size: 16px;
+            line-height: 150%;
+            width: 70%;
+            padding: 14px 0;
+            margin-bottom: 14px;
+            @include mobile{
+                width: 90%;
+            }
+        }
+        .btn-primary{
+            height: 42px;
+            background: var(--primary);
+            border: none;
+            color: #fff;
+            width: 140px;
+            font-size: 18px;
+            font-family: 'Ageo-Bold';
+        }
+    }
+    .right{
+
+        @include mobile{
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .top{
+            display: flex;
+        }
+        .bottom{
+            display: flex;
+
+        }
+        .box{
+            height: 240px;
+            width: 240px;
+            background: #F5F5F5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 16px;
+
+            @include mobile{
+                height: 150px;
+                width: 150px;
+                margin: 8px;
+            }
+
+            h1{
+                font-size: 64px;
+                color: var(--primary);
+                font-family: 'Ageo-Bold';
+                margin-bottom: 24px;
+                display: inline-block;
+                @include mobile{
+                    font-size: 48px;
+                    margin-bottom: 12px;
+                }
+            }
+            p{
+                font-size: 16px;
+                font-family: 'Ageo';
+                margin-top: 20px;
+                @include mobile{
+                    font-size: 16px;
+                    margin-top: 8px;
+                }
+            }
+        }
+    }
+}
+
+.values{
+    height: 75vh;
+    margin-top: -10vh;
+    margin-bottom: 20vh;
+    background-color: var(--primary);
+    background: url('assets/values-bg.png');
+    background-size: cover;
+    padding: 48px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include mobile{
+        height: auto;
+        padding: 24px;
+    }
+        .heading{
+            text-align: center;
+            padding: 20px;
+            h1{
+                font-family: 'Ageo-Bold' !important;
+                padding: 20px;
+                @include mobile{
+                    font-size:32px;
+                }
+            }
+            .line{
+                width: 36px;
+                height: 20px;
+                background: var(--accent);
+            }
+            p{
+                width: 65%;
+                margin: 0 auto;
+                padding-bottom: 20px;
+                @include mobile{
+                    width: 100%;
+                    font-size: 20px;
+                }
+            }
+        }
+        .boxes{
+            display: flex;
+            text-align: center;
+            padding: 20px;
+            margin-inline: auto;
+            justify-content: center;
+            @include mobile{
+                flex-direction: column;
+            }
+            .box{
+                margin: 0 16px;
+                @include mobile{
+                    margin: 0;
+                    margin-bottom: 36px;
+                }
+                img{
+                    height: 48px;
+                    margin: 8px;
+                }
+                
+                h2{
+                    font-family: 'Ageo-Bold';
+                    margin: 20px;
+                    @include mobile{
+                        font-size: 24px;
+                    }
+                }
+                p{
+                    opacity: 0.85;
+                    @include mobile{
+                        font-size: 16px;
+                    }
+                }
+            }
+            .disruptive img{
+                height: 96px !important;
+            }
+        }
+        a{
+            display: flex;
+            justify-content: center;
+            text-decoration: none;
+            margin: 40px;
+        }
+        button{
+            margin: 0 auto !important;
+            height: 42px;
+            background: #fff;
+            border: none;
+            color: var(--primary);
+            width: 140px;
+            font-size: 18px;
+            font-family: 'Ageo-Bold';
+        }
+}
+
+.newsletter{
+    height: 36vh;
+    background: var(--primary);
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48px;
+    box-sizing: border-box;
+    margin-bottom: 20vh;
+    @include mobile{
+        height: auto;
+        flex-direction: column;
+        padding-inline: 24px;
+        justify-content: center;
+        margin-bottom: 10vh;
+        margin-top: -10vh;
+    }
+    .left{
+        width: 50%;
+        padding-inline: 20px;
+        color: #fff;
+        @include mobile{
+            width: 100% !important;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+        @media (max-width: 1200px) {
+            width: 40%;
+        }
+        h3{
+            padding: 20px;
+            width: 60%;
+            @include mobile{
+                width: 100%;
+                font-size: 20px;
+                text-align: center;
+                padding: 12px;
+                margin-bottom: 24px;
+            }
+            @media (max-width: 1200px) {
+                width: 100%;
+            }
+        }
+    }
+    .right{
+        min-width: 50%;
+        margin-inline: auto;
+        display: flex;
+        padding-right: 16px;
+        @media (max-width: 1200px) {
+            width: 70%;
+        }
+        @include mobile{
+            width: 100%;
+            form{
+                width: 100%;
+            }
+        }
+        .inputs{
+            display: flex;
+            float: right;
+            @include mobile{
+                flex-direction: column;
+                float: none;
+            }
+            input{
+                width: 200px;
+                height: 20px;
+                margin: 12px;
+                //float: right;
+                background: none;
+                border: 2px rgba(255,255,255,0.5) solid;
+                color: #fff !important;
+                padding: 12px;
+                @media (max-width: 1200px) {
+                    width: 150px;
+                }
+                @include mobile{
+                    width: 90%;
+                    height: 32px;
+                    margin: 12px auto;
+                }
+            }
+            ::placeholder{
+                color: #fff;
+            }
+            input:focus{
+                border: 2px rgba(255,255,255,1) solid;
+            }
+        }
+        .submit{
+            float: right;
+            @include mobile{
+                float: none;
+                display: flex;
+                align-items: center;
+            }
+            input{
+                height: 42px;
+                background: #fff;
+                border: none;
+                color: var(--primary);
+                width: 140px;
+                font-size: 18px;
+                font-family: 'Ageo-Bold';
+                margin: 12px;
+                @include mobile{
+                    margin: 0 auto;
+                    margin-top: 20px;
+                    width: 100%;
+                    height: 48px;
+                }
+            }
+            input:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+footer{
+    height: 40vh;
+    width: 100%;
+    border-top: var(--primary) solid 4px;
+    @include mobile{
+        height: auto;
+    }
+    
+    .top{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        @include mobile{
+            justify-content: space-evenly;
+        }
+        
+        .col{
+            margin: 16px;
+            width: 1fr !important;
+            display: flex;
+            flex-direction: column;
+        }
+        h2{
+            margin-bottom: 20px;
+            font-family: 'Ageo-bold';
+            @include mobile{
+                font-size: 20px;
+            }
+        }
+        a{
+            color: black;
+            margin: 12px 0;
+            margin-left: 20px;
+            text-decoration: none;
+            @include mobile{
+                margin-left: 0;
+                font-size: 16px;
+            }
+        }
+        a.logo{
+            margin: 0;
+        }
+        .post{
+            @include mobile{
+                display: none;
+            }
+        }
+        .insta{
+            width: 160px;
+            height: 160px;
+        }
+    }
+    .footnotes{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 24px;
+        padding-bottom: 48px;
+        @include mobile{
+            margin-bottom: 0px;
+        }
+        h3{
+            font-size: 16px;
+            color: var(--primary);
+            font-family: 'Ageo-Bold';
+        }
+        p{
+            color: #747474;
+            a{
+                color: #747474 !important;
+                font-family: 'Ageo-Bold';
+            }
+        }
+    }
+}

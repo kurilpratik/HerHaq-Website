@@ -1,0 +1,490 @@
+*, html, body{
+    margin: 0;
+    padding: 0;
+}
+
+html,body{
+    width: 100%;
+    overflow-x: hidden !important;
+}
+body{
+    height: 100vh !important;
+    scroll-behavior: smooth;
+}
+
+:root{
+    --primary: #DB4152;
+    --accent: #FCB415;
+    --mobile: 600px;
+}
+
+$mobile : 600px;
+
+@font-face {
+    font-family: Ageo;
+    src: url(assets/font/Ageo.otf);
+}
+@font-face {
+    font-family: Ageo-bold;
+    src: url(assets/font/Ageo-Bold.otf);
+}
+@font-face {
+    font-family: Ageo-light;
+    src: url(assets/font/Ageo-Thin.ttf);
+}
+
+@mixin mobile {
+    @media (max-width: #{$mobile}) {
+        @content
+    }
+}
+
+*{
+    font-family: 'Ageo', sans-serif;
+}
+
+
+//Desktop First Approach
+.container {
+    width: 80%;
+    margin: 0 auto;
+
+    @include mobile{
+        width: 90%;
+    }
+}
+.btn-primary{
+    height: 42px;
+    background: #fff;
+    border: none;
+    color: var(--primary);
+    width: 140px;
+    font-size: 18px;
+    font-family: 'Ageo-Bold';
+}
+.btn-outline{
+    height: 42px;
+    width: 140px !important;
+    background: none;
+    border: 2px #fff solid;
+    color: #fff;
+    width: 140px;
+    font-size: 18px;
+}
+button{
+    margin-right: 16px;
+}
+button:hover{
+    cursor: pointer;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-top: 10px !important;
+
+    .nav-links{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-links a{
+        padding: 0 12px;
+        margin: 0 8px;
+        color: #000;
+        text-decoration: none;
+    }
+    .nav-links a:hover{
+        color: var(--primary);
+    }
+    .menu {
+        padding: 0 !important;
+    }
+    .menu img{
+        height: 42px;
+        width: 42px;
+    }
+
+    .desktop-link{
+        @include mobile{
+            display: none;
+        }
+    }
+    .active{
+        color: var(--primary) !important;
+        font-family: 'Ageo-bold';
+    }
+    .menu{
+        display: none;
+        @include mobile{
+            display: block;
+        }
+    }
+    
+    button{
+        border: 2px var(--primary) solid ;
+        width: 140px;
+        height: 42px;
+        background: none;
+        color: var(--primary);
+        font-size: 18px;
+        font-family: 'Ageo-Bold';
+    }
+    button:hover{
+        cursor: pointer;
+    }
+    
+}
+.mobile-nav{
+    display: none;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    box-sizing: content-box;
+    ul{
+        width: 100%;
+        //height: $nav-height*1.5;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        justify-content: center;
+        a{
+            display: block;
+            width: 50%;
+            color: #000;
+            text-decoration: none;
+            list-style: none;
+            padding: 1rem;
+            text-align: center;
+            font-family: 'Ageo-bold';
+            font-weight: 600;
+            &:focus{
+                border: 2px lightblue solid;
+            }
+        }
+
+        li{
+            width: 100%;
+        }
+    }
+
+    @include mobile{
+        display: none;
+    }
+}
+
+.subhero{
+    height: 70vh;
+    width: 100%;
+    color: #fff;
+    position: relative;
+    margin: 48px 0;
+
+    @include mobile{
+        height: auto;
+        margin: 0;
+    }
+    .left{
+        height: 70vh;
+        width: 70%;
+        position: relative;
+        background-color: var(--primary);
+        display: flex;
+        align-items: center;
+        @include mobile{
+            height: auto;
+            width: 100%;
+            padding: 56px 0;
+            margin: 0 auto;
+            float: left;
+        }
+        .text{
+            width: 50%;
+            margin-left: 15%;
+            @include mobile{
+                width: 100%;
+                margin-left: 5%;
+            }
+        }
+        h1{
+            font-size: 42px;
+            font-family: 'Ageo';
+
+            @include mobile{
+                font-size: 32px;
+            }
+            span{
+                font-family: 'Ageo-bold';
+            }
+        }
+        p{
+            font-family: 'Ageo', sans-serif;
+            font-size: 16px;
+            line-height: 150%;
+            width: 70%;
+            padding: 14px 0;
+            margin-bottom: 14px;
+            @include mobile{
+                width: 100%;
+            }
+        }
+        
+    }
+    .img{
+        background-image: url('assets/team.png');
+        background-size: cover;
+        background-position: center;
+        height: 50vh;
+        width: 50%;
+        float: right;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        @include mobile{
+            height: 30vh;
+            position: relative;
+            left: 0;
+            width: 100%;
+            right: initial;
+            top: 0;
+            transform: translateY(0);
+        }
+    }
+}
+.intro-text{
+    height: 30vh;
+    color: var(--primary);
+    text-align: center ;
+    line-height: 150%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mobile{
+        height: auto;
+        width: 100%;
+        
+    }
+    p{
+        width: 30%;
+        font-family: 'Ageo-bold';
+        font-size: 20px;
+
+       @media (max-width: 1200px) {
+            width: 60%;
+       }
+        @include mobile{
+            width: 80%;
+            padding: 40px 0;
+        }
+    }
+}
+
+.team{
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    @include mobile{
+        flex-direction: column;
+        justify-content: initial;
+    }
+    
+    .member{
+        width: 25%;
+        margin-inline: 3rem;
+        margin-block: 1.5rem;
+        @include mobile{
+            width: 80% !important;
+            margin-inline: auto !important;
+        }
+       @media (max-width: 1200px) {
+            margin-inline: 0rem;
+            width: 30%;
+       }
+       
+
+        .box{
+            height: 22rem;
+            background-color: #F5F5F5;
+            position: relative;
+
+            @include mobile{
+                height: 20rem;
+            }
+            .profile{
+                height: 14rem;
+                //background-color: #FCB415;
+                background-size: cover;
+                background-position: 50%;
+                width: 70%;
+                position: absolute;
+                top: 0;
+                right: 24px;
+                border: 1.5px solid var(--primary);
+                @include mobile{
+                    height: 12rem;
+                }
+            }
+            .strip{
+                height: 4rem;
+                width: 100%;
+                background-color: white;
+            }
+            .letter{
+                color: var(--primary);
+                font-size: 36px;
+                font-family: 'Ageo-bold';
+                transform: translateY(-50%);
+                margin-left: 1.5rem;
+                @media (max-width: 1200px) {
+                    margin-left: 1rem;
+               }
+            }
+            .name{
+                height: 8rem;
+                position: absolute;
+                bottom: 0;
+                h2{
+                    height: 3rem;
+                    margin-top: 30px;
+                    margin-left: 1.5rem;
+                    @include mobile{
+                        height: 3rem;
+                        margin-left: 1rem;
+                    }
+                }
+                p{
+                    height: 5rem;
+                    margin-left: 1.5rem;
+                    @include mobile{
+                        height: 2rem;
+                        margin-left: 1rem;
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    //Team images
+    .aanya{
+        background-image: url('assets/team/Aanya\ Wig.jpg');
+    }
+    .soumya{
+        background-image: url('assets/team/Soumya\ Singhal_.jpg');
+    }
+    .yagnesh{
+        background-image: url('assets/team/Yagnesh\ Sharma_.jpg');
+    }
+    .arshia{
+        background-image: url('assets/team/Arshia.jpg');
+    }
+    .khyati{
+        background-image: url('assets/team/Khyati\ Hari.JPG');
+    }
+    .puneya{
+        background-image: url('assets/team/Puneya\ Sachdeva.jpeg');
+    }
+    .mehak{
+        background-image: url('assets/team/Mehak\ Saini.png');
+    }
+    .geetanshi{
+        background-image: url('assets/team/Geetanshi\ Kaushik.jpeg');
+    }
+    .sonakshi{
+        background-image: url('assets/team/Sonakshi\ Babel.jpg');
+    }
+    .deepanshi{
+        background-image: url('assets/team/Deepanshi.png');
+    }
+    .isabel{
+        background-image: url('assets/team/Isabel\ George_.jpg');
+    }
+    .sanskriti{
+        background-image: url('assets/team/Sanskriti\ Pattnaik_.jpg');
+    }
+}
+.one{
+    margin-top: 10vh;
+    @include mobile{
+        margin-top: 0vh;
+    }
+}
+
+footer{
+    height: 40vh;
+    width: 100%;
+    border-top: var(--primary) solid 4px;
+    @include mobile{
+        height: auto;
+    }
+    
+    .top{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        @include mobile{
+            justify-content: space-evenly;
+        }
+        
+        .col{
+            margin: 16px;
+            width: 1fr !important;
+            display: flex;
+            flex-direction: column;
+        }
+        h2{
+            margin-bottom: 20px;
+            font-family: 'Ageo-bold';
+        }
+        a{
+            color: black;
+            margin: 12px 0;
+            margin-left: 20px;
+            text-decoration: none;
+            @include mobile{
+                margin-left: 0;
+                font-size: 20px;
+            }
+        }
+        a.logo{
+            margin: 0;
+        }
+        .post{
+            @include mobile{
+                display: none;
+            }
+        }
+        .insta{
+            width: 160px;
+            height: 160px;
+        }
+    }
+    .footnotes{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 24px;
+        padding-bottom: 48px;
+        @include mobile{
+            margin-bottom: 40px;
+        }
+        h3{
+            font-size: 16px;
+            color: var(--primary);
+            font-family: 'Ageo-Bold';
+        }
+        p{
+            color: #747474;
+            a{
+                color: #747474 !important;
+                font-family: 'Ageo-Bold';
+            }
+        }
+    }
+}

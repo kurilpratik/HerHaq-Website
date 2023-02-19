@@ -1,0 +1,459 @@
+*, html, body{
+    margin: 0;
+    padding: 0;
+}
+
+html,body{
+    width: 100%;
+    overflow-x: hidden !important;
+}
+body{
+    height: 100vh !important;
+    scroll-behavior: smooth;
+}
+
+:root{
+    --primary: #DB4152;
+    --accent: #FCB415;
+    --mobile: 600px;
+}
+
+$mobile : 600px;
+
+@font-face {
+    font-family: Ageo;
+    src: url(assets/font/Ageo.otf);
+}
+@font-face {
+    font-family: Ageo-bold;
+    src: url(assets/font/Ageo-Bold.otf);
+}
+@font-face {
+    font-family: Ageo-light;
+    src: url(assets/font/Ageo-Thin.ttf);
+}
+
+@mixin mobile {
+    @media (max-width: #{$mobile}) {
+        @content
+    }
+}
+
+*{
+    font-family: 'Ageo', sans-serif;
+}
+
+
+//Desktop First Approach
+.container {
+    width: 80%;
+    margin: 0 auto;
+
+    @include mobile{
+        width: 90%;
+    }
+}
+.btn-primary{
+    height: 42px;
+    background: #fff;
+    border: none;
+    color: var(--primary);
+    width: 140px;
+    font-size: 18px;
+    font-family: 'Ageo-Bold';
+}
+.btn-outline{
+    height: 42px;
+    width: 140px !important;
+    background: none;
+    border: 2px #fff solid;
+    color: #fff;
+    width: 140px;
+    font-size: 18px;
+}
+button{
+    margin-right: 16px;
+}
+button:hover{
+    cursor: pointer;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-top: 10px !important;
+
+    .nav-links{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-links a{
+        padding: 0 12px;
+        margin: 0 8px;
+        color: #000;
+        text-decoration: none;
+    }
+    .nav-links a:hover{
+        color: var(--primary);
+    }
+    
+    .menu {
+        padding: 0 !important;
+    }
+    .menu img{
+        height: 42px;
+        width: 42px;
+    }
+
+    .desktop-link{
+        @include mobile{
+            display: none;
+        }
+    }
+    .active{
+        font-family: 'Ageo-bold';
+        color: var(--primary) !important;
+    }
+    .menu{
+        display: none;
+        @include mobile{
+            display: block;
+        }
+    }
+    
+    button{
+        border: 2px var(--primary) solid ;
+        width: 140px;
+        height: 42px;
+        background: none;
+        color: var(--primary);
+        font-size: 18px;
+        font-family: 'Ageo-Bold';
+    }
+    button:hover{
+        cursor: pointer;
+    }
+}
+.mobile-nav{
+    display: none;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    box-sizing: content-box;
+    ul{
+        width: 100%;
+        //height: $nav-height*1.5;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        justify-content: center;
+        a{
+            display: block;
+            width: 50%;
+            color: #000;
+            text-decoration: none;
+            list-style: none;
+            padding: 1rem;
+            text-align: center;
+            font-family: 'Ageo-bold';
+            font-weight: 600;
+            &:focus{
+                border: 2px lightblue solid;
+            }
+        }
+
+        li{
+            width: 100%;
+        }
+    }
+
+    @include mobile{
+        display: none;
+    }
+}
+
+.subhero{
+    height: 70vh;
+    width: 100%;
+    color: #fff;
+    position: relative;
+    margin: 48px 0;
+
+    @include mobile{
+        margin: 0;
+    }
+    .left{
+        height: 70vh;
+        width: 70%;
+        position: relative;
+        background-color: var(--primary);
+        display: flex;
+        align-items: center;
+        @include mobile{
+            height: auto;
+            width: 100%;
+            padding: 56px 0;
+            margin: 0 auto;
+            float: left;
+        }
+        .text{
+            width: 50%;
+            margin-left: 15%;
+            @include mobile{
+                width: 100%;
+                margin-left: 5%;
+            }
+        }
+        h1{
+            font-size: 42px;
+            font-family: 'Ageo';
+
+            @include mobile{
+                font-size: 32px;
+            }
+            span{
+                font-family: 'Ageo-bold';
+            }
+        }
+        p{
+            font-family: 'Ageo', sans-serif;
+            font-size: 16px;
+            line-height: 150%;
+            width: 70%;
+            padding: 14px 0;
+            margin-bottom: 14px;
+            @include mobile{
+                width: 100%;
+            }
+        }
+        
+    }
+    .img{
+        background-image: url('assets/WhatsApp\ Image\ 2023-01-02\ at\ 13.27.29.jpeg');
+        background-size: cover;
+        background-position: center;
+        height: 50vh;
+        width: 50%;
+        float: right;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        @include mobile{
+            height: 30vh;
+            position: relative;
+            left: 0;
+            width: 100%;
+            right: initial;
+            top: 0;
+            transform: translateY(0);
+        }
+    }
+}
+
+.scope{
+    padding: 10vh 0;
+    @include mobile{
+        padding: 4vh 0;
+    }
+    .row{
+        display: flex;
+        margin-bottom: 24px;
+    }
+    .row:nth-child(even){
+        flex-direction: row-reverse;
+    }
+    .box{
+        height: 200px;
+        width: 200px;
+        padding: 12PX;
+        background: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        //align-items: center;
+        margin: 16px;
+        position: relative;
+
+        @include mobile{
+            height: 100px;
+            width: 100px;
+            margin: 8px;
+        }
+
+        h1{
+            color: var(--primary);
+            transform: translateX(30%);
+            font-size: 42px;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            @include mobile{
+                font-size: 28px;
+            }
+        }
+        img{
+            height: 42px;
+            width: 42px;
+            transform: translateX(30%);
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            @include mobile{
+                height: 32px;
+                width: 32px;
+            }
+        }
+        h2{
+            position: absolute;
+            left: 20%;
+            top: 50%;
+            font-size: 32px;
+            word-wrap: break-word;
+            @include mobile{
+                font-size: 20px;
+            }
+        }
+    }
+    .text{
+        float: right;
+        margin: 16px;
+        width: 50%;
+        line-height: 150%;
+        margin-top: 24px;
+
+        @include mobile{
+            font-size: 16px;
+        }
+    }
+
+    .btn-outline{
+        border: var(--primary) solid 2px;
+        color: var(--primary);
+    }
+}
+
+.partners{
+    padding: 10vh 0;
+    @include mobile{
+        padding: 4vh 0;
+    }
+    h1{
+        font-size: 28px;
+        font-family: 'Ageo';
+        text-align: center;
+
+        @include mobile{
+            font-size: 20px;
+        }
+        span{
+            font-family: 'Ageo-bold';
+        }
+    }
+    .slider{
+        height: 30vh;
+        width: 2000px;
+        overflow: visible;
+        margin: 32px 0;
+
+        ul{
+            display: flex;
+            padding: 0;
+            animation: cambio 20s infinite linear;
+            li{
+                padding:0 10px;
+                list-style: none;
+                img{
+                    width: 100px;
+                    max-width: fit-content !important;
+                    height: auto !important;
+                    padding: 48px;
+                    vertical-align: middle;
+                }
+            }
+        }
+        @keyframes cambio {
+            from {margin-left: 0%}
+            to {margin-left: -100%}
+        }
+        
+
+    }
+}
+
+footer{
+    height: 40vh;
+    width: 100%;
+    border-top: var(--primary) solid 4px;
+    @include mobile{
+        height: auto;
+    }
+    
+    .top{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        @include mobile{
+            justify-content: space-evenly;
+        }
+        
+        .col{
+            margin: 16px;
+            width: 1fr !important;
+            display: flex;
+            flex-direction: column;
+        }
+        h2{
+            margin-bottom: 20px;
+            font-family: 'Ageo-bold';
+        }
+        a{
+            color: black;
+            margin: 12px 0;
+            margin-left: 20px;
+            text-decoration: none;
+            @include mobile{
+                margin-left: 0;
+                font-size: 20px;
+            }
+        }
+        a.logo{
+            margin: 0;
+        }
+        .post{
+            @include mobile{
+                display: none;
+            }
+        }
+        .insta{
+            width: 160px;
+            height: 160px;
+        }
+    }
+    .footnotes{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 24px;
+        padding-bottom: 48px;
+        @include mobile{
+            margin-bottom: 40px;
+        }
+        h3{
+            font-size: 16px;
+            color: var(--primary);
+            font-family: 'Ageo-Bold';
+        }
+        p{
+            color: #747474;
+            a{
+                color: #747474 !important;
+                font-family: 'Ageo-Bold';
+            }
+        }
+    }
+}

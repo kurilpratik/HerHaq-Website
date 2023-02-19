@@ -4,78 +4,266 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-
-    <title>Her Haq Organization Website</title>
+    <title>Home - Her Haq Organization</title>
+    <link rel="shortcut icon" href="/assets/logos/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-   
+
     <nav class="container">
-        <div class="logo">
-            <img src="assets/logo.png" alt="" srcset="">
-        </div>
+        <a href="/index.html" class="logo">
+            <img src="assets/logos/logo.png" alt="Logo for HerHaq">
+        </a>
         <div class="nav-links">
-            <!-- <button class="donate">Donate</button> -->
-            <a href="https://instagram.com/girlup.rise" target="_blank">
-                <button class="donate">Contact Us</button>
+            <a href="/sdg.html" class="desktop-link">Our Work</a>
+            <a href="/partnership.html" class="desktop-link">Partnerships</a>
+            <a href="/team.html" class="desktop-link">About Us</a>
+            <a href="/contact.html"><button>Contact Us</button></a>
+            <a class="menu" id="menu">
+                <img src="/assets/icons/menu.png" class="menu-icon" id="menu-icon" alt="">
             </a>
         </div>
     </nav>
 
-    <main>
-        <div class="img-div">
-            <div class="container">
-                <div class="field">A Non Profit Organization</div>
+    <div class="mobile-nav" id="mobile-nav" style="display:none">
+        <div class="container">
+            <ul>
+                <a href="/sdg.html" class="l"><li>Our Work</li></a>
+                <a href="/partnership.html" class="c"><li>Partnerships</li></a>
+                <a href="/team.html" class="r"><li>About Us</li></a>
+            </ul>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-info container">
+            <h1>Our Mission is to <br/><span>Empower Women</span></h1>
+            <p>Her Haq is a youth led not-for-profit organization that works towards gender equality and women empowerment. It is the successor of the student collective, Girl Up Rise (a UN Foundation initiative). We wish to create an ideal world where no woman has to fight to make her voice heard.</p>
+            <a href="/contact.html"><button class="btn-primary">Get Involved</button></a>
+            <a href="/sdg.html"><button class="btn-outline">What We Do</button></a>
+        </div>
+        <div class="hero-slider">
+            <div class="slides ">
+                <div class="img f"></div>
+            </div>
+            <div class="slides ">
+                <div class="img s"></div>
+            </div>
+            <div class="slides ">
+                <div class="img t"></div>
+            </div>
+
+            <!-- Next and previous buttons -->
+            <!--
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            -->
+        </div>
+    </section>
+
+    <section class="stats container">
+        <div class="left">
+            <h1>Here is how we <br><span>helped women</span></h1>
+            <div class="line"></div>
+            <p>Her Haq has three main pillars - menstrual hygiene management, legal literacy, financial literacy, and social entrepreneurship. Through our multiple campaigns including #SpotTheStigma we have been able to create impact across India.</p>
+            <a href="/sdg.html"><button class="btn-primary">What We Do</button></a>
+        </div>
+        <div class="right">
+            <div class="top">
+                <div class="box">
+                    <h1 id="reach">0</h1>
+                    <p>Reach in States</p>
+                </div>
+                <div class="box">
+                    <h1 id="people">0</h1>
+                    <p>People Impacted</p>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="box">
+                    <h1 id="pads">0</h1>
+                    <p>Pads Distributed</p>
+                </div>
+                <div class="box">
+                    <h1 id="partners">0</h1>
+                    <p>Our Partners</p>
+                </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <section class="values">
+        <div class="container heading">
+            <h1>Our Values</h1>
+            <p>We cater to the unmet needs of women and provide them with educated agency to challenge the existing status quo and change the general mindset of society.</p>
+        </div>
+        
+        <div class="boxes container">
+            <div class="box">
+                <img src="assets/icons/solution.png" alt="Star Icon" class="icon">
+                <div class="line"></div>
+                <h2>Solution Oriented</h2>
+                <!--<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore assumenda, dolores odio obcaecati soluta ratione excepturi.</p>-->
+            </div>
+            <div class="box">
+                <img src="assets/icons/beneficiary.png" alt="Star Icon" class="icon">
+                <h2>Benerficiary Centric</h2>
+                <!--<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore assumenda, dolores odio obcaecati soluta ratione excepturi.</p>-->
+            </div>
+            <div class="box .disruptive">
+                <img src="assets/icons/disruptive.png" alt="Star Icon" class="icon">
+                <h2>Positively Disruptive</h2>
+                <!--<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore assumenda, dolores odio obcaecati soluta ratione excepturi.</p>-->
             </div>
         </div>
 
-        <div class="info container">
-            
-                <h2>
-                   <strong class="mobile">Leave No Woman Behind</strong>
-                   <strong class="desktop">Leave No <br> Woman Behind</strong>
-                </h2>
+        <a href="/sdg.html" class="">
+            <button>See Our Work</button>
+        </a>
 
+    </section>
 
-                <div class="bottom">
-                    <p>Our mission is to create an ideal world where no woman has to fight to make her voice heard</p>
-                    <div class="btn-container">
-                        <a href="coming.html">
-                            <div class="btn" id="btn">
-                                <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_27_225)">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.785 27.0345C11.0947 27.0345 10.535 27.5941 10.535 28.2845C10.535 28.9748 11.0947 29.5345 11.785 29.5345H41.7656L29.7573 41.5427C29.2692 42.0309 29.2692 42.8223 29.7573 43.3105C30.2455 43.7986 31.0369 43.7986 31.5251 43.3105L45.6661 29.1695M45.6653 27.3987L31.5251 13.2585C31.0369 12.7703 30.2455 12.7703 29.7573 13.2585C29.2692 13.7466 29.2692 14.5381 29.7573 15.0262L41.7656 27.0345H11.785M45.6653 27.3987C45.6666 27.4 45.6679 27.4012 45.6691 27.4025ZM45.6683 29.1673L46.5511 28.2845L45.6691 27.4025" fill="white"/>
-                                    </g>
-                                    <defs>
-                                    <clipPath id="clip0_27_225">
-                                    <rect width="40" height="40" fill="white" transform="translate(28.2842) rotate(45)"/>
-                                    </clipPath>
-                                    </defs>
-                                </svg>
-                            </div>
-                            
-                        </a>
-                        <a href="coming.html" class="continue"><p>Continue to Website</p> </a>
-                            
-                    </div>
-
-                </div>
-            
-            
-            
+    <section class="newsletter container">
+        <div class="left">
+            <h3 class="SubmitResponse">Subscribe to our newsletter and never miss events, announcements and opportunities.</h3>
         </div>
+        <div class="right">
+            <form name="submit-to-google-sheet">
+                <div class="inputs">
+                    <input type="text" name="FullName" id="name" placeholder="Your Full Name">
+                    <input type="email" name="EmailAddress" id="email" placeholder="Your Email Address">
+                </div>
+                <div class="submit">
+                    <input type="button" value="submit" name="submit">
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="top container">
+            <div class="col">
+                <a href="/" class="logo"><img src="/assets/logos/logo.png" alt="HerHaq Logo"></a>
+            </div>
+            <div class="col">
+                <h2>Important Links</h2>
+                <a href="/">Home</a>
+                <a href="/sdg.html">SDG Work</a>
+                <a href="/partnership.html">Partnership</a>
+                <a href="/team.html">Team</a>
+                <a href="/blog.html">Blog</a>
+            </div>
+            <div class="col">
+                <h2>Social</h2>
+                <a href="https://in.linkedin.com/company/her-haq-official" target="_blank">Linkedin</a>
+                <a href="https://www.facebook.com/girlup.riselsr/" target="_blank">Facebook</a>
+                <a href="https://www.instagram.com/herhaqofficial/" target="_blank">Instagram</a>
+                <a href="/" target="_blank">Twitter</a>
+                <a href="/" target="_blank">Blog</a>
+            </div>
+            <div class="col post">
+                <h2>Latest Instagram Post</h2>
+                <a href="/">
+                    <img class="insta" src="/assets/banner-img.png" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="footnotes container">
+            <h3>Copyright HerHaq 2022</h3>
+            <p>Site by <a href="https://instagram.com/kurilpratik">Pratik Kuril</a></p>
+        </div>
+    </footer>
+
+    <script>
+
+
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("slides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 3500); // Change image every 3.5 seconds
+
+        }
+
+        // Next/previous controls [removed]
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+
+            /* Mobile Nav */
+            menu = document.getElementById('menu');
+            mobileNav = document.getElementById('mobile-nav');
+
+            menu.addEventListener('click', () => {
+                if(mobileNav.style.display == "none"){
+                    mobileNav.style.display = "block";
+                    document.getElementById('menu-icon').src="/assets/icons/close-icon.png";
+                    document.getElementById('menu-icon').height="36";
+                    document.getElementById('menu-icon').width="36";                
+                
+                }
+                else{
+                    mobileNav.style.display = "none"
+                    document.getElementById('menu-icon').src="/assets/icons/menu.png";
+                    document.getElementById('menu-icon').height="42";
+                    document.getElementById('menu-icon').width="42";  
+                }
+            })
+        })
+
+        //Counters
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start) + "+";
+                if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }};
         
+            window.requestAnimationFrame(step);
+        }
 
-    </main>
-<script>
+        const objA = document.getElementById("reach");
+        animateValue(objA, 0, 6, 3000);
 
-    //var btn = document.getElementById('btn');
-    //btn.onclick() = function(){
-      //  btn.transform()
-    //}
-</script>
-    
+        const objB = document.getElementById("people")
+        animateValue(objB, 0, 650, 3000);
 
+        const objC = document.getElementById("pads")
+        animateValue(objC, 0, 10000, 3000);
+
+        const objD = document.getElementById("partners")
+        animateValue(objD, 0, 20, 3000);
+
+
+        //Newsletter
+
+        
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxAuD_U32SrAKyabPmA_ez2y5OaUfu2NEkVKouFZ7yvWSyK6L42EFF60djfFh9MudSh/exec'
+        const form = document.forms['submit-to-google-sheet']
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => console.log('Success!', response))
+                .catch(error => console.error('Error!', error.message))
+        })
+
+
+    </script>
 </body>
 </html>

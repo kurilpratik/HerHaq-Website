@@ -1,0 +1,510 @@
+*, html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden !important;
+}
+
+body {
+  height: 100vh !important;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --primary: #DB4152;
+  --accent: #FCB415;
+  --mobile: 600px;
+}
+
+@font-face {
+  font-family: Ageo;
+  src: url(assets/font/Ageo.otf);
+}
+@font-face {
+  font-family: Ageo-bold;
+  src: url(assets/font/Ageo-Bold.otf);
+}
+@font-face {
+  font-family: Ageo-light;
+  src: url(assets/font/Ageo-Thin.ttf);
+}
+* {
+  font-family: "Ageo", sans-serif;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+  }
+}
+
+.btn-primary {
+  height: 42px;
+  background: #fff;
+  border: none;
+  color: var(--primary);
+  width: 140px;
+  font-size: 18px;
+  font-family: "Ageo-Bold";
+}
+
+.btn-outline {
+  height: 42px;
+  width: 140px !important;
+  background: none;
+  border: 2px #fff solid;
+  color: #fff;
+  width: 140px;
+  font-size: 18px;
+}
+
+button {
+  margin-right: 16px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  margin-top: 10px !important;
+}
+nav .nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav .nav-links a {
+  padding: 0 12px;
+  margin: 0 8px;
+  color: #000;
+  text-decoration: none;
+}
+nav .nav-links a:hover {
+  color: var(--primary);
+}
+nav .menu {
+  padding: 0 !important;
+}
+nav .menu img {
+  height: 42px;
+  width: 42px;
+}
+@media (max-width: 600px) {
+  nav .desktop-link {
+    display: none;
+  }
+}
+nav .active {
+  color: var(--primary) !important;
+  font-family: "Ageo-bold";
+}
+nav .menu {
+  display: none;
+}
+@media (max-width: 600px) {
+  nav .menu {
+    display: block;
+  }
+}
+nav button {
+  border: 2px var(--primary) solid;
+  width: 140px;
+  height: 42px;
+  background: none;
+  color: var(--primary);
+  font-size: 18px;
+  font-family: "Ageo-Bold";
+}
+nav button:hover {
+  cursor: pointer;
+}
+
+.mobile-nav {
+  display: none;
+  width: 100%;
+  padding-bottom: 0.5rem;
+  box-sizing: content-box;
+}
+.mobile-nav ul {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  justify-content: center;
+}
+.mobile-nav ul a {
+  display: block;
+  width: 50%;
+  color: #000;
+  text-decoration: none;
+  list-style: none;
+  padding: 1rem;
+  text-align: center;
+  font-family: "Ageo-bold";
+  font-weight: 600;
+}
+.mobile-nav ul a:focus {
+  border: 2px lightblue solid;
+}
+.mobile-nav ul li {
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+
+.subhero {
+  height: 70vh;
+  width: 100%;
+  color: #fff;
+  position: relative;
+  margin: 48px 0;
+}
+@media (max-width: 600px) {
+  .subhero {
+    height: auto;
+    margin: 0;
+  }
+}
+.subhero .left {
+  height: 70vh;
+  width: 70%;
+  position: relative;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .subhero .left {
+    height: auto;
+    width: 100%;
+    padding: 56px 0;
+    margin: 0 auto;
+    float: left;
+  }
+}
+.subhero .left .text {
+  width: 50%;
+  margin-left: 15%;
+}
+@media (max-width: 600px) {
+  .subhero .left .text {
+    width: 100%;
+    margin-left: 5%;
+  }
+}
+.subhero .left h1 {
+  font-size: 42px;
+  font-family: "Ageo";
+}
+@media (max-width: 600px) {
+  .subhero .left h1 {
+    font-size: 32px;
+  }
+}
+.subhero .left h1 span {
+  font-family: "Ageo-bold";
+}
+.subhero .left p {
+  font-family: "Ageo", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  width: 70%;
+  padding: 14px 0;
+  margin-bottom: 14px;
+}
+@media (max-width: 600px) {
+  .subhero .left p {
+    width: 100%;
+  }
+}
+.subhero .img {
+  background-image: url("assets/team.png");
+  background-size: cover;
+  background-position: center;
+  height: 50vh;
+  width: 50%;
+  float: right;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+@media (max-width: 600px) {
+  .subhero .img {
+    height: 30vh;
+    position: relative;
+    left: 0;
+    width: 100%;
+    right: initial;
+    top: 0;
+    transform: translateY(0);
+  }
+}
+
+.intro-text {
+  height: 30vh;
+  color: var(--primary);
+  text-align: center;
+  line-height: 150%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .intro-text {
+    height: auto;
+    width: 100%;
+  }
+}
+.intro-text p {
+  width: 30%;
+  font-family: "Ageo-bold";
+  font-size: 20px;
+}
+@media (max-width: 1200px) {
+  .intro-text p {
+    width: 60%;
+  }
+}
+@media (max-width: 600px) {
+  .intro-text p {
+    width: 80%;
+    padding: 40px 0;
+  }
+}
+
+.team {
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 600px) {
+  .team {
+    flex-direction: column;
+    justify-content: initial;
+  }
+}
+.team .member {
+  width: 25%;
+  margin-inline: 3rem;
+  margin-block: 1.5rem;
+}
+@media (max-width: 600px) {
+  .team .member {
+    width: 80% !important;
+    margin-inline: auto !important;
+  }
+}
+@media (max-width: 1200px) {
+  .team .member {
+    margin-inline: 0rem;
+    width: 30%;
+  }
+}
+.team .member .box {
+  height: 22rem;
+  background-color: #F5F5F5;
+  position: relative;
+}
+@media (max-width: 600px) {
+  .team .member .box {
+    height: 20rem;
+  }
+}
+.team .member .box .profile {
+  height: 14rem;
+  background-size: cover;
+  background-position: 50%;
+  width: 70%;
+  position: absolute;
+  top: 0;
+  right: 24px;
+  border: 1.5px solid var(--primary);
+}
+@media (max-width: 600px) {
+  .team .member .box .profile {
+    height: 12rem;
+  }
+}
+.team .member .box .strip {
+  height: 4rem;
+  width: 100%;
+  background-color: white;
+}
+.team .member .box .letter {
+  color: var(--primary);
+  font-size: 36px;
+  font-family: "Ageo-bold";
+  transform: translateY(-50%);
+  margin-left: 1.5rem;
+}
+@media (max-width: 1200px) {
+  .team .member .box .letter {
+    margin-left: 1rem;
+  }
+}
+.team .member .box .name {
+  height: 8rem;
+  position: absolute;
+  bottom: 0;
+}
+.team .member .box .name h2 {
+  height: 3rem;
+  margin-top: 30px;
+  margin-left: 1.5rem;
+}
+@media (max-width: 600px) {
+  .team .member .box .name h2 {
+    height: 3rem;
+    margin-left: 1rem;
+  }
+}
+.team .member .box .name p {
+  height: 5rem;
+  margin-left: 1.5rem;
+}
+@media (max-width: 600px) {
+  .team .member .box .name p {
+    height: 2rem;
+    margin-left: 1rem;
+  }
+}
+.team .aanya {
+  background-image: url("assets/team/Aanya Wig.jpg");
+}
+.team .soumya {
+  background-image: url("assets/team/Soumya Singhal_.jpg");
+}
+.team .yagnesh {
+  background-image: url("assets/team/Yagnesh Sharma_.jpg");
+}
+.team .arshia {
+  background-image: url("assets/team/Arshia.jpg");
+}
+.team .khyati {
+  background-image: url("assets/team/Khyati Hari.JPG");
+}
+.team .puneya {
+  background-image: url("assets/team/Puneya Sachdeva.jpeg");
+}
+.team .mehak {
+  background-image: url("assets/team/Mehak Saini.png");
+}
+.team .geetanshi {
+  background-image: url("assets/team/Geetanshi Kaushik.jpeg");
+}
+.team .sonakshi {
+  background-image: url("assets/team/Sonakshi Babel.jpg");
+}
+.team .deepanshi {
+  background-image: url("assets/team/Deepanshi.png");
+}
+.team .isabel {
+  background-image: url("assets/team/Isabel George_.jpg");
+}
+.team .sanskriti {
+  background-image: url("assets/team/Sanskriti Pattnaik_.jpg");
+}
+
+.one {
+  margin-top: 10vh;
+}
+@media (max-width: 600px) {
+  .one {
+    margin-top: 0vh;
+  }
+}
+
+footer {
+  height: 40vh;
+  width: 100%;
+  border-top: var(--primary) solid 4px;
+}
+@media (max-width: 600px) {
+  footer {
+    height: auto;
+  }
+}
+footer .top {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+@media (max-width: 600px) {
+  footer .top {
+    justify-content: space-evenly;
+  }
+}
+footer .top .col {
+  margin: 16px;
+  width: 1fr !important;
+  display: flex;
+  flex-direction: column;
+}
+footer .top h2 {
+  margin-bottom: 20px;
+  font-family: "Ageo-bold";
+}
+footer .top a {
+  color: black;
+  margin: 12px 0;
+  margin-left: 20px;
+  text-decoration: none;
+}
+@media (max-width: 600px) {
+  footer .top a {
+    margin-left: 0;
+    font-size: 20px;
+  }
+}
+footer .top a.logo {
+  margin: 0;
+}
+@media (max-width: 600px) {
+  footer .top .post {
+    display: none;
+  }
+}
+footer .top .insta {
+  width: 160px;
+  height: 160px;
+}
+footer .footnotes {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+@media (max-width: 600px) {
+  footer .footnotes {
+    margin-bottom: 40px;
+  }
+}
+footer .footnotes h3 {
+  font-size: 16px;
+  color: var(--primary);
+  font-family: "Ageo-Bold";
+}
+footer .footnotes p {
+  color: #747474;
+}
+footer .footnotes p a {
+  color: #747474 !important;
+  font-family: "Ageo-Bold";
+}/*# sourceMappingURL=team.css.map */
