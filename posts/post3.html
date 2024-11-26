@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>She/Her - Her Haq Organization</title>
+    <link rel="shortcut icon" href="/assets/logos/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="post.css">
+</head>
+<body>
+
+    <nav class="container">
+        <a href="/index.html" class="logo">
+            <img src="/assets/logos/logo.png" alt="Logo for HerHaq">
+
+        </a>
+        <div class="nav-links">
+            <a href="/sdg.html" class="desktop-link">Our Work</a>
+            <a href="/partnership.html" class="desktop-link">Partnerships</a>
+            <a href="/team.html" class="desktop-link">Our Team</a>
+            <a href="/contact.html"><button>Contact Us</button></a>
+            <a class="menu" id="menu">
+                <img src="/assets/icons/menu.png" class="menu-icon" id="menu-icon" alt="">
+            </a>
+        </div>
+    </nav>
+
+    <div class="mobile-nav" id="mobile-nav" style="display:none">
+        <div class="container">
+            <ul>
+                <a href="/sdg.html" class="l"><li>Our Work</li></a>
+                <a href="/partnership.html" class="c"><li>Partnerships</li></a>
+                <a href="/team.html" class="r"><li>Our Team</li></a>
+                <a href="/contact.html" class="r"><li>Contact Us</li></a>
+                <a href="/" class="r"><li>Home</li></a>
+            </ul>
+        </div>
+    </div>
+
+    <section class="post">
+        <img src="/posts/covers/img_5769.jpg" alt="">
+        <h2>She/Her</h2>
+        <p class="author">Author: Girl Up Rise</p>
+        <h4 class="date">April 11, 2022</h4>
+        <p class="content">
+            “I am both. Or maybe neither.
+Or better yet, maybe I am one and the same.” – Juhi Salim
+<br>
+She sleeps in my bed almost every night
+Tossing and turning, never finding it right
+Poking Her in the process all along
+I writhe under this constant tug of war.
+<br>
+She chooses to sprawl on the starboard
+Oaring me in by her process of thought
+Blackened by the taunts of tomorrow
+She teaches me to keep myself under wraps.
+<br>
+She listens to the lectures of my God
+Fighting battles against the neo-minded
+Shamed and Harassed for choosing different
+Everyday she loses a fight she had won yesterday.
+<br>
+Her, on the other hand prefers the left
+Being confident means being vulnerable
+I learned it from her amidst the whips of yesterday
+That conforming and checking boxes isn’t the way.
+<br>
+An apostle of liberation and pro-choice
+Fighting battles against the narrow-minded
+Shamed and Harassed for choosing different
+Everyday a new and uglier fight is lost by her.
+<br>
+And so, with right and left taken away
+I choose to settle in between them
+Letting she and her breathe equally within me
+Exhausted of the toll these expectations take on me.
+<br>
+There are neither mantras nor Mutiny in me
+Acres of conflict of past, present and future
+I am Shamed and Harassed for choosing myself
+My battles are within me and everyday I lose them. Unsurprisingly.
+<br>
+She and Her for decades are apart
+They have sparred us against each other
+You can be either she or her
+But I am both. Or maybe neither.
+Or better yet, maybe I am one and the same.
+
+        </p>
+    </section>
+
+    
+    <!--
+    <footer>
+        <div class="top container">
+            <div class="col">
+                <a href="/" class="logo"><img src="/assets/logos/logo.png" alt="HerHaq Logo"></a>
+            </div>
+            <div class="col">
+                <h2>Important Links</h2>
+                <a href="/">Home</a>
+                <a href="/sdg.html">Our Work</a>
+                <a href="/partnership.html">Partnerships</a>
+                <a href="/team.html">Our Team</a>
+                <a href="/blog.html">Blog</a>
+            </div>
+            <div class="col">
+                <h2>Social</h2>
+                <a href="https://in.linkedin.com/company/her-haq-official" target="_blank">Linkedin</a>
+                <a href="https://www.facebook.com/girlup.riselsr/" target="_blank">Facebook</a>
+                <a href="https://www.instagram.com/herhaqofficial/" target="_blank">Instagram</a>
+                <a href="/" target="_blank">Twitter</a>
+            </div>
+            <div class="col post">
+                <h2>Latest Instagram Post</h2>
+                <a href="/">
+                    <img class="insta" src="/assets/banner-img.png" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="footnotes container">
+            <h3>Copyright HerHaq 2022</h3>
+            <p>Site by <a href="https://instagram.com/kurilpratik">Pratik Kuril</a></p>
+        </div>
+    </footer>
+    -->
+
+    <script>
+
+
+        
+
+        document.addEventListener('DOMContentLoaded', function(){
+
+            /* Mobile Nav */
+            menu = document.getElementById('menu');
+            mobileNav = document.getElementById('mobile-nav');
+
+            menu.addEventListener('click', () => {
+                if(mobileNav.style.display == "none"){
+                    mobileNav.style.display = "block";
+                    document.getElementById('menu-icon').src="/assets/icons/close-icon.png";
+                    document.getElementById('menu-icon').height="36";
+                    document.getElementById('menu-icon').width="36";                
+                
+                }
+                else{
+                    mobileNav.style.display = "none"
+                    document.getElementById('menu-icon').src="/assets/icons/menu.png";
+                    document.getElementById('menu-icon').height="42";
+                    document.getElementById('menu-icon').width="42";  
+                }
+            })
+        })
+
+        
+
+
+    </script>
+</body>
+</html>

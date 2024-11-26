@@ -340,6 +340,7 @@ nav button:hover {
 @media (max-width: 600px) {
   .team .member .box .profile {
     height: 12rem;
+    background-position: 50% 20%;
   }
 }
 .team .member .box .strip {
@@ -393,12 +394,16 @@ nav button:hover {
 }
 .team .yagnesh {
   background-image: url("assets/team/Yagnesh Sharma_.jpg");
+  background-position-y: 10% !important;
 }
 .team .arshia {
   background-image: url("assets/team/Arshia.jpg");
+  background-position-y: 10% !important;
 }
 .team .khyati {
   background-image: url("assets/team/Khyati Hari.JPG");
+  background-size: 150% !important;
+  background-position-y: 10% !important;
 }
 .team .puneya {
   background-image: url("assets/team/Puneya Sachdeva.jpeg");

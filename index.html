@@ -13,11 +13,12 @@
     <nav class="container">
         <a href="/index.html" class="logo">
             <img src="assets/logos/logo.png" alt="Logo for HerHaq">
+
         </a>
         <div class="nav-links">
             <a href="/sdg.html" class="desktop-link">Our Work</a>
             <a href="/partnership.html" class="desktop-link">Partnerships</a>
-            <a href="/team.html" class="desktop-link">About Us</a>
+            <a href="/team.html" class="desktop-link">Our Team</a>
             <a href="/contact.html"><button>Contact Us</button></a>
             <a class="menu" id="menu">
                 <img src="/assets/icons/menu.png" class="menu-icon" id="menu-icon" alt="">
@@ -30,7 +31,9 @@
             <ul>
                 <a href="/sdg.html" class="l"><li>Our Work</li></a>
                 <a href="/partnership.html" class="c"><li>Partnerships</li></a>
-                <a href="/team.html" class="r"><li>About Us</li></a>
+                <a href="/team.html" class="r"><li>Our Team</li></a>
+                <a href="/contact.html" class="r"><li>Contact Us</li></a>
+                <a href="/" class="r"><li>Home</li></a>
             </ul>
         </div>
     </div>
@@ -63,16 +66,16 @@
 
     <section class="stats container">
         <div class="left">
-            <h1>Here is how we <br><span>helped women</span></h1>
+            <h1>Here is how we <br><span>help women</span></h1>
             <div class="line"></div>
-            <p>Her Haq has three main pillars - menstrual hygiene management, legal literacy, financial literacy, and social entrepreneurship. Through our multiple campaigns including #SpotTheStigma we have been able to create impact across India.</p>
+            <p>Her Haq has three main pillars - menstrual hygiene management, legal literacy, and financial literacy. Through our multiple campaigns including #SpotTheStigma we have been able to create impact across India.</p>
             <a href="/sdg.html"><button class="btn-primary">What We Do</button></a>
         </div>
         <div class="right">
             <div class="top">
                 <div class="box">
                     <h1 id="reach">0</h1>
-                    <p>Reach in States</p>
+                    <p>States</p>
                 </div>
                 <div class="box">
                     <h1 id="people">0</h1>
@@ -86,7 +89,7 @@
                 </div>
                 <div class="box">
                     <h1 id="partners">0</h1>
-                    <p>Our Partners</p>
+                    <p>Partners</p>
                 </div>
             </div>
             
@@ -127,16 +130,16 @@
 
     <section class="newsletter container">
         <div class="left">
-            <h3 class="SubmitResponse">Subscribe to our newsletter and never miss events, announcements and opportunities.</h3>
+            <h3 id="message">Subscribe to our newsletter and never miss events, announcements and opportunities.</h3>
         </div>
         <div class="right">
             <form name="submit-to-google-sheet">
                 <div class="inputs">
-                    <input type="text" name="FullName" id="name" placeholder="Your Full Name">
-                    <input type="email" name="EmailAddress" id="email" placeholder="Your Email Address">
+                    <input type="text" name="FullName" id="name" placeholder="Your Full Name" required>
+                    <input type="email" name="EmailAddress" id="email" placeholder="Your Email Address" required>
                 </div>
                 <div class="submit">
-                    <input type="button" value="submit" name="submit">
+                    <input type="submit" value="submit" name="submit">
                 </div>
             </form>
         </div>
@@ -150,9 +153,9 @@
             <div class="col">
                 <h2>Important Links</h2>
                 <a href="/">Home</a>
-                <a href="/sdg.html">SDG Work</a>
-                <a href="/partnership.html">Partnership</a>
-                <a href="/team.html">Team</a>
+                <a href="/sdg.html">Our Work</a>
+                <a href="/partnership.html">Partnerships</a>
+                <a href="/team.html">Our Team</a>
                 <a href="/blog.html">Blog</a>
             </div>
             <div class="col">
@@ -161,7 +164,6 @@
                 <a href="https://www.facebook.com/girlup.riselsr/" target="_blank">Facebook</a>
                 <a href="https://www.instagram.com/herhaqofficial/" target="_blank">Instagram</a>
                 <a href="/" target="_blank">Twitter</a>
-                <a href="/" target="_blank">Blog</a>
             </div>
             <div class="col post">
                 <h2>Latest Instagram Post</h2>
@@ -255,14 +257,33 @@
         
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxAuD_U32SrAKyabPmA_ez2y5OaUfu2NEkVKouFZ7yvWSyK6L42EFF60djfFh9MudSh/exec'
         const form = document.forms['submit-to-google-sheet']
+        const message = document.getElementById('message')
 
         form.addEventListener('submit', e => {
             e.preventDefault()
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => console.log('Success!', response))
+                .then(response => {
+                    //message.innerHTML = "You have successfuly registered for newsletters!";
+                    /*setTimeout(() => {
+                        alert("Success!");
+                        form.reset();
+                    }, 3000);
+                    message.innerHTML = "Subscribe to our newsletter and never miss events, announcements and opportunities.";*/
+                    alert("You have subscribed to Her Haq's Newsletter!")
+                    form.reset();
+                })
                 .catch(error => console.error('Error!', error.message))
         })
 
+        function ValidateEmail(mail) 
+        {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(submit-to-google-sheet.EmailAddress.value))
+            {
+                return (true)
+            }
+            alert("You have entered an invalid email address!")
+            return (false)
+        }
 
     </script>
 </body>

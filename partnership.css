@@ -286,7 +286,8 @@ nav button:hover {
   .scope .box {
     height: 100px;
     width: 100px;
-    margin: 8px;
+    margin: 4px;
+    background-color: #fff;
   }
 }
 .scope .box h1 {
@@ -317,15 +318,16 @@ nav button:hover {
   }
 }
 .scope .box h2 {
+  font-size: 24px !important;
   position: absolute;
-  left: 20%;
+  left: 10%;
   top: 50%;
   font-size: 32px;
   word-wrap: break-word;
 }
 @media (max-width: 600px) {
   .scope .box h2 {
-    font-size: 20px;
+    font-size: 16px !important;
   }
 }
 .scope .text {
@@ -333,16 +335,29 @@ nav button:hover {
   margin: 16px;
   width: 50%;
   line-height: 150%;
-  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @media (max-width: 600px) {
   .scope .text {
-    font-size: 16px;
+    font-size: 14px;
+    margin: 8px;
   }
+}
+.scope a {
+  text-decoration: none;
 }
 .scope .btn-outline {
   border: var(--primary) solid 2px;
   color: var(--primary);
+  display: block;
+  margin-inline: auto !important;
+}
+@media (max-width: 600px) {
+  .scope .two {
+    margin-left: -15%;
+  }
 }
 
 .partners {

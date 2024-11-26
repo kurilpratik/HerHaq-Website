@@ -370,7 +370,8 @@ nav button:hover {
   .ourSDG .right .box {
     height: 150px;
     width: 150px;
-    margin: 8px;
+    margin-inline: 8px;
+    padding-inline: 8px;
   }
 }
 @media (max-width: 1200px) {
@@ -430,14 +431,13 @@ nav button:hover {
 
 #ourway {
   height: 60vh;
-  margin-top: 36px;
-  margin-bottom: 60px;
+  margin-top: 90px !important;
 }
 @media (max-width: 600px) {
   #ourway {
     margin-top: 8px;
     height: 100%;
-    margin-bottom: 180px;
+    margin-bottom: 80px;
   }
 }
 #ourway h1 {

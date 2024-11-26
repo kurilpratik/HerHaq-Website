@@ -328,6 +328,7 @@ nav {
                 border: 1.5px solid var(--primary);
                 @include mobile{
                     height: 12rem;
+                    background-position: 50% 20%;
                 }
             }
             .strip{
@@ -381,12 +382,16 @@ nav {
     }
     .yagnesh{
         background-image: url('assets/team/Yagnesh\ Sharma_.jpg');
+        background-position-y: 10% !important;
     }
     .arshia{
         background-image: url('assets/team/Arshia.jpg');
+        background-position-y: 10% !important;
     }
     .khyati{
         background-image: url('assets/team/Khyati\ Hari.JPG');
+        background-size: 150% !important;
+        background-position-y: 10% !important;
     }
     .puneya{
         background-image: url('assets/team/Puneya\ Sachdeva.jpeg');

@@ -35,7 +35,7 @@ $mobile : 600px;
 
 @mixin mobile {
     @media (max-width: #{$mobile}) {
-        @content
+        @content;
     }
 }
 
@@ -283,7 +283,8 @@ nav {
         @include mobile{
             height: 100px;
             width: 100px;
-            margin: 8px;
+            margin: 4px;
+            background-color: #fff;
         }
 
         h1{
@@ -310,13 +311,14 @@ nav {
             }
         }
         h2{
+            font-size: 24px !important;
             position: absolute;
-            left: 20%;
+            left: 10%;
             top: 50%;
             font-size: 32px;
             word-wrap: break-word;
             @include mobile{
-                font-size: 20px;
+                font-size: 16px !important;
             }
         }
     }
@@ -325,16 +327,33 @@ nav {
         margin: 16px;
         width: 50%;
         line-height: 150%;
-        margin-top: 24px;
-
+        //margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         @include mobile{
-            font-size: 16px;
+            font-size: 14px;
+            margin: 8px;
         }
     }
-
+    a{
+        text-decoration: none;
+    }
     .btn-outline{
         border: var(--primary) solid 2px;
         color: var(--primary);
+        display: block;
+        margin-inline: auto !important;
+    }
+
+
+    .two{
+        
+            @include mobile{
+                margin-left: -15%;
+            }
+
+        
     }
 }
 
