@@ -1,17 +1,20 @@
 ---
 import Navbar from '../components/Navbar.astro';
-const { title, description } = Astro.props; //Destructured
+import MainHead from './MainHead.astro';
+
+//Using typescript
+interface Props {
+    title: string;
+    description?: string;
+}
+const { 
+    title,
+    description
+} = Astro.props as Props; //Destructured
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-        <meta name="description" content={description}/>
-		<title>{title} - Her Haq Organization</title>
-	</head>
+    <MainHead title={title} description={description}/>
 	<body>
         <Navbar />
 		<slot />
@@ -42,15 +45,15 @@ const { title, description } = Astro.props; //Destructured
 
     @font-face {
         font-family: Ageo;
-        src: url(/assets/fonts/Ageo.otf);
+        src: url(/fonts/Ageo.otf);
     }
     @font-face {
         font-family: Ageo-bold;
-        src: url(/assets/fonts/Ageo-Bold.otf);
+        src: url(/fonts/Ageo-Bold.otf);
     }
     @font-face {
         font-family: Ageo-light;
-        src: url(/assets/fonts/Ageo-Thin.ttf);
+        src: url(/fonts/Ageo-Thin.ttf);
     }
 
     @mixin mobile {
