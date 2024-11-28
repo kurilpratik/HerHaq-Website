@@ -1,4 +1,5 @@
 ---
+import Navbar from '../components/Navbar.astro';
 const { title } = Astro.props;
 ---
 
@@ -11,6 +12,64 @@ const { title } = Astro.props;
 		<title>{title} - Her Haq Organization</title>
 	</head>
 	<body>
+        <Navbar />
 		<slot />
 	</body>
 </html>
+
+<style lang="scss" is:global>
+    *, html, body{
+        margin: 0;
+        padding: 0;
+    }
+
+    html,body{
+        width: 100%;
+        overflow-x: hidden !important;
+    }
+    body{
+        height: 100vh !important;
+    }
+
+    :root{
+        --primary: #DB4152;
+        --accent: #FCB415;
+        --mobile: 600px;
+    }
+
+    $mobile : 600px;
+
+    @font-face {
+        font-family: Ageo;
+        src: url(/assets/fonts/Ageo.otf);
+    }
+    @font-face {
+        font-family: Ageo-bold;
+        src: url(/assets/fonts/Ageo-Bold.otf);
+    }
+    @font-face {
+        font-family: Ageo-light;
+        src: url(/assets/fonts/Ageo-Thin.ttf);
+    }
+
+    @mixin mobile {
+        @media (max-width: #{$mobile}) {
+            @content
+        }
+    }
+
+    *{
+        font-family: 'Ageo', sans-serif;
+    }
+
+
+    //Desktop First Approach
+    .container {
+        width: 80%;
+        margin: 0 auto;
+
+        @include mobile{
+            width: 90%;
+        }
+    }
+</style>
