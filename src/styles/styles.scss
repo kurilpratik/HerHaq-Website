@@ -32,7 +32,7 @@ $mobile : 600px;
     }
 }
 
-//Margin and padding classes
+// Margin and padding classes
 
 $spaceamounts: (1,2,3,4,5);
 
@@ -72,44 +72,5 @@ body{
 
     @include mobile{
         width: 90%;
-    }
-}
-
-%link {
-    height: 2.5rem;
-    padding: 0rem 1.25rem;
-    display: inline-flex;
-    place-items: center;
-    text-decoration: none;
-    font-family: 'Ageo-bold';
-    cursor: pointer;
-}
-
-.link{
-    @extend %link;
-    font-family: 'Ageo';
-    color: black;
-    &:hover{
-        color: $primary;
-    }
-}
-.btn-primary {
-    @extend %link;
-    background-color: $primary;
-    border: none;
-    color: #fff;
-    &:hover{
-        background-color: darken($color: $primary, $amount: 10);
-    }
-}
-.btn-outline {
-    @extend %link;
-    background-color: transparent;
-    border: 2px solid $primary;
-    height: calc(auto - 4px);
-    color: $primary;
-    &:hover{
-        background-color: $primary;
-        color: #fff;;
     }
 }
