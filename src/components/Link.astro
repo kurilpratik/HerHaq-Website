@@ -1,0 +1,30 @@
+---
+import type { boolean } from 'astro:schema';
+
+interface Props {
+    text: string;
+    href: string;
+    style: "link" | "btn-primary" | "btn-outline"; 
+    classes?: string;
+}
+
+const { 
+    text,
+    href,
+    style = 'btn-primary',
+    classes,
+    ...rest
+ } = Astro.props as Props;
+
+---
+
+<a 
+    href={href}
+    class:list={[
+        classes,
+        style
+    ]}
+    {...rest}
+>
+    <span>{text}</span>
+</a>
