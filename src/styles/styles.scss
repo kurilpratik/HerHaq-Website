@@ -1,23 +1,16 @@
-
 *, html, body{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html,body{
     width: 100%;
     overflow-x: hidden !important;
 }
-body{
-    height: 100vh !important;
-}
 
-:root{
-    --primary: #DB4152;
-    --accent: #FCB415;
-    --mobile: 600px;
-}
-
+$primary: #DB4152;
+$accent: #FCB415;
 $mobile : 600px;
 
 @font-face {
@@ -39,10 +32,38 @@ $mobile : 600px;
     }
 }
 
-*{
-    font-family: 'Ageo', sans-serif;
+//Margin and padding classes
+
+$spaceamounts: (1,2,3,4,5);
+
+@each $space in $spaceamounts {
+
+    .m-#{$space}{
+        margin: #{$space}rem;
+    }
+    .my-#{$space}{
+        margin: #{$space}rem 0;
+    }
+    .mx-#{$space}{
+        margin: 0 #{$space}rem;
+    }
+
+    .p-#{$space}{
+        padding: #{$space}rem;
+    }
+    .py-#{$space}{
+        padding: #{$space}rem 0;
+    }
+    .px-#{$space}{
+        padding: 0 #{$space}rem;
+    }
+    
 }
 
+body{
+    height: 100vh !important;
+    font-family: 'Ageo';
+}
 
 //Desktop First Approach
 .container {
@@ -51,5 +72,44 @@ $mobile : 600px;
 
     @include mobile{
         width: 90%;
+    }
+}
+
+%link {
+    height: 2.5rem;
+    padding: 0rem 1.25rem;
+    display: inline-flex;
+    place-items: center;
+    text-decoration: none;
+    font-family: 'Ageo-bold';
+    cursor: pointer;
+}
+
+.link{
+    @extend %link;
+    font-family: 'Ageo';
+    color: black;
+    &:hover{
+        color: $primary;
+    }
+}
+.btn-primary {
+    @extend %link;
+    background-color: $primary;
+    border: none;
+    color: #fff;
+    &:hover{
+        background-color: darken($color: $primary, $amount: 10);
+    }
+}
+.btn-outline {
+    @extend %link;
+    background-color: transparent;
+    border: 2px solid $primary;
+    height: calc(auto - 4px);
+    color: $primary;
+    &:hover{
+        background-color: $primary;
+        color: #fff;;
     }
 }
