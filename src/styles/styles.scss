@@ -1,76 +1,108 @@
-*, html, body{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html,body{
-    width: 100%;
-    overflow-x: hidden !important;
+html,
+body {
+  width: 100%;
+  overflow-x: hidden !important;
 }
 
-$primary: #DB4152;
-$accent: #FCB415;
-$mobile : 600px;
+$primary: #891d1a;
+$primary-og: #db4152;
+$accent: #fcb415;
+$mobile: 600px;
 
 @font-face {
-    font-family: Ageo;
-    src: url(/fonts/Ageo.otf);
+  font-family: Ageo;
+  src: url(/fonts/Ageo.otf);
 }
 @font-face {
-    font-family: Ageo-bold;
-    src: url(/fonts/Ageo-Bold.otf);
+  font-family: Ageo-bold;
+  src: url(/fonts/Ageo-Bold.otf);
 }
 @font-face {
-    font-family: Ageo-light;
-    src: url(/fonts/Ageo-Thin.ttf);
+  font-family: Ageo-light;
+  src: url(/fonts/Ageo-Thin.ttf);
 }
 
 @mixin mobile {
-    @media (max-width: #{$mobile}) {
-        @content
-    }
+  @media (max-width: #{$mobile}) {
+    @content;
+  }
 }
 
 // Margin and padding classes
 
-$spaceamounts: (1,2,3,4,5);
+$spaceamounts: (1, 2, 3, 4, 5);
 
 @each $space in $spaceamounts {
+  .m-#{$space} {
+    margin: #{$space}rem;
+  }
+  .my-#{$space} {
+    margin: #{$space}rem 0;
+  }
+  .mx-#{$space} {
+    margin: 0 #{$space}rem;
+  }
 
-    .m-#{$space}{
-        margin: #{$space}rem;
-    }
-    .my-#{$space}{
-        margin: #{$space}rem 0;
-    }
-    .mx-#{$space}{
-        margin: 0 #{$space}rem;
-    }
-
-    .p-#{$space}{
-        padding: #{$space}rem;
-    }
-    .py-#{$space}{
-        padding: #{$space}rem 0;
-    }
-    .px-#{$space}{
-        padding: 0 #{$space}rem;
-    }
-    
+  .p-#{$space} {
+    padding: #{$space}rem;
+  }
+  .py-#{$space} {
+    padding: #{$space}rem 0;
+  }
+  .px-#{$space} {
+    padding: 0 #{$space}rem;
+  }
 }
 
-body{
-    height: 100vh !important;
-    font-family: 'Ageo';
+body {
+  height: 100vh !important;
+  font-family: "Ageo";
 }
 
 //Desktop First Approach
 .container {
-    width: 80%;
-    margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
 
-    @include mobile{
-        width: 90%;
-    }
+  @include mobile {
+    width: 90%;
+  }
+}
+
+.btn-primary {
+  height: 3rem;
+  background: #fff;
+  border: none;
+  border-radius: 4px;
+  color: $primary;
+  width: 10rem;
+  font-size: 1.2rem;
+  font-family: "Ageo-Bold";
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: $primary;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+}
+.btn-outline {
+  height: 42px;
+  width: 140px !important;
+  background: none;
+  border: 2px #fff solid;
+  color: #fff;
+  width: 140px;
+  font-size: 18px;
 }

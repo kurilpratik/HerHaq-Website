@@ -1,173 +1,204 @@
 ---
-import navbarData from '../data/navbarData';
----
-<nav class="container" aria-label="Primary">
-    <a href="/index.html" class="logo">
-        <img src="/logos/logo.png" alt="Logo for HerHaq">
+import navbarData from "../data/navbarData";
+import Link from "./Link.astro";
 
+// Get current path for active link detection
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="container" aria-label="Primary">
+  <a href="/index.html" class="logo">
+    <img src="/logos/logo.png" alt="Logo for HerHaq" />
+  </a>
+  <div class="nav-links">
+    {
+      navbarData.map((item) => {
+        const isActive =
+          currentPath === item.path ||
+          (currentPath === "/" && item.path === "/") ||
+          (currentPath !== "/" && currentPath.startsWith(item.path));
+        return (
+          <a
+            href={item.path}
+            class={`desktop-link ${isActive ? "active" : ""}`}
+          >
+            {item.name}
+          </a>
+        );
+      })
+    }
+    <!-- <Link href='/contact.html' text='Contact Us' style='btn-outline' /> -->
+    <a class="menu" id="menu">
+      <img
+        src="/assets/icons/menu.png"
+        class="menu-icon"
+        id="menu-icon"
+        alt=""
+      />
     </a>
-    <div class="nav-links">
-        {
-            navbarData.map((item) => (
-                <a href={item.path} class="desktop-link">{item.name}</a>
-            ))
-        }
-        <a href="/contact.html"><button>Contact Us</button></a>
-        <a class="menu" id="menu">
-            <img src="/assets/icons/menu.png" class="menu-icon" id="menu-icon" alt="">
-        </a>
-    </div>
+  </div>
 </nav>
 
 <div class="mobile-nav" id="mobile-nav" style="display:none">
-    <div class="container">
-        <ul>
-            <a href="/" class="r"><li>Home</li></a>
-            {
-                navbarData.map((item) => (
-                    <a href={item.path}>{item.name}</a>
-                ))
-            }
-            <a href="/contact.html" class="r"><li>Contact Us</li></a>
-        </ul>
-    </div>
+  <div class="container">
+    <ul>
+      {
+        navbarData.map((item) => {
+          const isActive =
+            currentPath === item.path ||
+            (currentPath === "/" && item.path === "/") ||
+            (currentPath !== "/" && currentPath.startsWith(item.path));
+          return (
+            <a href={item.path} class={isActive ? "active" : ""}>
+              <li>{item.name}</li>
+            </a>
+          );
+        })
+      }
+    </ul>
+  </div>
 </div>
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    /* Mobile Nav */
+    const menu = document.getElementById("menu") as HTMLImageElement;
+    const menuIcon = document.getElementById("menu-icon") as HTMLImageElement;
+    const mobileNav = document.getElementById("mobile-nav");
 
-    document.addEventListener('DOMContentLoaded', function(){
-
-        /* Mobile Nav */
-        const menu = document.getElementById('menu') as HTMLImageElement;
-        const menuIcon = document.getElementById('menu-icon') as HTMLImageElement;
-        const mobileNav = document.getElementById('mobile-nav');
-
-        menu.addEventListener('click', () => {
-            if(mobileNav.style.display == "none"){
-                mobileNav.style.display = "block";
-                menuIcon.src="/assets/icons/close-icon.png";
-                menuIcon.height=36;
-                menuIcon.width=36;             
-            
-            }
-            else{
-                mobileNav.style.display = "none"
-                menuIcon.src="/assets/icons/menu.png";
-                menuIcon.height=42;
-                menuIcon.width=42;  
-            }
-        })
-    })
-
+    menu.addEventListener("click", () => {
+      if (mobileNav.style.display == "none") {
+        mobileNav.style.display = "block";
+        menuIcon.src = "/assets/icons/close-icon.png";
+        menuIcon.height = 36;
+        menuIcon.width = 36;
+      } else {
+        mobileNav.style.display = "none";
+        menuIcon.src = "/assets/icons/menu.png";
+        menuIcon.height = 42;
+        menuIcon.width = 42;
+      }
+    });
+  });
 </script>
 
 <style lang="scss" is:global>
-    @import '../styles/styles.scss';
-    nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 0;
-        margin-top: 10px !important;
-        
+  @import "../styles/styles.scss";
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-top: 10px !important;
 
-        img{
-            @include mobile{
-                height: 42px;
-            }
-        }
-        .nav-links{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .nav-links a{
-            padding: 0 12px;
-            margin: 0 8px;
-            color: #000;
-            text-decoration: none;
-            @include mobile{
-                padding: 0 2px;
-            }
-        }
-        .nav-links a:hover{
-            color: var(--primary);
-        }
-        
-        
-        .desktop-link{
-            @include mobile{
-                display: none;
-            }
-        }
-        .menu{
-            display: none;
-            padding: 0 !important;
-            @include mobile{
-                display: block;
-            }
-        }
-        .menu img{
-            height: 42px;
-            width: 42px;
-        }
-
-        
-        button{
-            border: 2px var(--primary) solid ;
-            width: 140px;
-            height: 42px;
-            background: none;
-            color: var(--primary);
-            font-size: 18px;
-            font-family: 'Ageo-Bold';
-            &:hover{
-                cursor: pointer;
-            }
-            
-        }
+    img {
+      @include mobile {
+        height: 42px;
+      }
     }
-    .mobile-nav{
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nav-links a {
+      padding: 0 12px;
+      margin: 0 8px;
+      color: $primary;
+      text-decoration: none;
+      @include mobile {
+        padding: 0 2px;
+      }
+    }
+    .nav-links a:hover {
+      color: $primary;
+    }
+
+    .nav-links a.active {
+      color: $primary;
+      font-family: "Ageo-bold";
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        height: 4px;
+        background-color: $primary;
+        border-radius: 1px;
+      }
+    }
+
+    .desktop-link {
+      @include mobile {
         display: none;
-        width: 100%;
-        padding-bottom: 0.5rem;
-        box-sizing: content-box;
-        ul{
-            width: 100%;
-            //height: $nav-height*1.5;
-            display: flex;
-            flex-wrap: wrap;
-            padding: 0;
-            justify-content: center;
-            a{
-                display: block;
-                width: 100%;
-                color: #000;
-                text-decoration: none;
-                list-style: none;
-                padding: 1rem;
-                text-align: center;
-                font-family: 'Ageo-bold';
-                font-weight: 600;
-                &:focus{
-                    border: 2px lightblue solid;
-                }
-            }
-            .l{
-                //text-align: left;
-            }
-            .r{
-                //text-align: right;
-            }
-
-            li{
-                width: 100%;
-            }
-        }
-
-        @include mobile{
-            display: none;
-        }
+      }
     }
+    .menu {
+      display: none;
+      padding: 0 !important;
+      @include mobile {
+        display: block;
+      }
+    }
+    .menu img {
+      height: 42px;
+      width: 42px;
+    }
+  }
+  .mobile-nav {
+    display: none;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    box-sizing: content-box;
+    ul {
+      width: 100%;
+      //height: $nav-height*1.5;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      justify-content: center;
+      a {
+        display: block;
+        width: 100%;
+        color: #000;
+        text-decoration: none;
+        list-style: none;
+        padding: 1rem;
+        text-align: center;
+        font-family: "Ageo-bold";
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:focus {
+          border: 2px lightblue solid;
+        }
+
+        &.active {
+          color: $primary;
+          background-color: rgba($primary, 0.1);
+          border-left: 3px solid $primary;
+          font-weight: 700;
+        }
+      }
+      .l {
+        //text-align: left;
+      }
+      .r {
+        //text-align: right;
+      }
+
+      li {
+        width: 100%;
+      }
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
 </style>
