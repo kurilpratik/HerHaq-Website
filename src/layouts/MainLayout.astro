@@ -1,23 +1,22 @@
 ---
-import MainHead from './MainHead.astro';
+import MainHead from "./MainHead.astro";
 
-import Navbar from '../components/Navbar.astro';
+import Navbar from "../components/Navbar.astro";
 
+import Footer from "../components/Footer.astro";
 //Using typescript
 interface Props {
-    title: string;
-    description?: string;
+  title: string;
+  description?: string;
 }
-const { 
-    title,
-    description
-} = Astro.props as Props; //Destructured
+const { title, description } = Astro.props as Props; //Destructured
 ---
 
 <html lang="en">
-    <MainHead title={title} description={description}/>
-	<body>
-        <Navbar />
-		<slot />
-	</body>
+  <MainHead title={title} description={description} />
+  <body>
+    <Navbar />
+    <slot />
+    <Footer />
+  </body>
 </html>
