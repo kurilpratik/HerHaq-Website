@@ -17,18 +17,17 @@ $primary-og: #db4152;
 $accent: #fcb415;
 $mobile: 600px;
 
-@font-face {
-  font-family: Ageo;
-  src: url(/fonts/Ageo.otf);
-}
-@font-face {
-  font-family: Ageo-bold;
-  src: url(/fonts/Ageo-Bold.otf);
-}
-@font-face {
-  font-family: Ageo-light;
-  src: url(/fonts/Ageo-Thin.ttf);
-}
+// Import Poppins font from Google Fonts with multiple weights
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+// Font family variables for easy reference
+$font-family-base: "Poppins", sans-serif;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
 
 @mixin mobile {
   @media (max-width: #{$mobile}) {
@@ -64,7 +63,8 @@ $spaceamounts: (1, 2, 3, 4, 5);
 
 body {
   height: 100vh !important;
-  font-family: "Ageo";
+  font-family: $font-family-base;
+  font-weight: $font-weight-normal;
 }
 
 //Desktop First Approach
@@ -85,7 +85,8 @@ body {
   color: $primary;
   width: 10rem;
   font-size: 1.2rem;
-  font-family: "Ageo-Bold";
+  font-family: $font-family-base;
+  font-weight: $font-weight-semibold;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

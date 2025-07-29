@@ -25,6 +25,51 @@ import MainLayout from "../layouts/MainLayout.astro";
       </div>
     </div>
   </section>
+
+  <!-- Mission Section -->
+  <section class="mission-section">
+    <div class="container">
+      <!-- Statistics -->
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Partners</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Cities</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Beneficiaries</div>
+        </div>
+      </div>
+
+      <!-- Mission Statement -->
+      <div class="mission-content">
+        <h2 class="mission-title">OUR MISSION</h2>
+        <div class="mission-text">
+          <p>
+            We believe gender justice isn't just a campaign, it is a lifelong
+            commitment to listening, building, and transforming. At Her Haq,
+            this belief is both personal and structural. Our work is powered by
+            passion but anchored in practice. We don't parachute in with
+            ready-made answers; we start by showing up, listening closely, and
+            working alongside communities to understand what justice looks like
+            in their context. From there, we co-create solutions that are
+            practical, scalable, and rooted in lived experience.
+          </p>
+          <p>
+            Every action we take stems from a deep commitment to amplifying
+            voices that have long been ignored and shifting power where it
+            belongs. At Her Haq, we aren't just raising awareness. We're
+            shifting narratives, redistributing power, and building structures
+            that last.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 </MainLayout>
 
 <style lang="scss" is:global>
@@ -80,7 +125,7 @@ import MainLayout from "../layouts/MainLayout.astro";
   }
 
   .hero-title {
-    font-family: "Ageo-Bold";
+    font-weight: $font-weight-bold;
     font-size: 4rem;
     line-height: 1.2;
     margin-bottom: 1.5rem;
@@ -93,7 +138,6 @@ import MainLayout from "../layouts/MainLayout.astro";
   }
 
   .hero-subtitle {
-    font-family: "Ageo";
     font-size: 1.25rem;
     line-height: 1.6;
     margin-bottom: 2.5rem;
@@ -114,7 +158,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     border: none;
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
-    font-family: "Ageo-Bold";
+    font-weight: $font-weight-bold;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -130,6 +174,86 @@ import MainLayout from "../layouts/MainLayout.astro";
     @include mobile {
       padding: 0.875rem 2rem;
       font-size: 1rem;
+    }
+  }
+
+  // Mission Section Styles
+  .mission-section {
+    padding: 5rem 0;
+    background: white;
+  }
+
+  .stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-bottom: 4rem;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-weight: $font-weight-bold;
+    font-size: 3rem;
+    color: $primary;
+    margin-bottom: 0.5rem;
+
+    @include mobile {
+      font-size: 2.5rem;
+    }
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    color: $primary;
+    letter-spacing: 1px;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+
+  .mission-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mission-title {
+    font-weight: $font-weight-bold;
+    font-size: 2.5rem;
+    color: $primary;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    @include mobile {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .mission-text {
+    p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #000;
+      margin-bottom: 1.5rem;
+      text-align: left;
+
+      @include mobile {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
     }
   }
 </style>
