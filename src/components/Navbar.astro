@@ -15,8 +15,9 @@ const currentPath = Astro.url.pathname;
       navbarData.map((item) => {
         const isActive =
           currentPath === item.path ||
-          (currentPath === "/" && item.path === "/") ||
-          (currentPath !== "/" && currentPath.startsWith(item.path));
+          (currentPath === "/" && item.path === "/");
+        // (currentPath !== "/" && currentPath.startsWith(item.path));
+        // Useful for extended paths such as about/Aanya
         return (
           <a
             href={item.path}
