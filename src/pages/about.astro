@@ -107,6 +107,112 @@ import MainLayout from "../layouts/MainLayout.astro";
       </div>
     </div>
   </section>
+
+  <!-- How We Work Section -->
+  <section class="how-we-work-section">
+    <div class="container">
+      <div class="how-we-work-content">
+        <div class="how-we-work-header">
+          <h2 class="how-we-work-title">HOW WE WORK</h2>
+          <p class="how-we-work-intro">
+            At Her Haq, we don't drop in with solutions, we build alongside. Our
+            process is iterative, grounded, and deeply human.
+          </p>
+        </div>
+
+        <div class="how-we-work-steps">
+          <div class="step">
+            <div class="step-number">
+              <span class="step-icon">1</span>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Start with Listening</h3>
+              <p class="step-description">
+                We engage with women and girls in classrooms, communities, and
+                online to understand what is missing, working, and needs change.
+                This is foundational, not tokenistic.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              <span class="step-icon">2</span>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Co-create What is Needed</h3>
+              <p class="step-description">
+                Design emerges from lived experience. We develop practical,
+                participatory tools, workshops, and resources—menstrual hygiene
+                campaigns, digital safety guides, policy briefs—grounded in real
+                needs.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              <span class="step-icon">3</span>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Build Capacity, Not Dependency</h3>
+              <p class="step-description">
+                We focus on long-term empowerment. Programs are designed to
+                equip people to advocate, navigate systems, and share knowledge.
+                We strengthen agency through access to resources and policy
+                knowledge.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              <span class="step-icon">4</span>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Bridge Grassroots & Governance</h3>
+              <p class="step-description">
+                We connect micro-level insights to macro-level change. We
+                translate on-the-ground learning into evidence, campaigns, and
+                conversations that advocate for better laws, safer platforms,
+                and more inclusive systems.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              <span class="step-icon">5</span>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Create Space for Dialogue</h3>
+              <p class="step-description">
+                Conversation drives change. We convene communities, experts, and
+                institutions through events like Haq Summit, Charcha, and
+                small-format gatherings. These are spaces for listening,
+                reflection, and collaborative solution-finding—incubators for
+                collective strategy.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              <span class="step-icon">6</span>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Stay Flexible, Stay Rooted</h3>
+              <p class="step-description">
+                Communities, needs, and systems are dynamic. Our work remains
+                adaptive, driven by feedback, open to iteration, and always
+                accountable to the people we serve.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </MainLayout>
 
 <style lang="scss">
@@ -264,6 +370,109 @@ import MainLayout from "../layouts/MainLayout.astro";
 
     p:last-child {
       margin-bottom: 0;
+    }
+  }
+
+  // How We Work Section Styles
+  .how-we-work-section {
+    background: #f9f9f9;
+    padding: 4rem 0;
+    color: #333;
+  }
+
+  .how-we-work-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .how-we-work-header {
+    margin-bottom: 3rem;
+    @include mobile {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .how-we-work-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #892d28;
+    margin-bottom: 1rem;
+    @include mobile {
+      font-size: 2rem;
+    }
+  }
+
+  .how-we-work-intro {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #666;
+    margin-bottom: 2rem;
+    @include mobile {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  }
+
+  .how-we-work-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    @include mobile {
+      gap: 1.5rem;
+    }
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .step-number {
+    width: 50px;
+    height: 50px;
+    background: #892d28;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .step-icon {
+    font-size: 1.2rem;
+  }
+
+  .step-content {
+    flex: 1;
+  }
+
+  .step-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #892d28;
+    margin-bottom: 0.5rem;
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+
+  .step-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+    @include mobile {
+      font-size: 0.9rem;
+      line-height: 1.4;
     }
   }
 </style>
