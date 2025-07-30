@@ -1,0 +1,437 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="Contact" description="Contact Her Haq">
+  <section class="hero">
+    <div class="hero-background">
+      <img
+        src="/banner/banner 1.png"
+        alt="Empowering Women"
+        class="hero-image"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="container">
+        <h1 class="hero-title">Let's create change together</h1>
+        <p class="hero-subtitle">
+          Reach out for collaborations, opportunities and more.
+        </p>
+        <!-- Contact Info Boxes Overlay -->
+        <div class="contact-boxes-overlay">
+          <div class="container">
+            <div class="contact-boxes">
+              <a
+                href="mailto:info@herhaq.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact-box-link"
+              >
+                <div class="contact-box">
+                  <div class="contact-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <polyline
+                        points="22,6 12,13 2,6"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></polyline>
+                    </svg>
+                  </div>
+                  <p class="contact-text">info@herhaq.com</p>
+                </div>
+              </a>
+
+              <a
+                href="https://www.linkedin.com/company/herhaq"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact-box-link"
+              >
+                <div class="contact-box">
+                  <div class="contact-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 8A6 6 0 0 1 22 14V21H18V14A2 2 0 0 0 14 14V21H10V14A6 6 0 0 1 16 8Z"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <rect
+                        x="2"
+                        y="9"
+                        width="4"
+                        height="12"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></rect>
+                      <circle
+                        cx="4"
+                        cy="4"
+                        r="2"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></circle>
+                    </svg>
+                  </div>
+                  <p class="contact-text">LinkedIn</p>
+                </div>
+              </a>
+
+              <a
+                href="https://www.instagram.com/herhaqofficial"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact-box-link"
+              >
+                <div class="contact-box">
+                  <div class="contact-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        x="2"
+                        y="2"
+                        width="20"
+                        height="20"
+                        rx="5"
+                        ry="5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></rect>
+                      <path
+                        d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <line
+                        x1="17.5"
+                        y1="6.5"
+                        x2="17.51"
+                        y2="6.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></line>
+                    </svg>
+                  </div>
+                  <p class="contact-text">@herhaqofficial</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Netlify Contact Form Section -->
+  <div class="contact-form-section">
+    <h2 class="form-title">Get In Touch With Us</h2>
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      class="contact-form"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="hidden">
+        <label>
+          Don’t fill this out if you’re human: <input name="bot-field" />
+        </label>
+      </p>
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Full Name"
+        required
+        class="form-input"
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email Address"
+        required
+        class="form-input"
+      />
+      <input
+        type="text"
+        name="subject"
+        placeholder="Subject: Volunteer work/ Collaboration"
+        required
+        class="form-input"
+      />
+      <textarea
+        name="message"
+        placeholder="Your Message Here"
+        required
+        class="form-input"
+        rows="4"></textarea>
+      <button
+        type="submit"
+        value="submit"
+        class="btn-primary"
+        style="margin-top: .5rem;">Submit</button
+      >
+    </form>
+  </div>
+</MainLayout>
+
+<style lang="scss">
+  @import "../styles/styles.scss";
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 80px 0 40px 0; // Add padding to account for navbar and spacing
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 3rem; // Increased margin to create space for contact boxes
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  // Remove the absolute positioning and make it flow naturally
+  .contact-boxes-overlay {
+    position: relative;
+    z-index: 4;
+    margin-top: 2rem;
+  }
+
+  .contact-boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    // flex-wrap: wrap;
+    margin: 0 auto;
+  }
+
+  .contact-box-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .contact-box {
+    background: $primary;
+    border-radius: 12px;
+    padding: 25px 30px;
+    text-align: center;
+    min-width: 200px;
+    // box-shadow: 0 8px 32px rgba(142, 36, 170, 0.3);
+    transition: all 0.3s ease;
+    // border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(142, 36, 170, 0.4);
+    }
+  }
+
+  .contact-icon {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .contact-text {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .contact-form-section {
+    margin: 3rem auto 0 auto;
+    max-width: 480px; // scaled down from 700px
+    padding: 1.5rem 0.5rem 2rem 0.5rem;
+    background: #fff;
+    border-radius: 0;
+    text-align: center;
+  }
+
+  .form-title {
+    color: $primary;
+    font-size: 2rem; // scaled down from 2.5rem
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; // reduced gap
+    align-items: stretch;
+  }
+
+  .form-input {
+    font-size: 1.1rem; // scaled down from 1.7rem
+    border: 2px solid $primary;
+    border-radius: 2rem;
+    padding: 0.7rem 1.2rem; // reduced padding
+    outline: none;
+    color: $primary;
+    background: #fff;
+    width: 100%;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus {
+    border-color: #a94436;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .hero {
+      padding: 60px 0 30px 0;
+    }
+
+    .contact-boxes {
+      gap: 20px;
+    }
+
+    .contact-box {
+      min-width: 160px;
+      padding: 20px 25px;
+    }
+
+    .contact-text {
+      font-size: 13px;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding: 50px 0 20px 0;
+    }
+
+    .contact-boxes {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .contact-box {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+</style>

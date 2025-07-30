@@ -15,10 +15,10 @@ const navbarData = [
     name: "Events",
     path: "/events",
   },
-  {
-    name: "Team",
-    path: "/team",
-  },
+  // {
+  //   name: "Team",
+  //   path: "/team",
+  // },
   {
     name: "Contact Us",
     path: "/contact",
