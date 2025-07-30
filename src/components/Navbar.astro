@@ -30,12 +30,7 @@ const currentPath = Astro.url.pathname;
     }
     <!-- <Link href='/contact.html' text='Contact Us' style='btn-outline' /> -->
     <a class="menu" id="menu">
-      <img
-        src="/assets/icons/menu.png"
-        class="menu-icon"
-        id="menu-icon"
-        alt=""
-      />
+      <img src="/menu-icon.png" class="menu-icon" id="menu-icon" alt="" />
     </a>
   </div>
 </nav>
@@ -47,8 +42,8 @@ const currentPath = Astro.url.pathname;
         navbarData.map((item) => {
           const isActive =
             currentPath === item.path ||
-            (currentPath === "/" && item.path === "/") ||
-            (currentPath !== "/" && currentPath.startsWith(item.path));
+            (currentPath === "/" && item.path === "/");
+          // (currentPath !== "/" && currentPath.startsWith(item.path));
           return (
             <a href={item.path} class={isActive ? "active" : ""}>
               <li>{item.name}</li>
@@ -75,7 +70,7 @@ const currentPath = Astro.url.pathname;
         menuIcon.width = 36;
       } else {
         mobileNav.style.display = "none";
-        menuIcon.src = "/assets/icons/menu.png";
+        menuIcon.src = "/menu-icon.png";
         menuIcon.height = 42;
         menuIcon.width = 42;
       }
