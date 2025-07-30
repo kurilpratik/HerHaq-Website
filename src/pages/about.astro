@@ -1,0 +1,269 @@
+---
+import { Image } from "astro:assets";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="About" description="About Her Haq">
+  <!-- About Us Section -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h1 class="about-title">ABOUT US</h1>
+          <p class="about-description">
+            <em>Her Haq</em> began in 2019 as Girl Up Rise, when <em>Aanya</em> and
+            <em>Soumya</em> met at Lady Shri Ram College and bonded over a shared
+            vision of gender justice. What started as a student-led initiative has
+            grown into a youth-powered nonprofit working across six states, leading
+            community-<strong
+              ><em
+                >driven programs in digital safety, legal literacy, public
+                dialogue, and grassroots research.</em
+              ></strong
+            > We center lived experience, shift power, and build structures that
+            last.
+          </p>
+        </div>
+        <div class="about-image">
+          <img src={"/banner/about.jpeg"} alt="About Her Haq" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who We Are Section -->
+  <section class="who-we-are-section">
+    <div class="container">
+      <div class="who-we-are-content">
+        <div class="who-we-are-visuals">
+          <div class="visual-grid">
+            <div class="visual-item">
+              <div class="visual-placeholder">
+                <!-- Add your MHM DRIVES image here -->
+                <img src="/banner/mhm.jpeg" alt="MHM DRIVES" />
+              </div>
+              <h3 class="visual-label">MHM DRIVES</h3>
+            </div>
+            <div class="visual-item">
+              <div class="visual-placeholder">
+                <!-- Add your DIGITAL ADVOCACY image here -->
+                <img src="/banner/da.jpg" alt="DIGITAL ADVOCACY" />
+              </div>
+              <h3 class="visual-label">DIGITAL ADVOCACY</h3>
+            </div>
+            <div class="visual-item">
+              <div class="visual-placeholder">
+                <!-- Add your RESEARCH & POLICY image here -->
+                <img src="/banner/rp.jpeg" alt="RESEARCH & POLICY" />
+              </div>
+              <h3 class="visual-label">RESEARCH & POLICY</h3>
+            </div>
+            <div class="visual-item">
+              <div class="visual-placeholder">
+                <!-- Add your EVENTS image here -->
+                <img src="/banner/e.jpeg" alt="EVENTS" />
+              </div>
+              <h3 class="visual-label">EVENTS</h3>
+            </div>
+          </div>
+        </div>
+        <div class="who-we-are-text">
+          <h2 class="who-we-are-title">WHO WE ARE</h2>
+          <div class="who-we-are-description">
+            <p>
+              Her Haq was born from a sense of discontent and hope. Discontent
+              with the way policy conversations too often exclude the people
+              most affected. And hope that there could be a better way, one that
+              starts with listening, not prescribing. What began as a small
+              student-led initiative quickly grew into a youth-powered nonprofit
+              with a clear mission: to centre the voices of women and girls in
+              shaping the systems that impact their lives. From the very
+              beginning, our work has been grounded in one simple belief—those
+              closest to the problem should lead the way in solving it.
+            </p>
+            <p>
+              At Her Haq, we work at the intersection of grassroots lived
+              experience and systemic change. We research, convene, and
+              co-create solutions with communities who are too often spoken for
+              instead of spoken with. Our projects span digital safety
+              workshops, community-led research, legal advocacy, and public
+              convenings like Haq Summit and Charcha, which bring together
+              experts, policymakers, and citizens in collective dialogue. We aim
+              to be positively disruptive, pushing back against outdated systems
+              while working constructively with decision-makers to close the
+              gaps that perpetuate inequality. Our goal isn't just to critique
+              what exists, but to help build what's missing: inclusive,
+              accountable, and feminist structures that respond to the real
+              needs of real people.
+            </p>
+            <p>
+              We are not here to lead from above but to work alongside
+              stakeholders. Her Haq is a bridge between communities and
+              institutions, between everyday realities and systemic reform. And
+              we are just getting started.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style lang="scss">
+  @import "../styles/styles.scss";
+  .about-section {
+    background: #892d28;
+    padding: 2rem 0;
+    color: #fff;
+  }
+
+  .about-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  .about-text {
+    flex: 1;
+  }
+
+  .about-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .about-description {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    em {
+      font-style: italic;
+      font-weight: 600;
+    }
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  .about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .about-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    background: #eee;
+
+    @include mobile {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  // Who We Are Section Styles
+  .who-we-are-section {
+    background: #fff;
+    padding: 4rem 0;
+    color: #333;
+  }
+
+  .who-we-are-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  .who-we-are-visuals {
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .visual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    @include mobile {
+      gap: 1rem;
+    }
+  }
+
+  .visual-item {
+    text-align: center;
+  }
+
+  .visual-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #f5f5f5;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .visual-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .visual-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #892d28;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .who-we-are-text {
+    flex: 2;
+  }
+
+  .who-we-are-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #892d28;
+    margin-bottom: 2rem;
+    text-align: left;
+    @include mobile {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .who-we-are-description {
+    p {
+      font-size: 1rem;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+      color: $primary;
+      text-align: justify;
+      @include mobile {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+</style>
