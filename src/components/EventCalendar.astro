@@ -1,0 +1,213 @@
+---
+const { events = [] } = Astro.props;
+
+// Helper: get all days in a month
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+// For demo: August 2025
+const year = 2025;
+const month = 7; // August (0-indexed)
+const daysInMonth = getDaysInMonth(year, month);
+
+// Map events by day for quick lookup
+const eventsByDay = {};
+events.forEach((event) => {
+  const day = new Date(event.date).getDate();
+  eventsByDay[day] = event;
+});
+---
+
+<div class="event-calendar">
+  <div class="calendar-header">
+    <span>August 2025</span>
+  </div>
+  <div class="calendar-grid">
+    <div class="calendar-row calendar-days">
+      <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div
+      >
+        Sat
+      </div><div>Sun</div>
+    </div>
+    <div class="calendar-row calendar-dates">
+      <!-- Calculate the first day offset (Monday = 1) -->
+      {
+        Array.from({ length: (new Date(year, month, 1).getDay() + 6) % 7 }).map(
+          () => <div class="calendar-cell empty" />,
+        )
+      }
+      {
+        Array.from({ length: daysInMonth }).map((_, i) => {
+          const day = i + 1;
+          const event = eventsByDay[day];
+          return (
+            <div class={`calendar-cell${event ? " has-event" : ""}`}>
+              <span>{day}</span>
+              {event && (
+                <div class="event-popup">
+                  <img src={event.info} alt={event.title} />
+                  <div class="flex">
+                    <div class="event-title">{event.title}</div>
+                    <div class="event-time">{event.time}</div>
+                  </div>
+
+                  <div class="event-desc">{event.description}</div>
+                  <a href={event.link} class="event-link">
+                    View More
+                  </a>
+                </div>
+              )}
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+<style lang="scss">
+  @import "../styles/styles.scss";
+  // ... existing code ...
+
+  .event-calendar {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    padding: 1.5rem;
+    font-family: inherit;
+
+    .calendar-header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #8b2c2b;
+    }
+
+    .calendar-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .calendar-row {
+      display: flex;
+      justify-content: stretch;
+    }
+
+    .calendar-days > div {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      color: #8b2c2b;
+      padding-bottom: 0.5rem;
+    }
+
+    .calendar-dates {
+      flex-wrap: wrap;
+      min-height: 80px;
+    }
+
+    .calendar-cell {
+      flex: 1;
+      min-width: 40px;
+      min-height: 40px;
+      text-align: center;
+      padding: 0.5rem 0;
+      position: relative;
+      border-radius: 6px;
+      transition: background 0.2s;
+      cursor: pointer;
+      margin: 2px;
+
+      &.empty {
+        background: none;
+        cursor: default;
+      }
+
+      &.has-event {
+        background: #fbeee6;
+        color: #8b2c2b;
+        font-weight: bold;
+        border: 1px solid #e0cfc2;
+        position: relative;
+
+        &:hover .event-popup,
+        &:focus-within .event-popup {
+          display: block;
+        }
+      }
+
+      .event-popup {
+        display: none;
+        position: absolute;
+        top: 110%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #dcdcdc;
+        border: 1px solid #000;
+        // box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        padding: 1rem;
+        z-index: 10;
+        width: 400px;
+        text-align: left;
+        color: #000;
+        @include mobile {
+          width: 320px;
+        }
+
+        img {
+          width: 100%;
+          border-radius: 6px;
+          margin-bottom: 0.5rem;
+        }
+        .flex {
+          display: flex;
+          justify-content: space-between;
+        }
+        .event-title {
+          font-weight: bold;
+          margin-bottom: 0.3rem;
+        }
+        .event-time {
+          font-size: 0.95rem;
+          margin-bottom: 0.3rem;
+        }
+        .event-desc {
+          font-size: 0.95rem;
+          margin-bottom: 0.5rem;
+          font-weight: $font-weight-normal;
+          text-align: justify;
+        }
+        .event-link {
+          color: #8b2c2b;
+          font-weight: 600;
+          text-decoration: underline;
+          font-size: 0.95rem;
+          float: right;
+        }
+      }
+    }
+  }
+
+  // Responsive
+  @include mobile {
+    .event-calendar {
+      padding: 0.5rem;
+      .calendar-header {
+        font-size: 1.1rem;
+      }
+      .calendar-cell {
+        min-width: 28px;
+        min-height: 28px;
+        font-size: 0.95rem;
+      }
+      .event-popup {
+        width: 180px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+</style>

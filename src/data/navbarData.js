@@ -7,10 +7,10 @@ const navbarData = [
     name: "About Us",
     path: "/about",
   },
-  {
-    name: "Research",
-    path: "/research",
-  },
+  // {
+  //   name: "Research",
+  //   path: "/research",
+  // },
   {
     name: "Events",
     path: "/events",
