@@ -7,7 +7,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav class="container" aria-label="Primary">
-  <a href="/index.html" class="logo">
+  <a href="/" class="logo">
     <img src="/logos/logo.png" alt="Logo for HerHaq" />
   </a>
   <div class="nav-links">
@@ -81,15 +81,35 @@ const currentPath = Astro.url.pathname;
 <style lang="scss" is:global>
   @import "../styles/styles.scss";
   nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 10;
+    width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 0;
-    margin-top: 10px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    // Override container class constraints
+    &.container {
+      width: 100%;
+      margin: 0;
+      padding-left: 10%;
+      padding-right: 10%;
+
+      @include mobile {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+    }
 
     img {
+      height: 36px;
       @include mobile {
-        height: 42px;
+        height: 36px;
       }
     }
     .nav-links {
@@ -142,15 +162,35 @@ const currentPath = Astro.url.pathname;
       }
     }
     .menu img {
-      height: 42px;
-      width: 42px;
+      height: 36px;
+      width: 36px;
     }
   }
   .mobile-nav {
     display: none;
-    width: 100%;
+    width: 100vw;
+    position: fixed;
+    top: 64px; // Position below the fixed navbar
+    left: 0;
+    background-color: #fff;
+    z-index: 9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding-bottom: 0.5rem;
     box-sizing: content-box;
+
+    // Override container class constraints
+    .container {
+      width: 100%;
+      margin: 0;
+      padding-left: 10%;
+      padding-right: 10%;
+
+      @include mobile {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+    }
+
     ul {
       width: 100%;
       //height: $nav-height*1.5;

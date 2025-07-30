@@ -65,6 +65,11 @@ body {
   height: 100vh !important;
   font-family: $font-family-base;
   font-weight: $font-weight-normal;
+  padding-top: 64px; // Add padding to account for fixed navbar
+
+  @include mobile {
+    padding-top: 64px; // Keep same padding on mobile
+  }
 }
 
 //Desktop First Approach
