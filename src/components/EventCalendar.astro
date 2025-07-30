@@ -17,6 +17,39 @@ events.forEach((event) => {
   const day = new Date(event.date).getDate();
   eventsByDay[day] = event;
 });
+
+// Calculate the first day of the month (0 = Sunday, 1 = Monday, etc.)
+const firstDayOfMonth = new Date(year, month, 1).getDay();
+// Convert to Monday-based index (0 = Monday, 1 = Tuesday, ..., 6 = Sunday)
+const mondayBasedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+// Create calendar weeks
+const totalCells = mondayBasedFirstDay + daysInMonth;
+const numberOfWeeks = Math.ceil(totalCells / 7);
+const calendarWeeks = [];
+
+for (let week = 0; week < numberOfWeeks; week++) {
+  const weekDays = [];
+  for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+    const cellIndex = week * 7 + dayOfWeek;
+    if (cellIndex < mondayBasedFirstDay) {
+      // Empty cell before the month starts
+      weekDays.push({ type: "empty" });
+    } else if (cellIndex < mondayBasedFirstDay + daysInMonth) {
+      // Day of the month
+      const dayOfMonth = cellIndex - mondayBasedFirstDay + 1;
+      weekDays.push({
+        type: "date",
+        day: dayOfMonth,
+        event: eventsByDay[dayOfMonth],
+      });
+    } else {
+      // Empty cell after the month ends
+      weekDays.push({ type: "empty" });
+    }
+  }
+  calendarWeeks.push(weekDays);
+}
 ---
 
 <div class="event-calendar">
@@ -30,39 +63,38 @@ events.forEach((event) => {
         Sat
       </div><div>Sun</div>
     </div>
-    <div class="calendar-row calendar-dates">
-      <!-- Calculate the first day offset (Monday = 1) -->
-      {
-        Array.from({ length: (new Date(year, month, 1).getDay() + 6) % 7 }).map(
-          () => <div class="calendar-cell empty" />,
-        )
-      }
-      {
-        Array.from({ length: daysInMonth }).map((_, i) => {
-          const day = i + 1;
-          const event = eventsByDay[day];
-          return (
-            <div class={`calendar-cell${event ? " has-event" : ""}`}>
-              <span>{day}</span>
-              {event && (
-                <div class="event-popup">
-                  <img src={event.info} alt={event.title} />
-                  <div class="flex">
-                    <div class="event-title">{event.title}</div>
-                    <div class="event-time">{event.time}</div>
-                  </div>
+    {
+      calendarWeeks.map((week) => (
+        <div class="calendar-row">
+          {week.map((cell) => {
+            if (cell.type === "empty") {
+              return <div class="calendar-cell empty" />;
+            } else {
+              const { day, event } = cell;
+              return (
+                <div class={`calendar-cell${event ? " has-event" : ""}`}>
+                  <span>{day}</span>
+                  {event && (
+                    <div class="event-popup">
+                      <img src={event.info} alt={event.title} />
+                      <div class="flex">
+                        <div class="event-title">{event.title}</div>
+                        <div class="event-time">{event.time}</div>
+                      </div>
 
-                  <div class="event-desc">{event.description}</div>
-                  <a href={event.link} class="event-link">
-                    View More
-                  </a>
+                      <div class="event-desc">{event.description}</div>
+                      <a href={event.link} class="event-link">
+                        View More
+                      </a>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          );
-        })
-      }
-    </div>
+              );
+            }
+          })}
+        </div>
+      ))
+    }
   </div>
 </div>
 <style lang="scss">
