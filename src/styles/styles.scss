@@ -93,6 +93,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 180px;
+  text-decoration: none;
 
   &:hover {
     // background: darken($primary, 10%);
