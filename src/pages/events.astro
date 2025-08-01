@@ -4,10 +4,10 @@ import EventCalendar from "../components/EventCalendar.astro";
 
 const events = [
   {
-    date: "2025-08-01",
-    title: "1st August, 2025 Haq Charcha",
+    // date: "1st August, 2025",
+    date: "2025-07-01",
+    title: "Masculinity, Interrupted: Building Male Allyship",
     time: "5:30 PM",
-    tagline: "Masculinity, Interrupted: Building Male Allyship",
     description:
       "This time, we are exploring 'Masculinity, Interrupted: Building Male Allyship' - a dialogue about challenging conventional notions of masculinity and creating allies, of moving towards change, shoulder to shoulder, as equals.",
     info: "/event/info.png",
@@ -15,25 +15,45 @@ const events = [
     link: "#",
   },
   {
-    date: "2025-08-01",
-    title: "1st August, 2025 Haq Charcha",
+    date: "26th April, 2025",
+    title: "Haq Charcha X IFF",
     time: "5:30 PM",
     tagline: "Masculinity, Interrupted: Building Male Allyship",
     description:
-      "This time, we are exploring 'Masculinity, Interrupted: Building Male Allyship' - a dialogue about challenging conventional notions of masculinity and creating allies, of moving towards change, shoulder to shoulder, as equals.",
+      "In partnership with IFF, we welcomed around 120 attendees for a panel and screening of the movie TAAK. Experts discussed privacy, surveillance, and online safety, highlighting their impact on marginalized voices. The session educated participants on safeguarding rights and empowered them to engage critically with technology and policy.",
     info: "/event/info.png",
     image: "/event/2.png",
     link: "#",
   },
   {
-    date: "2025-08-01",
-    title: "1st August, 2025 Haq Charcha",
+    date: "9th March, 2025",
+    title: "Kanoon aur Hum",
+    time: "5:30 PM",
+    description:
+      "In Haq Charcha: Kanoon aur Hum we got 80+ participants to engage in a conversation led by Smriti Sharma (Head of Policy at Apple) on how laws shape women’s lives. This discussion brought together legal experts, policymakers, changemakers, and everyday women to discuss the laws that shape our lives and the reforms still needed.",
+    info: "/event/info.png",
+    image: "/event/kanoon.jpg",
+    link: "#",
+  },
+  {
+    date: "30th November, 2024",
+    title: "Haq Summit",
     time: "5:30 PM",
     tagline: "Masculinity, Interrupted: Building Male Allyship",
     description:
-      "This time, we are exploring 'Masculinity, Interrupted: Building Male Allyship' - a dialogue about challenging conventional notions of masculinity and creating allies, of moving towards change, shoulder to shoulder, as equals.",
-    info: "/event/info.png",
+      "In Haq Summit, we brought together 150+ young people to discuss digital safety of women. We had a keynote by Aditi Jha from LinkedIn and panels with leaders like Ismat Ara, Anish Gawande, Anshul Tewari, Ria Chopra, Apar Gupta, and more. Supported by Nua, we concluded the Haq Summit by celebrating youth changemakers. Our flagship annual event fostered dialogue, and created momentum for building safer digital spaces for women.",
+    info: "/event/haqsummit.jpg",
     image: "/event/3.png",
+    link: "#",
+  },
+  {
+    date: "18th March, 2023",
+    title: "POSH Workshop",
+    time: "5:30 PM",
+    description:
+      "In partnership with PSA, we organised a session with over 80 youth leaders and influencers. The session was about building safer and more inclusive workplaces, and understanding the Prevention of Sexual Harassment Act. Through interactive discussions and real life experiences, we gave young leaders the tools to advocate for gender inclusive spaces.",
+    info: "/event/info.png",
+    image: "/event/posh.jpg",
     link: "#",
   },
   // Add more events here as needed
@@ -50,10 +70,7 @@ const events = [
       {
         events.map((event) => (
           <div class="upcoming-event">
-            <div class="left">
-              <img src={event.image} alt={event.title} class="event-thumb" />
-              <div class="event-title">{event.title}</div>
-            </div>
+            <img src={event.image} alt={event.title} class="event-thumb" />
             <div class="event-content">
               {/* <div class="event-date">
                 {new Date(event.date)
@@ -64,7 +81,8 @@ const events = [
                   })
                   .toUpperCase()}
               </div> */}
-              <div class="event-tagline">{event.tagline}</div>
+              <div class="event-tagline">{event.title}</div>
+              <div class="event-date">{event.date}</div>
               <div class="event-desc">{event.description}</div>
             </div>
           </div>
@@ -103,17 +121,17 @@ const events = [
       flex-shrink: 0;
     }
 
-    .left {
-      display: flex;
-      align-items: end;
-      flex: 0.8;
-      gap: 1rem;
-      height: 100%;
-      @include mobile {
-        flex-direction: column;
-        align-items: start;
-      }
-    }
+    // .left {
+    //   display: flex;
+    //   align-items: end;
+    //   flex: 0.8;
+    //   gap: 1rem;
+    //   height: 100%;
+    //   @include mobile {
+    //     flex-direction: column;
+    //     align-items: start;
+    //   }
+    // }
 
     .event-title {
       font-weight: 700;
