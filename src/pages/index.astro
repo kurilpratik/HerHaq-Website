@@ -1,5 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import InstagramPosts from "../components/InstagramPosts.astro";
 ---
 
 <MainLayout title="Home" description="Home Page of the Her Haq Organization">
@@ -58,9 +59,7 @@ import MainLayout from "../layouts/MainLayout.astro";
           <p>
             Every action we take stems from a deep commitment to amplifying
             voices that have long been ignored and shifting power where it
-            belongs. At Her Haq, we aren't just raising awareness. We're
-            shifting narratives, redistributing power, and building structures
-            that last.
+            belongs.
           </p>
         </div>
       </div>
@@ -72,19 +71,22 @@ import MainLayout from "../layouts/MainLayout.astro";
     <div class="container">
       <div class="cta-content">
         <h2 class="cta-mission-text">
-          Her Haq is young, sharp, and stubbornly hopeful, led by women who are
-          tired of waiting for the system to catch up.
+          At Her Haq, we aren't just raising awareness. We're shifting
+          narratives, redistributing power, and building structures that last.
         </h2>
         <div class="cta-buttons">
           <a href="/contact" class="btn-primary">Volunteer With Us</a>
-          <div class="cta-separator"></div>
+          <!-- <div class="cta-separator"></div> -->
           <a href="/contact" class="btn-primary">Partner With Us</a>
-          <!-- <div class="cta-separator"></div>
-          <a href="/contact" class="btn-primary">Meet With Us</a> -->
+          <!-- <div class="cta-separator"></div> -->
+          <a href="/events" class="btn-primary">Meet With Us</a>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Instagram Posts Section -->
+  <InstagramPosts />
 </MainLayout>
 
 <style lang="scss" is:global>
@@ -92,14 +94,14 @@ import MainLayout from "../layouts/MainLayout.astro";
 
   // Mission Section Styles
   .mission-section {
-    padding: 5rem 0;
+    padding: 5rem 1rem 0 0;
     background: white;
   }
 
   .stats-container {
     display: flex;
     justify-content: center;
-    gap: 4rem;
+    gap: 6rem;
     margin-bottom: 4rem;
 
     @include mobile {
@@ -160,7 +162,7 @@ import MainLayout from "../layouts/MainLayout.astro";
       line-height: 1.8;
       color: #000;
       margin-bottom: 1.5rem;
-      text-align: left;
+      text-align: center;
 
       @include mobile {
         font-size: 1rem;
@@ -199,7 +201,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0;
+    gap: 2rem;
     margin-bottom: 1rem;
 
     @include mobile {

@@ -1,0 +1,381 @@
+---
+// InstagramPosts.astro component
+// Simplified version with placeholder content
+
+interface InstagramPost {
+  id: string;
+  caption: string;
+  media_url: string;
+  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  permalink: string;
+  timestamp: string;
+}
+
+// Static data with placeholder content
+const instagramPosts: InstagramPost[] = [
+  {
+    id: "1",
+    caption: "Sample Instagram post caption",
+    media_url: "/banner/home.jpg",
+    media_type: "CAROUSEL_ALBUM",
+    permalink: "https://instagram.com/herhaqofficial",
+    timestamp: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    caption: "Another sample Instagram post",
+    media_url: "/banner/home.jpg",
+    media_type: "CAROUSEL_ALBUM",
+    permalink: "https://instagram.com/herhaqofficial",
+    timestamp: "2024-01-14T15:30:00Z",
+  },
+  {
+    id: "3",
+    caption: "Third sample Instagram post",
+    media_url: "/banner/home.jpg",
+    media_type: "IMAGE",
+    permalink: "https://instagram.com/herhaqofficial",
+    timestamp: "2024-01-13T12:00:00Z",
+  },
+];
+---
+
+<div class="instagram-section">
+  <div class="container">
+    <h2 class="instagram-title">Follow Our Journey</h2>
+    <p class="instagram-subtitle">
+      Stay updated with our latest work and impact
+    </p>
+
+    <div class="instagram-posts">
+      {
+        instagramPosts.map((post, index) => (
+          <div class="instagram-post" data-post-id={post.id}>
+            <div class="post-header">
+              <div class="profile-info">
+                <div class="profile-pic">
+                  <img src="/logos/icon.png" alt="Her Haq Logo" />
+                </div>
+                <span class="username">herhaqofficial</span>
+              </div>
+              <div class="post-menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="1" fill="currentColor" />
+                  <circle cx="19" cy="12" r="1" fill="currentColor" />
+                  <circle cx="5" cy="12" r="1" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="post-content">
+              {post.media_type === "CAROUSEL_ALBUM" && (
+                <div class="carousel-indicator">1/3</div>
+              )}
+
+              <div class="post-body">
+                <div class="post-logo">
+                  <img src="/logos/icon.png" alt="Her Haq Logo" />
+                </div>
+
+                <h3 class="post-title">Sample Post {index + 1}</h3>
+                <p class="post-description">
+                  This is a placeholder description for Instagram post content.
+                </p>
+              </div>
+            </div>
+
+            <div class="post-footer">
+              <div class="post-actions">
+                <button class="action-btn like-btn" data-post-id={post.id}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                  </svg>
+                </button>
+                <button class="action-btn comment-btn" data-post-id={post.id}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                  </svg>
+                </button>
+                <button class="action-btn share-btn" data-post-id={post.id}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M17 1l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M3 11v5a2 2 0 0 0 2 2h14"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="post-likes">
+                Liked by <strong>herhaqofficial</strong> and{" "}
+                <strong>others</strong>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="instagram-cta">
+      <a
+        href="https://instagram.com/herhaqofficial"
+        target="_blank"
+        class="btn-primary">Follow Us on Instagram</a
+      >
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add interactive functionality to Instagram posts
+  document.addEventListener("DOMContentLoaded", function () {
+    const likeButtons = document.querySelectorAll(".like-btn");
+    const commentButtons = document.querySelectorAll(".comment-btn");
+    const shareButtons = document.querySelectorAll(".share-btn");
+
+    // Like button functionality
+    likeButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const svg = this.querySelector("svg path");
+        const isLiked = svg.getAttribute("fill") === "currentColor";
+
+        if (isLiked) {
+          svg.setAttribute("fill", "none");
+          svg.setAttribute("stroke", "currentColor");
+        } else {
+          svg.setAttribute("fill", "currentColor");
+          svg.setAttribute("stroke", "none");
+        }
+      });
+    });
+
+    // Comment button functionality
+    commentButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const postId = this.getAttribute("data-post-id");
+        console.log("Comment on post:", postId);
+      });
+    });
+
+    // Share button functionality
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const postId = this.getAttribute("data-post-id");
+        console.log("Share post:", postId);
+      });
+    });
+  });
+</script>
+
+<style lang="scss">
+  @import "../styles/styles.scss";
+
+  .instagram-section {
+    padding: 5rem 0;
+    // background: #f8f9fa;
+    background: #fff;
+  }
+
+  .instagram-title {
+    font-weight: $font-weight-bold;
+    font-size: 2.5rem;
+    color: $primary;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    @include mobile {
+      font-size: 2rem;
+    }
+  }
+
+  .instagram-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include mobile {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .instagram-posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  .instagram-post {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid $primary;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+  }
+
+  .username {
+    font-weight: $font-weight-semibold;
+    color: #000;
+    font-size: 0.9rem;
+  }
+
+  .post-menu {
+    color: #000;
+    cursor: pointer;
+  }
+
+  .post-content {
+    position: relative;
+    min-height: 300px;
+    padding: 1.5rem;
+    background: white;
+  }
+
+  .carousel-indicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: $font-weight-medium;
+  }
+
+  .post-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+  }
+
+  .post-logo {
+    margin-bottom: 1rem;
+
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+  }
+
+  .post-title {
+    font-weight: $font-weight-bold;
+    font-size: 1.2rem;
+    color: $primary;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .post-description {
+    font-size: 0.9rem;
+    color: $primary;
+    line-height: 1.4;
+  }
+
+  .post-footer {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+  }
+
+  .post-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  .post-likes {
+    font-size: 0.9rem;
+    color: #000;
+
+    strong {
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  .instagram-cta {
+    text-align: center;
+  }
+</style>
