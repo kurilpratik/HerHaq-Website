@@ -42,7 +42,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
   </div>
 </nav>
 
-<div class="mobile-nav" id="mobile-nav" style="display:none">
+<div class="mobile-nav" id="mobile-nav">
   <div class="container">
     <ul>
       {
@@ -70,16 +70,33 @@ const normalizedCurrentPath = normalizePath(currentPath);
     const mobileNav = document.getElementById("mobile-nav");
 
     menu.addEventListener("click", () => {
-      if (mobileNav.style.display == "none") {
-        mobileNav.style.display = "block";
+      const isOpen = mobileNav.classList.contains("nav-open");
+
+      if (!isOpen) {
+        // Opening animation
+        mobileNav.classList.add("nav-open");
         menuIcon.src = "/close-icon.png";
         menuIcon.height = 36;
         menuIcon.width = 36;
+
+        // Add staggered animation to menu items
+        const menuItems = mobileNav.querySelectorAll("a");
+        menuItems.forEach((item, index) => {
+          item.style.animationDelay = `${index * 0.1}s`;
+          item.classList.add("slide-in");
+        });
       } else {
-        mobileNav.style.display = "none";
+        // Closing animation
+        mobileNav.classList.remove("nav-open");
         menuIcon.src = "/menu-icon.png";
         menuIcon.height = 42;
         menuIcon.width = 42;
+
+        // Remove animation classes
+        const menuItems = mobileNav.querySelectorAll("a");
+        menuItems.forEach((item) => {
+          item.classList.remove("slide-in");
+        });
       }
     });
   });
@@ -92,7 +109,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
     top: 0;
     left: 0;
     background-color: #fff;
-    z-index: 10;
+    z-index: 999;
     width: 100vw;
     display: flex;
     justify-content: space-between;
@@ -171,10 +188,15 @@ const normalizedCurrentPath = normalizePath(currentPath);
     .menu img {
       height: 36px;
       width: 36px;
+      transition: transform 0.3s ease;
+    }
+
+    .menu:hover img {
+      transform: scale(1.1);
     }
   }
+
   .mobile-nav {
-    display: none;
     width: 100vw;
     position: fixed;
     top: 64px; // Position below the fixed navbar
@@ -184,6 +206,12 @@ const normalizedCurrentPath = normalizePath(currentPath);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding-bottom: 0.5rem;
     box-sizing: content-box;
+
+    // Initial state - hidden
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     // Override container class constraints
     .container {
@@ -198,13 +226,20 @@ const normalizedCurrentPath = normalizePath(currentPath);
       }
     }
 
+    // Open state
+    &.nav-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
     ul {
       width: 100%;
-      //height: $nav-height*1.5;
       display: flex;
       flex-wrap: wrap;
       padding: 0;
       justify-content: center;
+
       a {
         display: block;
         width: 100%;
@@ -216,6 +251,8 @@ const normalizedCurrentPath = normalizePath(currentPath);
         font-weight: $font-weight-bold;
         font-weight: 600;
         transition: all 0.3s ease;
+        transform: translateX(-20px);
+        opacity: 0;
 
         &:focus {
           border: 2px lightblue solid;
@@ -227,12 +264,17 @@ const normalizedCurrentPath = normalizePath(currentPath);
           border-left: 3px solid $primary;
           font-weight: 700;
         }
-      }
-      .l {
-        //text-align: left;
-      }
-      .r {
-        //text-align: right;
+
+        // Slide in animation
+        &.slide-in {
+          animation: slideInFromLeft 0.5s ease forwards;
+        }
+
+        // Hover effect
+        &:hover {
+          background-color: rgba($primary, 0.05);
+          transform: translateX(0) scale(1.02);
+        }
       }
 
       li {
@@ -241,7 +283,30 @@ const normalizedCurrentPath = normalizePath(currentPath);
     }
 
     @include mobile {
-      display: none;
+      display: block;
+    }
+  }
+
+  // Keyframe animations
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
     }
   }
 </style>
