@@ -1,5 +1,11 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import { researchData } from "../data/researchData.js";
+
+// Make researchData available to the client-side script
+if (typeof window !== "undefined") {
+  window.researchData = researchData;
+}
 ---
 
 <MainLayout
@@ -19,15 +25,239 @@ import MainLayout from "../layouts/MainLayout.astro";
             to empower advocates, policymakers, and citizens alike.
           </p>
         </div>
-        <!-- <div class="about-image">
-          <img src={"/banner/about.jpeg"} alt="About Her Haq" />
-        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Display Section -->
+  <section class="research-display-section">
+    <div class="container">
+      <!-- Category Filters -->
+      <div class="category-filters">
+        <div class="category-group">
+          <h3 class="category-title">REPORTS</h3>
+          <div class="dropdown">
+            <select class="category-dropdown">
+              <option value="all">All Reports</option>
+              <option value="digital-safety">Digital Safety</option>
+              <option value="budget">Budget Analysis</option>
+              <option value="policy">Policy Analysis</option>
+            </select>
+          </div>
+        </div>
+        <div class="category-group">
+          <h3 class="category-title">POLICY BRIEFS</h3>
+          <div class="dropdown">
+            <select class="category-dropdown">
+              <option value="all">All Policy Briefs</option>
+              <option value="gender-budget">Gender Budget</option>
+              <option value="mission-shakti">Mission Shakti</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research Carousels -->
+      <div class="research-carousels">
+        <!-- Reports Carousel -->
+        <div class="carousel-section">
+          <div class="carousel-container" id="reports-carousel">
+            <div class="carousel-wrapper">
+              {
+                researchData.map((research, index) => (
+                  <div
+                    class="research-card"
+                    data-index={index}
+                    data-type="report"
+                  >
+                    <div class="card-image">
+                      <img src={research.img} alt={research.title} />
+                    </div>
+                    <h4 class="card-title">{research.title}</h4>
+                  </div>
+                ))
+              }
+            </div>
+            <button class="carousel-nav prev" data-carousel="reports-carousel">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 18L9 12L15 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <button class="carousel-nav next" data-carousel="reports-carousel">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 18L15 12L9 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expanded Research View -->
+      <div class="expanded-research">
+        <div class="expanded-content">
+          <button class="expanded-nav prev" id="expanded-prev">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          <div class="expanded-details">
+            <div class="expanded-image">
+              <img
+                src="/placeholder-research.png"
+                alt="Research Image"
+                id="expanded-img"
+              />
+            </div>
+            <div class="expanded-text">
+              <h3 class="expanded-title" id="expanded-title">
+                SPRF Commentary
+              </h3>
+              <p class="expanded-description" id="expanded-description">
+                The article uses budget documents and scheme-level analysis to
+                critically examine the Gender Budget in India, unpacking how its
+                components are calculated and whether they truly reflect
+                investments in women's empowerment. It calls for a re-evaluation
+                of what qualifies as gender-specific spending, greater
+                transparency in beneficiary tracking, and increased funding for
+                schemes that directly and solely benefit women.
+              </p>
+              <a href="#" class="read-full-article" id="read-full-link"
+                >Read Full Article →</a
+              >
+            </div>
+          </div>
+
+          <button class="expanded-nav next" id="expanded-next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M9 18L15 12L9 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </section>
 </MainLayout>
+
+<script define:vars={{ researchData }}>
+  let currentResearchIndex = 1; // Start with SPRF Commentary as shown in image
+
+  // Initialize the page
+  document.addEventListener("DOMContentLoaded", function () {
+    updateExpandedView();
+    setupCarouselInteractions();
+    setupExpandedNavigation();
+  });
+
+  function updateExpandedView() {
+    const research = researchData[currentResearchIndex];
+    document.getElementById("expanded-title").textContent = research.title;
+    document.getElementById("expanded-description").textContent =
+      research.description;
+    document.getElementById("read-full-link").href = research.link;
+    let category = research.category;
+    if (category === "report") {
+      document.getElementById("read-full-link").textContent =
+        "Read Full Report →";
+    } else {
+      document.getElementById("read-full-link").textContent =
+        "Read Full Policy →";
+    }
+    document.getElementById("expanded-img").src = research.img;
+  }
+
+  function setupCarouselInteractions() {
+    const researchCards = document.querySelectorAll(".research-card");
+    researchCards.forEach((card, index) => {
+      card.addEventListener("click", function () {
+        currentResearchIndex = parseInt(this.dataset.index);
+        updateExpandedView();
+
+        // Add active state
+        researchCards.forEach((c) => c.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+
+    // Set initial active state
+    if (researchCards[currentResearchIndex]) {
+      researchCards[currentResearchIndex].classList.add("active");
+    }
+  }
+
+  function setupExpandedNavigation() {
+    document
+      .getElementById("expanded-prev")
+      .addEventListener("click", function () {
+        currentResearchIndex =
+          (currentResearchIndex - 1 + researchData.length) %
+          researchData.length;
+        updateExpandedView();
+        updateActiveCard();
+      });
+
+    document
+      .getElementById("expanded-next")
+      .addEventListener("click", function () {
+        currentResearchIndex = (currentResearchIndex + 1) % researchData.length;
+        updateExpandedView();
+        updateActiveCard();
+      });
+  }
+
+  function updateActiveCard() {
+    const researchCards = document.querySelectorAll(".research-card");
+    researchCards.forEach((c) => c.classList.remove("active"));
+    if (researchCards[currentResearchIndex]) {
+      researchCards[currentResearchIndex].classList.add("active");
+    }
+  }
+
+  // Carousel navigation
+  document.querySelectorAll(".carousel-nav").forEach((button) => {
+    button.addEventListener("click", function () {
+      const carouselId = this.dataset.carousel;
+      const carousel = document.getElementById(carouselId);
+      const wrapper = carousel.querySelector(".carousel-wrapper");
+      const isNext = this.classList.contains("next");
+
+      const scrollAmount = 300; // Adjust based on card width
+      const currentScroll = wrapper.scrollLeft;
+      const newScroll = isNext
+        ? currentScroll + scrollAmount
+        : currentScroll - scrollAmount;
+
+      wrapper.scrollTo({
+        left: newScroll,
+        behavior: "smooth",
+      });
+    });
+  });
+</script>
+
 <style lang="scss">
   @import "../styles/styles.scss";
+
   .header-section {
     background: $primary;
     padding: 2rem 0;
@@ -67,24 +297,326 @@ import MainLayout from "../layouts/MainLayout.astro";
     }
   }
 
-  .header-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  // Research Display Section
+  .research-display-section {
+    padding: 3rem 0;
+    background: #fff;
   }
 
-  .header-image img {
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-    background: #eee;
+  .category-filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    gap: 2rem;
 
     @include mobile {
-      max-width: 100%;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+
+  .category-group {
+    flex: 1;
+  }
+
+  .category-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $primary;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .category-dropdown {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid $primary;
+    border-radius: 4px;
+    background: white;
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23891d1a' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+
+    &:focus {
+      outline: none;
+      border-color: darken($primary, 10%);
+    }
+  }
+
+  .research-carousels {
+    margin-bottom: 3rem;
+  }
+
+  .carousel-section {
+    margin-bottom: 2rem;
+  }
+
+  .carousel-container {
+    position: relative;
+    overflow: visible; // Changed from 'hidden' to 'visible'
+  }
+
+  .carousel-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 1rem 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .research-card {
+    flex: 0 0 450px; // impacts card width
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @include mobile {
+      flex: 0 0 320px;
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    &.active {
+      border: 2px solid $primary;
+      transform: translateY(-4px);
+    }
+  }
+
+  .card-image {
+    width: 100%;
+    height: 250px; // impacts card height
+    background: linear-gradient(135deg, #87ceeb 0%, #98fb98 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .card-title {
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin: 0;
+  }
+
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: $primary;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: darken($primary, 10%);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &.prev {
+      left: -20px;
+    }
+
+    &.next {
+      right: -20px;
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  // Expanded Research View
+  .expanded-research {
+    background: #f8f0f0;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    @include mobile {
+      padding-bottom: 5rem;
+    }
+  }
+
+  .expanded-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+
+  .expanded-nav {
+    // background: $primary;
+    // color: white;
+    // border: none;
+    // width: 50px;
+    // height: 50px;
+    // border-radius: 50%;
+    // cursor: pointer;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // transition: all 0.3s ease;
+    // flex-shrink: 0;
+
+    // &:hover {
+    //   background: darken($primary, 10%);
+    //   transform: scale(1.1);
+    // }
+
+    // @include mobile {
+    //   width: 40px;
+    //   height: 40px;
+    // }
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: $primary;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    @include mobile {
+      top: auto;
+      bottom: 0;
+      transform: translateY(0%);
+    }
+
+    &:hover {
+      background: darken($primary, 10%);
+      transform: translateY(-50%) scale(1.1);
+      @include mobile {
+        transform: none;
+      }
+    }
+
+    &.prev {
+      left: -55px;
+      @include mobile {
+        left: 0;
+        bottom: -60px;
+      }
+    }
+
+    &.next {
+      right: -55px;
+      @include mobile {
+        right: 0;
+        bottom: -60px;
+      }
+    }
+  }
+
+  .expanded-details {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+
+  .expanded-image {
+    flex: 0 0 400px;
+    height: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #87ceeb 0%, #98fb98 100%);
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @include mobile {
+      flex: none;
+      width: 100%;
+      height: 300px;
+    }
+  }
+
+  .expanded-text {
+    flex: 1;
+  }
+
+  .expanded-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+
+  .expanded-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .read-full-article {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: darken($primary, 10%);
+      text-decoration: underline;
     }
   }
 </style>
