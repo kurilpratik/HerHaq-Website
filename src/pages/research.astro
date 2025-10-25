@@ -1,0 +1,90 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout
+  title="Research"
+  description="Research to inform laws, platforms, and governance that better serve women and marginalised communities."
+>
+  <!-- Research Header Section -->
+  <section class="header-section">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-text">
+          <h1 class="header-title">RESEARCH</h1>
+          <p class="header-description">
+            Her Haq conducts research to inform laws, platforms, and governance
+            that better serve women and marginalised communities. We believe
+            knowledge should be a public good, and we share our insights openly
+            to empower advocates, policymakers, and citizens alike.
+          </p>
+        </div>
+        <!-- <div class="about-image">
+          <img src={"/banner/about.jpeg"} alt="About Her Haq" />
+        </div> -->
+      </div>
+    </div>
+  </section>
+</MainLayout>
+<style lang="scss">
+  @import "../styles/styles.scss";
+  .header-section {
+    background: $primary;
+    padding: 2rem 0;
+    color: #fff;
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  .header-text {
+    flex: 1;
+  }
+
+  .header-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .header-description {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    em {
+      font-style: italic;
+      font-weight: 600;
+    }
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  .header-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-image img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    background: #eee;
+
+    @include mobile {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+</style>
