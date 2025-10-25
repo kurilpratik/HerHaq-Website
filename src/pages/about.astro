@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import MainLayout from "../layouts/MainLayout.astro";
+import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
 ---
 
 <MainLayout title="About" description="About Her Haq">
@@ -11,15 +12,12 @@ import MainLayout from "../layouts/MainLayout.astro";
         <div class="about-text">
           <h1 class="about-title">ABOUT US</h1>
           <p class="about-description">
-            <em>Her Haq</em> began in 2019 as Girl Up Rise, when <em>Aanya</em> and
-            <em>Soumya</em> met at Lady Shri Ram College and bonded over a shared
-            vision of gender justice. What started as a student-led initiative has
-            grown into a youth-powered nonprofit working across six states, leading
-            community-driven programs advancing<strong
-              ><em>
-                women's rights, public dialogue, and grassroots research</em
-              ></strong
-            >
+            What started as a student-led initiative has evolved into a
+            youth-powered nonprofit operating across six states, leading
+            community-driven programs that advance <strong
+              >women's rights, public dialogue, and grassroots research</strong
+            >. We centre lived experience, shift power, and build structures
+            that last.
             <!-- We center lived experience, shift power, and build structures that last. -->
           </p>
         </div>
@@ -120,93 +118,51 @@ import MainLayout from "../layouts/MainLayout.astro";
         </div>
 
         <div class="how-we-work-steps">
-          <div class="step">
-            <div class="step-number">
-              <span class="step-icon">1</span>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Start with Listening</h3>
-              <p class="step-description">
-                We engage with women and girls in classrooms, communities, and
-                online to understand what is missing, working, and needs change.
-                This is foundational, not tokenistic.
-              </p>
-            </div>
-          </div>
+          {
+            howWeWorkSteps.map((step) => (
+              <div class="step">
+                <div class="step-number">
+                  <span class="step-icon">{step.number}</span>
+                </div>
+                <div class="step-content">
+                  <h3 class="step-title">{step.title}</h3>
+                  <p class="step-description">{step.description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
 
-          <div class="step">
-            <div class="step-number">
-              <span class="step-icon">2</span>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Co-create What is Needed</h3>
-              <p class="step-description">
-                Design emerges from lived experience. We develop practical,
-                participatory tools, workshops, and resources—menstrual hygiene
-                campaigns, digital safety guides, policy briefs—grounded in real
-                needs.
-              </p>
-            </div>
+  <!-- SDGs Section -->
+  <section class="sdgs-section">
+    <div class="container">
+      <div class="sdgs-content">
+        <div class="sdgs-grid">
+          <div class="sdg-item">
+            <img src="/sdgs/3.png" alt="SDG 3: Good Health and Well-being" />
+            <!-- <h4>GOOD HEALTH AND WELL-BEING</h4> -->
           </div>
-
-          <div class="step">
-            <div class="step-number">
-              <span class="step-icon">3</span>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Build Capacity, Not Dependency</h3>
-              <p class="step-description">
-                We focus on long-term empowerment. Programs are designed to
-                equip people to advocate, navigate systems, and share knowledge.
-                We strengthen agency through access to resources and policy
-                knowledge.
-              </p>
-            </div>
+          <div class="sdg-item">
+            <img src="/sdgs/4.png" alt="SDG 4: Quality Education" />
+            <!-- <h4>QUALITY EDUCATION</h4> -->
           </div>
-
-          <div class="step">
-            <div class="step-number">
-              <span class="step-icon">4</span>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Bridge Grassroots & Governance</h3>
-              <p class="step-description">
-                We connect micro-level insights to macro-level change. We
-                translate on-the-ground learning into evidence, campaigns, and
-                conversations that advocate for better laws, safer platforms,
-                and more inclusive systems.
-              </p>
-            </div>
+          <div class="sdg-item">
+            <img src="/sdgs/5.png" alt="SDG 5: Gender Equality" />
+            <!-- <h4>GENDER EQUALITY</h4> -->
           </div>
-
-          <div class="step">
-            <div class="step-number">
-              <span class="step-icon">5</span>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Create Space for Dialogue</h3>
-              <p class="step-description">
-                Conversation drives change. We convene communities, experts, and
-                institutions through events like Haq Summit, Charcha, and
-                small-format gatherings. These are spaces for listening,
-                reflection, and collaborative solution-finding—incubators for
-                collective strategy.
-              </p>
-            </div>
+          <div class="sdg-item">
+            <img src="/sdgs/10.png" alt="SDG 10: Reduced Inequalities" />
+            <!-- <h4>REDUCED INEQUALITIES</h4> -->
           </div>
-
-          <div class="step">
-            <div class="step-number">
-              <span class="step-icon">6</span>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Stay Flexible, Stay Rooted</h3>
-              <p class="step-description">
-                Communities, needs, and systems are dynamic. Our work remains
-                adaptive, driven by feedback, open to iteration, and always
-                accountable to the people we serve.
-              </p>
-            </div>
+          <div class="sdg-item">
+            <img
+              src="/sdgs/16.png"
+              alt="SDG 16: Peace, Justice and Strong Institutions"
+            />
+            <!-- <h4>PEACE, JUSTICE AND STRONG INSTITUTIONS</h4> -->
           </div>
         </div>
       </div>
@@ -226,7 +182,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 3rem;
     @include mobile {
       flex-direction: column;
       text-align: center;
@@ -264,7 +220,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 
   .about-image img {
     width: 100%;
-    height: auto;
+    height: 70%;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
@@ -359,7 +315,7 @@ import MainLayout from "../layouts/MainLayout.astro";
       font-size: 1rem;
       line-height: 1.25;
       margin-bottom: 1.5rem;
-      color: $primary;
+      color: blacl;
       text-align: justify;
       @include mobile {
         font-size: 1rem;
@@ -374,7 +330,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 
   // How We Work Section Styles
   .how-we-work-section {
-    background: #f9f9f9;
+    background: #ffe6dc;
     padding: 4rem 0;
     color: #333;
   }
@@ -405,8 +361,10 @@ import MainLayout from "../layouts/MainLayout.astro";
   .how-we-work-intro {
     font-size: 1.2rem;
     line-height: 1.7;
-    color: #666;
+    color: #000;
     margin-bottom: 2rem;
+    max-width: 60%;
+    margin-inline: auto;
     @include mobile {
       font-size: 1rem;
       line-height: 1.6;
@@ -415,7 +373,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 
   .how-we-work-steps {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     @include mobile {
       gap: 1.5rem;
@@ -426,6 +384,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
+    text-align: left;
     @include mobile {
       flex-direction: column;
       align-items: center;
@@ -473,5 +432,58 @@ import MainLayout from "../layouts/MainLayout.astro";
       font-size: 0.9rem;
       line-height: 1.4;
     }
+  }
+
+  /* SDGs Section Styles */
+  .sdgs-section {
+    background: #ffe6dc;
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .sdgs-content {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .sdgs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 4px;
+    justify-content: center;
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  .sdg-item {
+    text-align: center;
+    height: 200px;
+    width: 200px;
+    // padding: 1.5rem;
+    background: #fff;
+    // border-radius: 10px;
+    // box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  .sdg-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin-bottom: 1rem;
+  }
+
+  .sdg-item h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 0.5rem;
   }
 </style>
