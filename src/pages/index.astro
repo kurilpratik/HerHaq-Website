@@ -29,15 +29,15 @@ import InstagramPosts from "../components/InstagramPosts.astro";
       <!-- Statistics -->
       <div class="stats-container">
         <div class="stat-item">
-          <div class="stat-number">30+</div>
+          <div class="stat-number" data-target="30" data-suffix="+">0+</div>
           <div class="stat-label">Partners</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number">10+</div>
+          <div class="stat-number" data-target="10" data-suffix="+">0+</div>
           <div class="stat-label">Cities</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number">1000+</div>
+          <div class="stat-number" data-target="1000" data-suffix="+">0+</div>
           <div class="stat-label">Beneficiaries</div>
         </div>
       </div>
@@ -228,3 +228,66 @@ import InstagramPosts from "../components/InstagramPosts.astro";
     font-style: italic;
   }
 </style>
+
+<script>
+  // Animation function to count up from 0 to target number
+  function animateNumber(
+    element: HTMLElement,
+    target: number,
+    suffix: string,
+    duration: number,
+  ) {
+    const start = 0;
+    const increment = target / (duration / 16); // 60fps assumption
+    let current = start;
+
+    const updateNumber = () => {
+      current += increment;
+      if (current < target) {
+        element.textContent = Math.floor(current) + suffix;
+        requestAnimationFrame(updateNumber);
+      } else {
+        element.textContent = target + suffix;
+      }
+    };
+
+    updateNumber();
+  }
+
+  // Intersection Observer to trigger animation when stats come into view
+  document.addEventListener("DOMContentLoaded", () => {
+    const statNumbers = document.querySelectorAll(
+      ".stat-number",
+    ) as NodeListOf<HTMLElement>;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
+            const targetValue = parseInt(
+              target.getAttribute("data-target") || "0",
+            );
+            const suffix = target.getAttribute("data-suffix") || "";
+
+            // Only animate if not already animated
+            if (!target.classList.contains("animated")) {
+              target.classList.add("animated");
+              animateNumber(target, targetValue, suffix, 1500); // 1.5 second duration
+            }
+
+            // Stop observing once animated
+            observer.unobserve(target);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of the element is visible
+      },
+    );
+
+    statNumbers.forEach((stat) => {
+      observer.observe(stat);
+    });
+  });
+</script>
