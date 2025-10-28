@@ -1,5 +1,6 @@
 ---
-// Footer component with logo, important links, and social media links
+import navbarData from "../data/navbarData.js";
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
@@ -19,12 +20,13 @@
       <div class="footer-column">
         <h3 class="footer-heading">Important Links</h3>
         <ul class="footer-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About Us</a></li>
-          <!-- <li><a href="/research">Research</a></li> -->
-          <li><a href="/events">Events</a></li>
-          <!-- <li><a href="/team">Team</a></li> -->
-          <li><a href="/contact">Contact Us</a></li>
+          {
+            navbarData.map((item) => (
+              <li>
+                <a href={item.path}>{item.name}</a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
@@ -81,7 +83,7 @@
 
     <!-- Copyright Section -->
     <div class="footer-bottom">
-      <p>&copy; 2025 HerHaq. All rights reserved.</p>
+      <p>&copy; {currentYear} HerHaq. All rights reserved.</p>
     </div>
   </div>
 </footer>
@@ -113,12 +115,8 @@
         margin-bottom: 1rem;
 
         img {
-          height: 60px;
+          height: 36px;
           width: auto;
-
-          @include mobile {
-            height: 50px;
-          }
         }
       }
 
@@ -127,6 +125,10 @@
         line-height: 1.6;
         opacity: 0.9;
         margin-bottom: 1rem;
+        width: 60%;
+        @include mobile {
+          width: 100%;
+        }
       }
 
       .footer-heading {
