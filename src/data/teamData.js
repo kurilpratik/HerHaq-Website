@@ -18,7 +18,7 @@ const teamData = {
   ],
   coreTeam: [
     {
-      name: "ANVIATA PLAWAT",
+      name: "ANVITA PLAWAT",
       title: "HEAD OF COMMUNICATIONS",
       imageUrl: "/assets/team/Arshia.jpg",
     },

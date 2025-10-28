@@ -1,12 +1,40 @@
 ---
+import { Image } from "astro:assets";
 import MainLayout from "../layouts/MainLayout.astro";
 import teamData from "../data/teamData";
+
+// Import hero banner image
+import heroBanner from "../../public/banner/home.jpg";
+
+// Import all team member images
+import aanyaWig from "../../assets/team/Aanya Wig.jpg";
+import soumyaSinghal from "../../assets/team/Soumya Singhal_.jpg";
+import yagnesh from "../../assets/team/Yagnesh Sharma_.jpg";
+import arshia from "../../assets/team/Arshia.jpg";
+import deepanshi from "../../assets/team/Deepanshi.png";
+import mehakSaini from "../../assets/team/Mehak Saini.png";
+
+// Create a mapping object for team member images
+const teamImages = {
+  "/assets/team/Aanya Wig.jpg": aanyaWig,
+  "/assets/team/Soumya Singhal_.jpg": soumyaSinghal,
+  "/assets/team/Yagnesh Sharma_.jpg": yagnesh,
+  "/assets/team/Arshia.jpg": arshia,
+  "/assets/team/Deepanshi.png": deepanshi,
+  "/assets/team/Mehak Saini.png": mehakSaini,
+};
 ---
 
 <MainLayout title="Our Team" description="The Her Haq Team">
   <section class="hero">
     <div class="hero-background">
-      <img src="/banner/home.jpg" alt="Empowering Women" class="hero-image" />
+      <Image
+        src={heroBanner}
+        alt="Empowering Women"
+        class="hero-image"
+        width={1920}
+        height={1080}
+      />
       <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
@@ -32,10 +60,13 @@ import teamData from "../data/teamData";
             teamData.trustees.map((member) => (
               <div class="team-member">
                 <div class="team-member-image-wrapper">
-                  <img
-                    src={member.imageUrl}
+                  <Image
+                    src={teamImages[member.imageUrl]}
                     alt={member.name}
                     class="team-member-image"
+                    width={250}
+                    height={250}
+                    loading="lazy"
                   />
                 </div>
                 <h3 class="team-member-name">{member.name}</h3>
@@ -54,10 +85,13 @@ import teamData from "../data/teamData";
             teamData.coreTeam.map((member) => (
               <div class="team-member">
                 <div class="team-member-image-wrapper">
-                  <img
-                    src={member.imageUrl}
+                  <Image
+                    src={teamImages[member.imageUrl]}
                     alt={member.name}
                     class="team-member-image"
+                    width={250}
+                    height={250}
+                    loading="lazy"
                   />
                 </div>
                 <h3 class="team-member-name">{member.name}</h3>
@@ -135,8 +169,8 @@ import teamData from "../data/teamData";
   }
 
   .team-member-image-wrapper {
-    width: 250px;
-    height: 250px;
+    // width: 250px;
+    // height: 250px;
     margin: 0 auto 1.5rem;
     overflow: hidden;
     // border: 4px solid $primary;
