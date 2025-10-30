@@ -154,62 +154,86 @@ import MainLayout from "../layouts/MainLayout.astro";
   </section>
   <!-- Netlify Contact Form Section -->
   <div class="contact-form-section">
-    <h2 class="form-title">Get In Touch With Us</h2>
-    <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      class="contact-form"
-    >
-      <input type="hidden" name="form-name" value="contact" />
-      <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-      </p>
-      <input
-        type="text"
-        name="name"
-        placeholder="Your Full Name"
-        required
-        class="form-input"
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Your Email Address"
-        required
-        class="form-input"
-      />
-      <input
-        type="text"
-        name="subject"
-        placeholder="Subject: Volunteer work/ Collaboration"
-        required
-        class="form-input"
-      />
-      <textarea
-        name="message"
-        placeholder="Your Message Here"
-        required
-        class="form-input"
-        rows="4"></textarea>
-      <button
-        type="submit"
-        value="submit"
-        class="btn-primary"
-        style="margin-top: .5rem;">Submit</button
-      >
-    </form>
+    <div class="contact-form-wrapper">
+      <!-- Quote Section -->
+      <div class="quote-section playfair-display-font">
+        <div class="quote-mark quote-mark-open">&ldquo;</div>
+        <p class="quote-text">
+          We listen, we build, we advocate—reach out to start a conversation
+          with us.
+        </p>
+        <div class="quote-mark quote-mark-close">&rdquo;</div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="form-container">
+        <h2 class="form-title">Get In Touch With Us</h2>
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="contact-form"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden">
+            <label>
+              Don't fill this out if you're human: <input name="bot-field" />
+            </label>
+          </p>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Full Name"
+            required
+            class="form-input"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email Address"
+            required
+            class="form-input"
+          />
+          <input
+            type="text"
+            name="subject"
+            placeholder="Subject: Volunteer work/ Collaboration"
+            required
+            class="form-input"
+          />
+          <textarea
+            name="message"
+            placeholder="Your Message Here"
+            required
+            class="form-input"
+            rows="4"></textarea>
+          <button
+            type="submit"
+            value="submit"
+            class="btn-primary"
+            style="margin-top: .5rem;">Submit</button
+          >
+        </form>
+      </div>
+    </div>
   </div>
 </MainLayout>
 
 <style lang="scss">
+  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap");
   @import "../styles/styles.scss";
+
+  .playfair-display-font {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
   .hero {
     position: relative;
-    min-height: 100vh;
+    height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -217,53 +241,8 @@ import MainLayout from "../layouts/MainLayout.astro";
     padding: 80px 0 40px 0; // Add padding to account for navbar and spacing
   }
 
-  .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
-
-  .hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 2;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    color: white;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
-    width: 100%;
-  }
-
-  .hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 3rem; // Increased margin to create space for contact boxes
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background: rgba($color: #000, $alpha: 0.4);
   }
 
   // Remove the absolute positioning and make it flow naturally
@@ -339,42 +318,93 @@ import MainLayout from "../layouts/MainLayout.astro";
 
   .contact-form-section {
     margin: 3rem auto 0 auto;
-    max-width: 480px; // scaled down from 700px
-    padding: 1.5rem 0.5rem 2rem 0.5rem;
+    max-width: 1200px;
+    padding: 1.5rem 20px 2rem 20px;
     background: #fff;
     border-radius: 0;
     text-align: center;
   }
 
+  .contact-form-wrapper {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .quote-section {
+    flex: 1;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .quote-mark {
+    font-size: 8rem;
+    color: #d4a5a5;
+    line-height: 0.25;
+  }
+
+  .quote-mark-open {
+    align-self: flex-start;
+    margin-bottom: -1rem;
+  }
+
+  .quote-mark-close {
+    align-self: center;
+    margin-top: -1rem;
+    margin-left: -4rem;
+  }
+
+  .quote-text {
+    font-size: 2.5rem;
+    font-style: italic;
+    color: #8e2e2e;
+    line-height: 1.4;
+    margin: 0;
+    text-align: left;
+    width: 80%;
+  }
+
+  .form-container {
+    flex: 1;
+    min-width: 400px;
+  }
+
   .form-title {
     color: $primary;
-    font-size: 2rem; // scaled down from 2.5rem
+    font-size: 2rem;
     font-weight: bold;
     margin-bottom: 2rem;
+    text-align: left;
   }
 
   .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem; // reduced gap
+    gap: 1.2rem;
     align-items: stretch;
   }
 
   .form-input {
     font-size: 1.1rem; // scaled down from 1.7rem
-    border: 2px solid $primary;
     border-radius: 2rem;
+    border: none;
     padding: 0.7rem 1.2rem; // reduced padding
     outline: none;
     color: $primary;
-    background: #fff;
+    background: rgba($color: #d9d9d9, $alpha: 0.5);
     width: 100%;
     font-family: inherit;
     transition: border-color 0.2s;
   }
 
   .form-input:focus {
-    border-color: #a94436;
+    border: 2px solid $primary;
   }
 
   .hidden {
@@ -385,6 +415,27 @@ import MainLayout from "../layouts/MainLayout.astro";
   @media (max-width: 768px) {
     .hero {
       padding: 60px 0 30px 0;
+    }
+
+    .contact-form-wrapper {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .quote-section {
+      min-width: 100%;
+    }
+
+    .quote-text {
+      font-size: 1.5rem;
+    }
+
+    .quote-mark {
+      font-size: 5rem;
+    }
+
+    .form-container {
+      min-width: 100%;
     }
 
     .contact-boxes {
@@ -413,6 +464,14 @@ import MainLayout from "../layouts/MainLayout.astro";
   @media (max-width: 480px) {
     .hero {
       padding: 50px 0 20px 0;
+    }
+
+    .quote-text {
+      font-size: 1.25rem;
+    }
+
+    .quote-mark {
+      font-size: 4rem;
     }
 
     .contact-boxes {
