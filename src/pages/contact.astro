@@ -157,12 +157,12 @@ import MainLayout from "../layouts/MainLayout.astro";
     <div class="contact-form-wrapper">
       <!-- Quote Section -->
       <div class="quote-section playfair-display-font">
-        <div class="quote-mark quote-mark-open">&ldquo;</div>
+        <!-- <div class="quote-mark quote-mark-open">&ldquo;</div> -->
         <p class="quote-text">
           We listen, we build, we advocate—reach out to start a conversation
           with us.
         </p>
-        <div class="quote-mark quote-mark-close">&rdquo;</div>
+        <!-- <div class="quote-mark quote-mark-close">&rdquo;</div> -->
       </div>
 
       <!-- Form Section -->
@@ -239,6 +239,9 @@ import MainLayout from "../layouts/MainLayout.astro";
     justify-content: center;
     overflow: hidden;
     padding: 80px 0 40px 0; // Add padding to account for navbar and spacing
+    @include mobile {
+      height: 85vh;
+    }
   }
 
   .hero-overlay {
@@ -259,6 +262,9 @@ import MainLayout from "../layouts/MainLayout.astro";
     gap: 30px;
     // flex-wrap: wrap;
     margin: 0 auto;
+    @include mobile {
+      scale: 0.85;
+    }
   }
 
   .contact-box-link {
@@ -328,7 +334,7 @@ import MainLayout from "../layouts/MainLayout.astro";
   .contact-form-wrapper {
     display: flex;
     gap: 3rem;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -340,34 +346,77 @@ import MainLayout from "../layouts/MainLayout.astro";
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    // padding: 2rem;
+    position: relative;
+    @include mobile {
+      padding-block: 4rem;
+    }
   }
 
-  .quote-mark {
-    font-size: 8rem;
-    color: #d4a5a5;
-    line-height: 0.25;
-  }
+  // .quote-mark {
+  //   font-size: 8rem;
+  //   color: #d4a5a5;
+  //   line-height: 0.25;
+  // }
 
-  .quote-mark-open {
-    align-self: flex-start;
-    margin-bottom: -1rem;
-  }
+  // .quote-mark-open {
+  //   align-self: flex-start;
+  //   margin-bottom: -1rem;
+  // }
 
-  .quote-mark-close {
-    align-self: center;
-    margin-top: -1rem;
-    margin-left: -4rem;
-  }
+  // .quote-mark-close {
+  //   align-self: center;
+  //   margin-top: -1rem;
+  //   margin-left: -4rem;
+  // }
 
   .quote-text {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-style: italic;
-    color: #8e2e2e;
+    color: $primary;
     line-height: 1.4;
     margin: 0;
     text-align: left;
-    width: 80%;
+    width: 70%;
+    margin-left: 2rem;
+    @include mobile {
+      font-size: 4rem;
+      width: 90%;
+    }
+  }
+
+  .quote-text::before,
+  .quote-text::after {
+    position: absolute;
+    font-family: "Playfair Display", serif;
+    font-style: normal;
+    color: #d4a5a5;
+    font-size: 10rem; /* will scale visually */
+    line-height: 0;
+    z-index: 1; /* keep behind text */
+    @include mobile {
+      font-size: 6rem;
+    }
+  }
+
+  .quote-text::before {
+    content: "“";
+    top: 1rem;
+    left: 2rem;
+    @include mobile {
+      top: 3rem;
+      left: 0rem;
+    }
+  }
+
+  .quote-text::after {
+    content: "”";
+    bottom: -2rem;
+    right: 4rem;
+    @include mobile {
+      bottom: 0rem;
+      right: 1rem;
+    }
   }
 
   .form-container {
@@ -401,6 +450,10 @@ import MainLayout from "../layouts/MainLayout.astro";
     width: 100%;
     font-family: inherit;
     transition: border-color 0.2s;
+    @include mobile {
+      font-size: 0.8rem;
+      border-radius: 1rem;
+    }
   }
 
   .form-input:focus {
@@ -409,6 +462,10 @@ import MainLayout from "../layouts/MainLayout.astro";
 
   .hidden {
     display: none;
+  }
+
+  button {
+    width: 100%;
   }
 
   // Responsive design
