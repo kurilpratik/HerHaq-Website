@@ -1,6 +1,6 @@
 export const researchData = [
   {
-    title: "Her Haq Public Safety Report 2015",
+    title: "Women’s Safety In Public Transportation Report",
     img: "/research/public-safety-report-2015.png",
     link: "https://drive.google.com/file/d/1J7wakZl_49xCRyKzHqbIq9z-KOQ9ZtWI/view?usp=sharing",
     category: "report",
