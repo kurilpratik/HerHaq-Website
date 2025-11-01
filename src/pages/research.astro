@@ -57,51 +57,6 @@ if (typeof window !== "undefined") {
         </div>
       </div>
 
-      <!-- Research Carousels -->
-      <div class="research-carousels">
-        <!-- Reports Carousel -->
-        <div class="carousel-section">
-          <div class="carousel-container" id="reports-carousel">
-            <div class="carousel-wrapper">
-              {
-                researchData.map((research, index) => (
-                  <div
-                    class="research-card"
-                    data-index={index}
-                    data-type="report"
-                  >
-                    <div class="card-image">
-                      <img src={research.img} alt={research.title} />
-                    </div>
-                    <h4 class="card-title">{research.title}</h4>
-                  </div>
-                ))
-              }
-            </div>
-            <button class="carousel-nav prev" data-carousel="reports-carousel">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M15 18L9 12L15 6"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </svg>
-            </button>
-            <button class="carousel-nav next" data-carousel="reports-carousel">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M9 18L15 12L9 6"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Expanded Research View -->
       <div class="expanded-research">
         <div class="expanded-content">
@@ -153,6 +108,51 @@ if (typeof window !== "undefined") {
                 stroke-linejoin="round"></path>
             </svg>
           </button>
+        </div>
+      </div>
+
+      <!-- Research Carousels -->
+      <div class="research-carousels">
+        <!-- Reports Carousel -->
+        <div class="carousel-section">
+          <div class="carousel-container" id="reports-carousel">
+            <div class="carousel-wrapper">
+              {
+                researchData.map((research, index) => (
+                  <div
+                    class="research-card"
+                    data-index={index}
+                    data-type="report"
+                  >
+                    <div class="card-image">
+                      <img src={research.img} alt={research.title} />
+                    </div>
+                    <h4 class="card-title">{research.title}</h4>
+                  </div>
+                ))
+              }
+            </div>
+            <button class="carousel-nav prev" data-carousel="reports-carousel">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 18L9 12L15 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <button class="carousel-nav next" data-carousel="reports-carousel">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 18L15 12L9 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
