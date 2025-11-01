@@ -3,34 +3,34 @@ const teamData = {
     {
       name: "AANYA WIG",
       title: "CO-FOUNDER",
-      imageUrl: "/assets/team/Aanya Wig.jpg",
+      imageUrl: "/team/aanya.jpg",
     },
     {
       name: "SOUMYA SINGHAL",
       title: "CO-FOUNDER",
-      imageUrl: "/assets/team/Soumya Singhal_.jpg",
+      imageUrl: "/team/soumya.jpg",
     },
     {
       name: "YAGNESH",
       title: "MEMBER",
-      imageUrl: "/assets/team/Yagnesh Sharma_.jpg",
+      imageUrl: "/team/yagnesh.jpg",
     },
   ],
   coreTeam: [
     {
       name: "ANVITA PLAWAT",
       title: "HEAD OF COMMUNICATIONS",
-      imageUrl: "/assets/team/Arshia.jpg",
+      imageUrl: "/team/anvita.jpg",
     },
     {
       name: "RIHAN SHAREEF",
       title: "HEAD OF POLICY",
-      imageUrl: "/assets/team/Deepanshi.png",
+      imageUrl: "/team/rihan.jpeg",
     },
     {
       name: "SHITIZ PATNAIK",
       title: "HEAD OF PARTNERSHIPS",
-      imageUrl: "/assets/team/Mehak Saini.png",
+      imageUrl: "/team/shitiz.jpg",
     },
   ],
 };
