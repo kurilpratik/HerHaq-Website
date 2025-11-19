@@ -189,8 +189,12 @@ const instagramPosts: InstagramPost[] = [
 
   .instagram-section {
     padding: 5rem 0;
+    padding-top: 1rem;
     // background: #f8f9fa;
     background: #fff;
+    @include mobile {
+      padding-top: 0;
+    }
   }
 
   .instagram-title {

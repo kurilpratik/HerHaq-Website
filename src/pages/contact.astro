@@ -430,6 +430,9 @@ import MainLayout from "../layouts/MainLayout.astro";
     font-weight: bold;
     margin-bottom: 2rem;
     text-align: left;
+    @include mobile {
+      text-align: center;
+    }
   }
 
   .contact-form {
