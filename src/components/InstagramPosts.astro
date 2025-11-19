@@ -6,36 +6,33 @@ interface InstagramPost {
   id: string;
   caption: string;
   media_url: string;
-  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  // media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
   permalink: string;
-  timestamp: string;
+  // timestamp: string;
 }
 
 // Static data with placeholder content
 const instagramPosts: InstagramPost[] = [
   {
     id: "1",
-    caption: "Sample Instagram post caption",
-    media_url: "/banner/home.jpg",
-    media_type: "CAROUSEL_ALBUM",
-    permalink: "https://instagram.com/herhaqofficial",
-    timestamp: "2024-01-15T10:00:00Z",
+    caption: "Her-Haq-Sexism",
+    media_url:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763588715/1_ttl1lu.png",
+    permalink: "https://www.instagram.com/p/DNyIwQK5n73/?img_index=1",
   },
   {
     id: "2",
-    caption: "Another sample Instagram post",
-    media_url: "/banner/home.jpg",
-    media_type: "CAROUSEL_ALBUM",
-    permalink: "https://instagram.com/herhaqofficial",
-    timestamp: "2024-01-14T15:30:00Z",
+    caption: "Her-Haq-Woman",
+    media_url:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763588715/2_gwkcdq.jpg",
+    permalink: "https://www.instagram.com/p/DL-V8b8zwxf/?img_index=1",
   },
   {
     id: "3",
-    caption: "Third sample Instagram post",
-    media_url: "/banner/home.jpg",
-    media_type: "IMAGE",
-    permalink: "https://instagram.com/herhaqofficial",
-    timestamp: "2024-01-13T12:00:00Z",
+    caption: "Her-Haq-History",
+    media_url:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763588717/3_trhpah.png",
+    permalink: "https://www.instagram.com/p/DOT4z-CE9X1/?img_index=1",
   },
 ];
 ---
@@ -68,19 +65,12 @@ const instagramPosts: InstagramPost[] = [
             </div>
 
             <div class="post-content">
-              {post.media_type === "CAROUSEL_ALBUM" && (
+              {/*{post.media_type === "CAROUSEL_ALBUM" && (
                 <div class="carousel-indicator">1/3</div>
-              )}
+              )}*/}
 
               <div class="post-body">
-                <div class="post-logo">
-                  <img src="/logos/icon.png" alt="Her Haq Logo" />
-                </div>
-
-                <h3 class="post-title">Sample Post {index + 1}</h3>
-                <p class="post-description">
-                  This is a placeholder description for Instagram post content.
-                </p>
+                <img src={post.media_url} alt={post.caption} />
               </div>
             </div>
 
@@ -295,8 +285,9 @@ const instagramPosts: InstagramPost[] = [
 
   .post-content {
     position: relative;
-    min-height: 300px;
-    padding: 1.5rem;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0;
     background: white;
   }
 
@@ -310,15 +301,23 @@ const instagramPosts: InstagramPost[] = [
     border-radius: 4px;
     font-size: 0.8rem;
     font-weight: $font-weight-medium;
+    z-index: 10;
   }
 
   .post-body {
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    text-align: center;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
   }
 
   .post-logo {
