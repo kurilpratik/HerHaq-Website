@@ -22,7 +22,10 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
           </p>
         </div>
         <div class="about-image">
-          <img src={"/banner/about.jpeg"} alt="About Her Haq" />
+          <img
+            src="https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763670968/About_Us-min_b1o5q5.png"
+            alt="About Her Haq"
+          />
         </div>
       </div>
     </div>
@@ -37,30 +40,46 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
             <div class="visual-item">
               <div class="visual-placeholder">
                 <!-- Add your MHM DRIVES image here -->
-                <img src="/banner/mhm.jpeg" alt="MHM DRIVES" />
+                <img
+                  src="https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto:low/v1763670966/MHM-min_zofq71.png"
+                  alt="MHM DRIVES"
+                  loading="lazy"
+                />
               </div>
               <h3 class="visual-label">MHM DRIVES</h3>
             </div>
             <div class="visual-item">
               <div class="visual-placeholder">
                 <!-- Add your DIGITAL ADVOCACY image here -->
-                <img src="/banner/da.jpg" alt="DIGITAL ADVOCACY" />
+                <img
+                  src="https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto:low/v1763670967/Digital_Advocacy-min_wvmvzg.png"
+                  alt="DIGITAL ADVOCACY"
+                  loading="lazy"
+                />
               </div>
               <h3 class="visual-label">DIGITAL ADVOCACY</h3>
             </div>
             <div class="visual-item">
               <div class="visual-placeholder">
                 <!-- Add your RESEARCH & POLICY image here -->
-                <img src="/banner/rp.jpeg" alt="RESEARCH & POLICY" />
+                <img
+                  src="https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto:low/v1763670966/Policy-min_skydff.png"
+                  alt="RESEARCH & POLICY"
+                  loading="lazy"
+                />
               </div>
               <h3 class="visual-label">RESEARCH & POLICY</h3>
             </div>
             <div class="visual-item">
               <div class="visual-placeholder">
                 <!-- Add your EVENTS image here -->
-                <img src="/banner/e.jpeg" alt="EVENTS" />
+                <img
+                  src="https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto:low/v1763670976/Charcha-min_r7faul.png"
+                  alt="EVENTS"
+                  loading="lazy"
+                />
               </div>
-              <h3 class="visual-label">EVENTS</h3>
+              <h3 class="visual-label">CHARCHA</h3>
             </div>
           </div>
         </div>
@@ -140,6 +159,7 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
   <section class="sdgs-section">
     <div class="container">
       <div class="sdgs-content">
+        <img src="/logos/SDGLogo.png" alt="SDG Logo" class="sdg-logo" />
         <div class="sdgs-grid">
           <div class="sdg-item">
             <img src="/sdgs/3.png" alt="SDG 3: Good Health and Well-being" />
@@ -154,7 +174,7 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
             <!-- <h4>GENDER EQUALITY</h4> -->
           </div>
           <div class="sdg-item">
-            <img src="/sdgs/10.png" alt="SDG 10: Reduced Inequalities" />
+            <img src="/sdgs/10.webp" alt="SDG 10: Reduced Inequalities" />
             <!-- <h4>REDUCED INEQUALITIES</h4> -->
           </div>
           <div class="sdg-item">
@@ -444,6 +464,16 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
   .sdgs-content {
     max-width: 1100px;
     margin: 0 auto;
+  }
+
+  .sdg-logo {
+    max-width: 300px;
+    margin: 0 auto 2rem;
+    display: block;
+
+    @include mobile {
+      // max-width: 200px;
+    }
   }
 
   .sdgs-grid {
