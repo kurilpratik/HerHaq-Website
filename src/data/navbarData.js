@@ -11,10 +11,10 @@ const navbarData = [
     name: "Research",
     path: "/research",
   },
-  // {
-  //   name: "Events",
-  //   path: "/events",
-  // },
+  {
+    name: "Events",
+    path: "/events",
+  },
   {
     name: "Team",
     path: "/team",

@@ -1,48 +1,63 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import EventCalendar from "../components/EventCalendar.astro";
+import { Image } from "astro:assets";
 
 const events = [
   {
-    // date: "1st August, 2025",
-    date: "2025-07-01",
+    date: "1st November, 2025",
+    title: "HAQ Summit 2025: Her Right To Roam",
+    time: "5:30 PM",
+    description:
+      " In our second summit with 250+ attendees, we launched the report Between Stations: Women’s Everyday Negotiations of Mobility in the Delhi Metro, offering fresh insights into women’s daily experiences and safety in urban spaces. The event featured inspiring keynote addresses by Anjana Sinha (Retd. IPS) and Rakhee Gupta (IAS), alongside thought-provoking panels with leading public policy experts, academics, activists, and journalists",
+    info: "/event/info.png",
+    image:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763807087/HAQ_Summit_2025-min_ixhxmn.png",
+    link: "#",
+  },
+  {
+    date: "1st August, 2025",
+    // date: "2025-07-01",
     title: "Masculinity, Interrupted: Building Male Allyship",
     time: "5:30 PM",
     description:
-      "This time, we are exploring 'Masculinity, Interrupted: Building Male Allyship' - a dialogue about challenging conventional notions of masculinity and creating allies, of moving towards change, shoulder to shoulder, as equals.",
+      " In this Charcha, we explored how men, especially politicians, can champion women’s rights in politics and policy. With 175+ attendees, it featured Shri Pushpendra Saroj, the youngest MP in the Lok Sabha, and Shri Anish Gawande, National Spokesperson for NCP (Sharad Pawar)",
     info: "/event/info.png",
-    image: "/event/info.png",
+    image:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763807091/Masculinity_Interrupted_Building_Male_Allyship-min_mjbyoi.png",
     link: "#",
   },
   {
     date: "26th April, 2025",
-    title: "Haq Charcha X IFF",
+    title: "Data aur Adhikar: HAQ Charcha + Film Screening",
     time: "5:30 PM",
-    tagline: "Masculinity, Interrupted: Building Male Allyship",
+    // tagline: "Masculinity, Interrupted: Building Male Allyship",
     description:
-      "In partnership with IFF, we welcomed around 120 attendees for a panel and screening of the movie TAAK. Experts discussed privacy, surveillance, and online safety, highlighting their impact on marginalized voices. The session educated participants on safeguarding rights and empowered them to engage critically with technology and policy.",
+      " In this Charcha, we screened the powerful film TAAK, followed by a panel. With 130+ attendees, the discussion featured Tanushree Pandey, award-winning investigative journalist and documentary filmmaker, and Aaliya Waziri, advocate at the Delhi High Court",
     info: "/event/info.png",
-    image: "/event/2.png",
+    image:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763807946/Data_aur_Adhikar_HAQ_Charcha_Film_Screening-min_i5ntpt.png",
     link: "#",
   },
   {
     date: "9th March, 2025",
-    title: "Kanoon aur Hum",
+    title: "Kanoon Aur Hum: What Women Really Want",
     time: "5:30 PM",
     description:
-      "In Haq Charcha: Kanoon aur Hum we got 80+ participants to engage in a conversation led by Smriti Sharma (Head of Policy at Apple) on how laws shape women’s lives. This discussion brought together legal experts, policymakers, changemakers, and everyday women to discuss the laws that shape our lives and the reforms still needed.",
+      " In this Charcha, we hosted Smriti Sharma, Head of Policy at Apple India. With 100+ attendees, the dialogue brought together corporate leaders and policymakers to address women’s struggles with unequal pay, limited leadership roles, and the need for policies that foster a more equitable workplace.",
     info: "/event/info.png",
-    image: "/event/kanoon.jpg",
+    image:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763807086/Kanoon_Aur_Hum_What_Women_Really_Want-min_htxxyn.png",
     link: "#",
   },
   {
     date: "30th November, 2024",
-    title: "Haq Summit",
+    title: "HAQ Summit 2024: Digital Safety of Women",
     time: "5:30 PM",
     description:
-      "In Haq Summit, we brought together 150+ young people to discuss digital safety of women. We had a keynote by Aditi Jha from LinkedIn and panels with leaders like Ismat Ara, Anish Gawande, Anshul Tewari, Ria Chopra, Apar Gupta, and more. Supported by Nua, we concluded the Haq Summit by celebrating youth changemakers. Our flagship annual event fostered dialogue, and created momentum for building safer digital spaces for women.",
+      " In our first summit with 200+ attendees, we launched the report Digital Battlegrounds and hosted panels on policy, allyship, and women’s voices online. Speakers like Aditi Jha, Rituparna Chatterjee, and Anish Gawande shared powerful insights on tackling online abuse and creating safer digital spaces for women.",
     info: "/event/haqsummit.jpg",
-    image: "/event/haqsummit.jpg",
+    image:
+      "https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763807085/HAQ_Summit_2024_Digital_Safety_of_Women-min_k6olxk.png",
     link: "#",
   },
   {
@@ -60,15 +75,40 @@ const events = [
 ---
 
 <MainLayout title="Events" description="Her Haq Events">
+  <section class="hero">
+    <div class="hero-background">
+      <Image
+        src={"/event/Events-min.PNG"}
+        alt="Empowering Women"
+        class="hero-image"
+        width={1920}
+        height={1080}
+      />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="container">
+        <h1 class="hero-title">Events</h1>
+        <p class="hero-subtitle">
+          Join us in creating lasting change and building a more equitable world
+          for all
+        </p>
+        <!-- <a href="/contact" class="btn-primary">Join Us</a> -->
+      </div>
+    </div>
+  </section>
   <section class="container">
-    <h2 style="color:#8B2C2B; margin-top:2rem;">EVENT CALENDAR</h2>
-    <EventCalendar events={events} />
+    <h2 style="color:#8B2C2B; margin-top:2rem;" class="upcoming">
+      UPCOMING EVENT
+    </h2>
+    <p>No upcoming event</p>
+    <!-- <EventCalendar events={events} /> -->
 
-    <h2 style="color:#8B2C2B; margin-top:2.5rem;">UPCOMING EVENTS</h2>
-    <div class="upcoming-events">
+    <h2 style="color:#8B2C2B; margin-top:2.5rem;">PAST EVENTS</h2>
+    <div class="past-events">
       {
         events.map((event) => (
-          <div class="upcoming-event">
+          <div class="past-event">
             <img src={event.image} alt={event.title} class="event-thumb" />
             <div class="event-content">
               {/* <div class="event-date">
@@ -94,7 +134,13 @@ const events = [
 <style lang="scss">
   @import "../styles/styles.scss";
 
-  .upcoming-events {
+  .hero {
+    height: 60vh;
+  }
+  .upcoming {
+    margin-bottom: 1rem;
+  }
+  .past-events {
     //max-width: 800px;
     margin: 2rem auto;
     display: flex;
@@ -102,7 +148,7 @@ const events = [
     gap: 0;
   }
 
-  .upcoming-event {
+  .past-event {
     display: flex;
     gap: 2rem;
     align-items: flex-start;
@@ -178,7 +224,7 @@ const events = [
   }
 
   @include mobile {
-    .upcoming-event {
+    .past-event {
       flex-direction: column;
       gap: 1rem;
       padding: 1.5rem 0;
