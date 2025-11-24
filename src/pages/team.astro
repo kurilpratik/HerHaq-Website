@@ -5,24 +5,6 @@ import teamData from "../data/teamData";
 
 // Import hero banner image
 import heroBanner from "../../public/banner/home.jpg";
-
-// Import all team member images
-import aanyaImg from "../../public/team/aanya.jpg";
-import soumyaImg from "../../public/team/soumya.jpg";
-import yagneshImg from "../../public/team/yagnesh.jpg";
-import anvitaImg from "../../public/team/anvita.jpg";
-import rihanImg from "../../public/team/rihan.jpeg";
-import shitizImg from "../../public/team/shitiz.jpg";
-
-// Create a mapping object for team member images
-const teamImages = {
-  "/team/aanya.jpg": aanyaImg,
-  "/team/soumya.jpg": soumyaImg,
-  "/team/yagnesh.jpg": yagneshImg,
-  "/team/anvita.jpg": anvitaImg,
-  "/team/rihan.jpeg": rihanImg,
-  "/team/shitiz.jpg": shitizImg,
-};
 ---
 
 <MainLayout title="Our Team" description="The Her Haq Team">
@@ -60,12 +42,10 @@ const teamImages = {
             teamData.trustees.map((member) => (
               <div class="team-member">
                 <div class="team-member-image-wrapper">
-                  <Image
-                    src={teamImages[member.imageUrl]}
+                  <img
+                    src={member.imageUrl}
                     alt={member.name}
                     class="team-member-image"
-                    width={250}
-                    height={250}
                     loading="lazy"
                   />
                 </div>
@@ -85,12 +65,10 @@ const teamImages = {
             teamData.coreTeam.map((member) => (
               <div class="team-member">
                 <div class="team-member-image-wrapper">
-                  <Image
-                    src={teamImages[member.imageUrl]}
+                  <img
+                    src={member.imageUrl}
                     alt={member.name}
                     class="team-member-image"
-                    width={250}
-                    height={250}
                     loading="lazy"
                   />
                 </div>
@@ -169,16 +147,15 @@ const teamImages = {
   }
 
   .team-member-image-wrapper {
-    // width: 250px;
-    // height: 250px;
     margin: 0 auto 1.5rem;
+    aspect-ratio: 3 / 4; // pick the rectangle ratio you prefer
+    width: 100%;
+    max-width: 260px;
     overflow: hidden;
-    // border: 4px solid $primary;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
     @include mobile {
-      width: 200px;
-      height: 200px;
+      max-width: 220px;
     }
   }
 
@@ -186,7 +163,7 @@ const teamImages = {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    display: block;
   }
 
   .team-member-name {

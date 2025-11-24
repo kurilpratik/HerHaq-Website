@@ -3,34 +3,40 @@ const teamData = {
     {
       name: "AANYA WIG",
       title: "CO-FOUNDER",
-      imageUrl: "/team/aanya.jpg",
+      imageUrl:
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998535/aanya_unmpha.jpg",
     },
     {
       name: "SOUMYA SINGHAL",
       title: "CO-FOUNDER",
-      imageUrl: "/team/soumya.jpg",
+      imageUrl:
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998535/soumya_aibobb.jpg",
     },
     {
       name: "YAGNESH",
       title: "MEMBER",
-      imageUrl: "/team/yagnesh.jpg",
+      imageUrl:
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998535/yagnesh_aqanip.jpg",
     },
   ],
   coreTeam: [
     {
       name: "ANVITA PLAWAT",
       title: "HEAD OF COMMUNICATIONS",
-      imageUrl: "/team/anvita.jpg",
+      imageUrl:
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998535/anvita_tt3nsh.jpg",
     },
     {
       name: "RIHAN SHAREEF",
       title: "HEAD OF POLICY",
-      imageUrl: "/team/rihan.jpeg",
+      imageUrl:
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998537/rihan_nb9tbz.jpg",
     },
     {
       name: "SHITIZ PATNAIK",
       title: "HEAD OF PARTNERSHIPS",
-      imageUrl: "/team/shitiz.jpg",
+      imageUrl:
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998536/shitiz_pzjtzt.jpg",
     },
   ],
 };
