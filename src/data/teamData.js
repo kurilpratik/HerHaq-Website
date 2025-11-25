@@ -14,9 +14,9 @@ const teamData = {
     },
     {
       name: "YAGNESH",
-      title: "MEMBER",
+      title: "TRUSTEE",
       imageUrl:
-        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1763998535/yagnesh_aqanip.jpg",
+        "https://res.cloudinary.com/dbjdfox1r/image/upload/v1764075543/yagnesh_fbsjby.png",
     },
   ],
   coreTeam: [
