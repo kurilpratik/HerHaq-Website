@@ -1,5 +1,5 @@
 ---
-import navbarData from "../data/navbarData.js";
+import { footerData } from "../data/navbarData";
 const currentYear = new Date().getFullYear();
 ---
 
@@ -23,7 +23,7 @@ const currentYear = new Date().getFullYear();
         <h3 class="footer-heading">Important Links</h3>
         <ul class="footer-links">
           {
-            navbarData.map((item) => (
+            footerData.map((item) => (
               <li>
                 <a href={item.path}>{item.name}</a>
               </li>

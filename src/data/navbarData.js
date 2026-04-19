@@ -24,4 +24,26 @@ const navbarData = [
     path: "/contact",
   },
 ];
-export default navbarData;
+
+const footerData = [
+  {
+    name: "About Us",
+    path: "/about",
+  },
+  {
+    name: "Privacy Policy",
+    path: "/others/privacy",
+  },
+  {
+    name: "Refund Policy",
+    path: "/others/refund",
+  },
+  {
+    name: "Terms and Conditions",
+    path: "/others/terms",
+  },
+];
+
+// const footerData = [...navbarData, ...extraLinks];
+
+export { navbarData, footerData };
