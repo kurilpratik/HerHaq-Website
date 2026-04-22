@@ -1,0 +1,340 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="Donate">
+  <main class="other-content" aria-labelledby="donate-heading">
+    <h1 id="donate-heading">Donate</h1>
+    <p>
+      Choose an amount and share your details — we'll send a confirmation when
+      we receive your donation.
+    </p>
+
+    <section
+      class="donation-card"
+      data-endpoint={import.meta.env.PUBLIC_SHEET_ENDPOINT || ""}
+    >
+      <h2 class="mb-2">Choose the amount you wish to donate</h2>
+
+      <form id="donation-form" class="donation-form" autocomplete="on">
+        <fieldset class="amount-options" aria-label="preset amounts">
+          <legend class="sr-only">Preset donation amounts</legend>
+          <button type="button" class="preset active" data-amount="80">
+            <span class="preset-amount">₹80</span>
+            <span class="preset-label">Pads for 1 Woman</span>
+          </button>
+
+          <button type="button" class="preset" data-amount="400">
+            <span class="preset-amount">₹400</span>
+            <span class="preset-label">Pads for 5 Women</span>
+          </button>
+
+          <button type="button" class="preset" data-amount="800">
+            <span class="preset-amount">₹800</span>
+            <span class="preset-label">Pads for 10 Women</span>
+          </button>
+
+          <button type="button" class="preset" data-amount="2000">
+            <span class="preset-amount">₹2000</span>
+            <span class="preset-label">Pads for 25 Women</span>
+          </button>
+        </fieldset>
+
+        <label for="otherAmount" class="label-muted">Other Amount</label>
+        <div class="input-with-currency">
+          <span class="currency">₹</span>
+          <input
+            id="otherAmount"
+            name="otherAmount"
+            type="number"
+            min="1"
+            placeholder="Enter other amount"
+          />
+        </div>
+
+        <label for="name">Enter Name *</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Enter Name"
+          required
+        />
+
+        <label for="email">Enter Email Address *</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          required
+        />
+
+        <label for="phone">Mobile Number *</label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder="Enter Mobile Number"
+          required
+        />
+
+        <label for="address">Address</label>
+        <textarea
+          id="address"
+          name="address"
+          rows="3"
+          placeholder="Enter postal address (optional)"></textarea>
+
+        <label for="pan">PAN Number</label>
+        <input
+          id="pan"
+          name="pan"
+          type="text"
+          placeholder="Enter PAN if you want 80G benefit"
+        />
+
+        <fieldset class="nationality-group">
+          <legend>Nationality *</legend>
+          <label
+            ><input type="radio" name="nationality" value="Indian" checked /> I'm
+            an Indian National</label
+          >
+          <label
+            ><input type="radio" name="nationality" value="Non-Indian" /> I'm not
+            an Indian National</label
+          >
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Donate</button>
+          <div id="form-status" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <style>
+    /* Donate form scoped styles - uses project tokens from styles.scss */
+    .donation-card {
+      max-width: 520px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .donation-form label {
+      display: block;
+      margin-top: 1rem;
+      color: #444;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .donation-form input[type="text"],
+    .donation-form input[type="email"],
+    .donation-form input[type="tel"],
+    .donation-form input[type="number"],
+    .donation-form textarea {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 8px;
+      border: 1px solid #e6e6e6;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .amount-options {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+      border: none;
+      padding: 0;
+    }
+    /* Make each preset take equal space and show amount/label on separate lines */
+    .preset {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.9rem 0.8rem; /* increased padding */
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      flex: 1 1 0; /* evenly distribute available space */
+      min-width: 110px; /* allow wrapping on small screens */
+      text-align: center;
+    }
+    .preset-amount {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: inherit;
+    }
+    .preset-label {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .preset.active {
+      background: var(--primary, #891d1a);
+      color: #fff;
+      border-color: transparent;
+      .preset-label {
+        color: #fff;
+      }
+    }
+
+    .input-with-currency {
+      display: flex;
+      align-items: center;
+    }
+    .input-with-currency .currency {
+      padding: 0.6rem 0.8rem;
+      background: #fafafa;
+      border: 1px solid #e6e6e6;
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+    }
+    .input-with-currency input {
+      border-radius: 0 8px 8px 0;
+      border-left: none;
+    }
+
+    .nationality-group {
+      margin-top: 0.6rem;
+      border: none;
+      padding: 0;
+    }
+    .nationality-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: 1rem;
+      font-weight: 500;
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      .donation-card {
+        margin: 1rem;
+        padding: 1rem;
+        width: 95%;
+      }
+      .amount-options {
+        gap: 0.5rem;
+      }
+    }
+  </style>
+
+  <script type="module">
+    // Client form script: picks selected preset or otherAmount and POSTs to configured endpoint.
+    const card = document.querySelector(".donation-card");
+    const endpoint = card?.dataset.endpoint || "";
+    const form = document.getElementById("donation-form");
+    const presets = Array.from(document.querySelectorAll(".preset"));
+    const otherAmountInput = document.getElementById("otherAmount");
+    const statusEl = document.getElementById("form-status");
+
+    function setActivePreset(btn) {
+      presets.forEach((p) => p.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      // clear other amount when preset selected
+      otherAmountInput.value = "";
+    }
+
+    presets.forEach((p) =>
+      p.addEventListener("click", () => setActivePreset(p)),
+    );
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      statusEl.textContent = "";
+
+      // Build payload
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Determine amount: otherAmount wins if provided, otherwise selected preset
+      let amount =
+        data.otherAmount && Number(data.otherAmount) > 0
+          ? Number(data.otherAmount)
+          : null;
+      if (!amount) {
+        const active =
+          presets.find((p) => p.classList.contains("active")) || presets[0];
+        amount = Number(active?.dataset.amount || 0);
+      }
+
+      // Minimal validation
+      if (!data.name || !data.email || !data.phone) {
+        statusEl.textContent =
+          "Please fill required fields (Name, Email, Phone).";
+        return;
+      }
+
+      const payload = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address || "",
+        pan: data.pan || "",
+        nationality: data.nationality || "",
+        amount: amount,
+        timestamp: new Date().toISOString(),
+      };
+
+      // If no endpoint configured, show payload so developer can configure integration.
+      if (!endpoint) {
+        statusEl.textContent =
+          "No sheet endpoint configured. Copy the payload from console and wire PUBLIC_SHEET_ENDPOINT in your environment.";
+        console.log("Donation payload (no endpoint configured):", payload);
+        return;
+      }
+
+      try {
+        statusEl.textContent = "Submitting...";
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          statusEl.textContent = "Thanks — your details have been submitted.";
+          form.reset();
+          setActivePreset(presets[0]);
+        } else {
+          const txt = await res.text();
+          statusEl.textContent = "Submission failed: " + res.status;
+          console.error("Sheet endpoint response:", res.status, txt);
+        }
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent =
+          "Network error while submitting. See console for details.";
+      }
+    });
+  </script>
+</MainLayout>
