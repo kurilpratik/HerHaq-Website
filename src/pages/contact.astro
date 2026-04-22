@@ -21,7 +21,7 @@ import MainLayout from "../layouts/MainLayout.astro";
         </p>
         <!-- Contact Info Boxes Overlay -->
         <div class="contact-boxes-overlay">
-          <div class="container">
+          <div class="">
             <div class="contact-boxes">
               <a
                 href="mailto:info@herhaq.com"
@@ -53,6 +53,28 @@ import MainLayout from "../layouts/MainLayout.astro";
                     </svg>
                   </div>
                   <p class="contact-text">info@herhaq.com</p>
+                </div>
+              </a>
+
+              <a href="tel:7838187057" class="contact-box-link">
+                <div class="contact-box">
+                  <div class="contact-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12 1.05.43 2.07.93 3.02a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.24-1.24a2 2 0 0 1 2.11-.45c.95.5 1.97.81 3.02.93A2 2 0 0 1 22 16.92z"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                  <p class="contact-text">7838187057</p>
                 </div>
               </a>
 
@@ -263,7 +285,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     // flex-wrap: wrap;
     margin: 0 auto;
     @include mobile {
-      scale: 0.85;
+      //scale: 0.85;
     }
   }
 
@@ -498,13 +520,44 @@ import MainLayout from "../layouts/MainLayout.astro";
       min-width: 100%;
     }
 
+    /* Make contact boxes full-width strips stacked vertically on tablet */
     .contact-boxes {
+      flex-direction: column;
+      align-items: stretch;
       gap: 20px;
     }
 
     .contact-box {
-      min-width: 160px;
-      padding: 20px 25px;
+      width: 100%;
+      max-width: 720px; /* keep strips readable on wide tablets */
+      margin: 0 auto;
+      padding: 18px 28px;
+      min-width: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    /* Make icon and text inline inside the strip */
+    .contact-box .contact-icon {
+      margin-bottom: 0;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-box .contact-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .contact-box .contact-text {
+      text-align: left;
+      margin: 0;
+      word-break: normal;
     }
 
     .contact-text {
@@ -534,14 +587,41 @@ import MainLayout from "../layouts/MainLayout.astro";
       font-size: 4rem;
     }
 
+    /* On small phones, show strips stacked in a single column */
     .contact-boxes {
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
+      gap: 14px;
+      width: 100%;
     }
 
     .contact-box {
       width: 100%;
-      max-width: 280px;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      min-width: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .contact-box .contact-icon {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+
+    .contact-box .contact-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .contact-box .contact-text {
+      text-align: left;
+      margin: 0;
+      word-break: normal;
     }
 
     .hero-title {

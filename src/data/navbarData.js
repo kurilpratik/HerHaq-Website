@@ -23,6 +23,10 @@ const navbarData = [
     name: "Contact Us",
     path: "/contact",
   },
+  {
+    name: "Donate",
+    path: "/donate",
+  },
 ];
 
 const footerData = [
