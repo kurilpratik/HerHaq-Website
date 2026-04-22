@@ -6,8 +6,8 @@ import MainLayout from "../layouts/MainLayout.astro";
   <main class="other-content" aria-labelledby="donate-heading">
     <h1 id="donate-heading">Donate</h1>
     <p>
-      Choose an amount and share your details — we'll send a confirmation when
-      we receive your donation.
+      Choose an amount from the options or enter a custom amount and share your
+      details — we'll send a confirmation when we receive your donation.
     </p>
 
     <section
@@ -40,7 +40,7 @@ import MainLayout from "../layouts/MainLayout.astro";
           </button>
         </fieldset>
 
-        <label for="otherAmount" class="label-muted">Other Amount</label>
+        <label for="otherAmount" class="label-muted">Custom Amount</label>
         <div class="input-with-currency">
           <span class="currency">₹</span>
           <input
@@ -48,7 +48,7 @@ import MainLayout from "../layouts/MainLayout.astro";
             name="otherAmount"
             type="number"
             min="1"
-            placeholder="Enter other amount"
+            placeholder="Enter custom amount"
           />
         </div>
 
@@ -117,7 +117,7 @@ import MainLayout from "../layouts/MainLayout.astro";
   <style>
     /* Donate form scoped styles - uses project tokens from styles.scss */
     .donation-card {
-      max-width: 520px;
+      max-width: 620px;
       margin: 2rem auto;
       background: #fff;
       padding: 1.5rem;
@@ -180,12 +180,15 @@ import MainLayout from "../layouts/MainLayout.astro";
       color: #666;
     }
     .preset.active {
-      background: var(--primary, #891d1a);
-      color: #fff;
-      border-color: transparent;
-      .preset-label {
-        color: #fff;
-      }
+      /* Keep background white, show a red outline and red text when active */
+      background: #fff;
+      color: var(--primary, #891d1a);
+      border-color: var(--primary, #891d1a);
+      outline: 2px solid var(--primary, #891d1a);
+      //outline-offset: 2px;
+    }
+    .preset.active .preset-label {
+      color: var(--primary, #891d1a);
     }
 
     .input-with-currency {
@@ -224,6 +227,30 @@ import MainLayout from "../layouts/MainLayout.astro";
       margin-top: 1.25rem;
     }
 
+    /* Primary button used for submit */
+    .btn-primary {
+      background: var(--primary, #891d1a);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: $font-weight-bold;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 180px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    /* Disabled state styling for submit button */
+    .btn-primary[disabled],
+    .btn-primary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      filter: grayscale(15%);
+      transform: none;
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -238,9 +265,9 @@ import MainLayout from "../layouts/MainLayout.astro";
 
     @media (max-width: 600px) {
       .donation-card {
-        margin: 1rem;
+        margin: 0rem;
         padding: 1rem;
-        width: 95%;
+        width: 100%;
       }
       .amount-options {
         gap: 0.5rem;
@@ -256,6 +283,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     const presets = Array.from(document.querySelectorAll(".preset"));
     const otherAmountInput = document.getElementById("otherAmount");
     const statusEl = document.getElementById("form-status");
+    const submitBtn = form.querySelector('button[type="submit"]');
 
     function setActivePreset(btn) {
       presets.forEach((p) => p.classList.remove("active"));
@@ -271,6 +299,7 @@ import MainLayout from "../layouts/MainLayout.astro";
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       statusEl.textContent = "";
+      const originalBtnText = submitBtn ? submitBtn.textContent : "Donate";
 
       // Build payload
       const formData = new FormData(form);
@@ -305,16 +334,29 @@ import MainLayout from "../layouts/MainLayout.astro";
         timestamp: new Date().toISOString(),
       };
 
+      // set button into submitting state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+        submitBtn.setAttribute("aria-disabled", "true");
+      }
+
       // If no endpoint configured, show payload so developer can configure integration.
       if (!endpoint) {
-        statusEl.textContent =
+        const msg =
           "No sheet endpoint configured. Copy the payload from console and wire PUBLIC_SHEET_ENDPOINT in your environment.";
+        statusEl.textContent = msg;
         console.log("Donation payload (no endpoint configured):", payload);
+        alert(msg);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+          submitBtn.removeAttribute("aria-disabled");
+        }
         return;
       }
 
       try {
-        statusEl.textContent = "Submitting...";
         const res = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -322,18 +364,29 @@ import MainLayout from "../layouts/MainLayout.astro";
         });
 
         if (res.ok) {
-          statusEl.textContent = "Thanks — your details have been submitted.";
+          const msg = "Thanks — your details have been submitted.";
+          statusEl.textContent = msg;
+          alert(msg);
           form.reset();
           setActivePreset(presets[0]);
         } else {
           const txt = await res.text();
-          statusEl.textContent = "Submission failed: " + res.status;
+          const msg = "Submission failed: " + res.status;
+          statusEl.textContent = msg;
+          alert(msg);
           console.error("Sheet endpoint response:", res.status, txt);
         }
       } catch (err) {
         console.error(err);
-        statusEl.textContent =
-          "Network error while submitting. See console for details.";
+        const msg = "Network error while submitting. See console for details.";
+        statusEl.textContent = msg;
+        alert(msg);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+          submitBtn.removeAttribute("aria-disabled");
+        }
       }
     });
   </script>
