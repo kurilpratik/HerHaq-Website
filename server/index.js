@@ -52,7 +52,6 @@ app.post("/api/paytm/initiate", async (req, res) => {
           email: email,
           mobile: phone,
           name: name,
-          PAN: PAN,
         },
       },
     };

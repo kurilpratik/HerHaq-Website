@@ -91,7 +91,7 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
-    console.log("Initiating Paytm transaction with payload:", payload);
+    // console.log("Initiating Paytm transaction with payload:", payload);
     
     const response = await fetch(`${PUBLIC_API_URL}/api/paytm/initiate`, {
       method: "POST",
