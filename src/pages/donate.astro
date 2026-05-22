@@ -10,10 +10,9 @@ import MainLayout from "../layouts/MainLayout.astro";
       details — we'll send a confirmation when we receive your donation.
     </p>
 
-    <section
-      class="donation-card"
-      data-endpoint={import.meta.env.PUBLIC_SHEET_ENDPOINT || ""}
-    >
+    <button id="ping">Check Ping</button>
+
+    <section class="donation-card">
       <h2 class="mb-2">Choose the amount you wish to donate</h2>
 
       <form id="donation-form" class="donation-form" autocomplete="on">
@@ -276,19 +275,28 @@ import MainLayout from "../layouts/MainLayout.astro";
   </style>
 
   <script type="module">
-    // Client form script: picks selected preset or otherAmount and POSTs to configured endpoint.
-    const card = document.querySelector(".donation-card");
-    const endpoint = card?.dataset.endpoint || "";
     const form = document.getElementById("donation-form");
     const presets = Array.from(document.querySelectorAll(".preset"));
     const otherAmountInput = document.getElementById("otherAmount");
     const statusEl = document.getElementById("form-status");
     const submitBtn = form.querySelector('button[type="submit"]');
+    const pingBtn = document.getElementById("ping");
+
+    pingBtn.addEventListener("click", async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.PUBLIC_API_URL || ""}/ping`,
+        );
+        const data = await response.json();
+        alert(`Ping response: ${data.message}`);
+      } catch (error) {
+        alert("Error pinging server: " + error.message);
+      }
+    });
 
     function setActivePreset(btn) {
       presets.forEach((p) => p.classList.remove("active"));
       if (btn) btn.classList.add("active");
-      // clear other amount when preset selected
       otherAmountInput.value = "";
     }
 
@@ -296,16 +304,14 @@ import MainLayout from "../layouts/MainLayout.astro";
       p.addEventListener("click", () => setActivePreset(p)),
     );
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
       statusEl.textContent = "";
       const originalBtnText = submitBtn ? submitBtn.textContent : "Donate";
 
-      // Build payload
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
-      // Determine amount: otherAmount wins if provided, otherwise selected preset
       let amount =
         data.otherAmount && Number(data.otherAmount) > 0
           ? Number(data.otherAmount)
@@ -316,7 +322,6 @@ import MainLayout from "../layouts/MainLayout.astro";
         amount = Number(active?.dataset.amount || 0);
       }
 
-      // Minimal validation
       if (!data.name || !data.email || !data.phone) {
         statusEl.textContent =
           "Please fill required fields (Name, Email, Phone).";
@@ -334,59 +339,21 @@ import MainLayout from "../layouts/MainLayout.astro";
         timestamp: new Date().toISOString(),
       };
 
-      // set button into submitting state
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Submitting...";
+        submitBtn.textContent = "Logging...";
         submitBtn.setAttribute("aria-disabled", "true");
       }
 
-      // If no endpoint configured, show payload so developer can configure integration.
-      if (!endpoint) {
-        const msg =
-          "No sheet endpoint configured. Copy the payload from console and wire PUBLIC_SHEET_ENDPOINT in your environment.";
-        statusEl.textContent = msg;
-        console.log("Donation payload (no endpoint configured):", payload);
-        alert(msg);
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalBtnText;
-          submitBtn.removeAttribute("aria-disabled");
-        }
-        return;
-      }
+      console.log("Donation payload:", payload);
+      statusEl.textContent = "Donation data logged to the console.";
+      form.reset();
+      setActivePreset(presets[0]);
 
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-          const msg = "Thanks — your details have been submitted.";
-          statusEl.textContent = msg;
-          alert(msg);
-          form.reset();
-          setActivePreset(presets[0]);
-        } else {
-          const txt = await res.text();
-          const msg = "Submission failed: " + res.status;
-          statusEl.textContent = msg;
-          alert(msg);
-          console.error("Sheet endpoint response:", res.status, txt);
-        }
-      } catch (err) {
-        console.error(err);
-        const msg = "Network error while submitting. See console for details.";
-        statusEl.textContent = msg;
-        alert(msg);
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalBtnText;
-          submitBtn.removeAttribute("aria-disabled");
-        }
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        submitBtn.removeAttribute("aria-disabled");
       }
     });
   </script>
