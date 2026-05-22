@@ -28,7 +28,7 @@ app.get("/api/ping", (req, res) => {
 // Initiate Paytm Transaction
 app.post("/api/paytm/initiate", async (req, res) => {
   try {
-    const { amount, email, phone, name, orderId } = req.body;
+    const { amount, email, phone, name } = req.body;
 
     if (!amount || !email || !phone || !name) {
       return res.status(400).json({
@@ -38,10 +38,10 @@ app.post("/api/paytm/initiate", async (req, res) => {
     }
 
     // Generate unique order ID if not provided
-    const uniqueOrderId =
-      orderId || `DON_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    const orderId = `DON_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    //orderId = orderId + "";
 
-    orderId = Json.stringify(uniqueOrderId).replace(/"/g, ""); // Remove quotes if any
+    //orderId = Json.stringify(uniqueOrderId).replace(/"/g, ""); // Remove quotes if any
 
     const paytmParams = {
       body: {
