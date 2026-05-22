@@ -109,9 +109,53 @@ form.addEventListener("submit", async (e) => {
     const result = await response.json();
 
     if (result.success) {
+      function loadPaytmCheckoutScript() {
+        const script = document.createElement("script");
+        script.type = "application/javascript";
+        script.src =
+          "https://secure.paytmpayments.com/merchantpgpui/checkoutjs/merchants/XSoslk96319757734940.js";
+        script.crossOrigin = "anonymous";
+        script.onload = onScriptLoad;
+        document.body.appendChild(script);
+      }
+      loadPaytmCheckoutScript();
+
+      function onScriptLoad() {
+        var config = {
+          root: "",
+          flow: "DEFAULT",
+          data: {
+            orderId: result.orderId /* update order id */,
+            token: result.txnToken /* update token value */,
+            tokenType: "TXN_TOKEN",
+            amount: result.amount /* update amount */,
+          },
+          handler: {
+            notifyMerchant: function (eventName, data) {
+              console.log("notifyMerchant handler function called");
+              console.log("eventName => ", eventName);
+              console.log("data => ", data);
+            },
+          },
+        };
+        if (window.Paytm && window.Paytm.CheckoutJS) {
+          window.Paytm.CheckoutJS.onLoad(function excecuteAfterCompleteLoad() {
+            // initialze configuration using init method
+            window.Paytm.CheckoutJS.init(config)
+              .then(function onSuccess() {
+                // after successfully updating configuration, invoke JS Checkout
+                window.Paytm.CheckoutJS.invoke();
+              })
+              .catch(function onError(error) {
+                console.log("error => ", error);
+              });
+          });
+        }
+      }
+
       // Redirect to Paytm payment page
-      const paytmUrl = `https://secure.paytmpayments.com/theia/processTransaction?orderid=${result.orderId}&txnToken=${result.txnToken}&amount=${result.amount}&mid=${result.mid}`;
-      window.location.href = paytmUrl;
+      /*const paytmUrl = `https://secure.paytmpayments.com/theia/processTransaction?orderid=${result.orderId}&txnToken=${result.txnToken}&amount=${result.amount}&mid=${result.mid}`;
+      window.location.href = paytmUrl;*/
     } else {
       statusEl.textContent = `Payment initiation failed: ${result.message || "Unknown error"}`;
       statusEl.style.color = "red";
