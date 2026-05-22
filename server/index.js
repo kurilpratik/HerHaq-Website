@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { PaytmChecksum } from "paytmchecksum";
+import PaytmChecksum from "paytmchecksum";
 
 const app = express();
 app.use(express.json());
