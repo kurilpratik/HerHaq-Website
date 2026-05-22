@@ -41,12 +41,14 @@ app.post("/api/paytm/initiate", async (req, res) => {
     const uniqueOrderId =
       orderId || `DON_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
+    orderId = Json.stringify(uniqueOrderId).replace(/"/g, ""); // Remove quotes if any
+
     const paytmParams = {
       body: {
         requestType: "Payment",
         mid: PAYTM_MERCHANT_ID,
         websiteName: PAYTM_WEBSITE,
-        orderId: "order_12345",
+        orderId: orderId,
         callbackUrl: `${req.protocol}://${req.get("host")}/api/paytm/callback`,
         txnAmount: {
           value: amount.toString(),
@@ -72,7 +74,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     };
 
     const response = await fetch(
-      `${PAYTM_TXN_URL}?mid=${PAYTM_MERCHANT_ID}&orderId=order_12345`,
+      `${PAYTM_TXN_URL}?mid=${PAYTM_MERCHANT_ID}&orderId=${orderId}`,
       {
         method: "POST",
         headers: {
@@ -87,7 +89,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     if (data.body && data.body.txnToken) {
       res.json({
         success: true,
-        orderId: uniqueOrderId,
+        orderId: orderId,
         txnToken: data.body.txnToken,
         amount: amount,
         mid: PAYTM_MERCHANT_ID,
