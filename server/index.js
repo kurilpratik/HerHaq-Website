@@ -14,8 +14,12 @@ const PAYTM_CHANNEL_ID = process.env.PAYTM_CHANNEL_ID || "WEB";
 const PAYTM_INDUSTRY_TYPE = process.env.PAYTM_INDUSTRY_TYPE || "Retail";
 
 // For staging environment
-const PAYTM_TXN_URL = process.env.PAYTM_TXN_URL || "https://securegw-stage.paytm.in/theia/api/v1/initiateTransaction";
-const PAYTM_STATUS_URL = process.env.PAYTM_STATUS_URL || "https://securegw-stage.paytm.in/theia/api/v1/transactionStatus";
+const PAYTM_TXN_URL =
+  process.env.PAYTM_TXN_URL ||
+  "https://securegw-stage.paytm.in/theia/api/v1/initiateTransaction";
+const PAYTM_STATUS_URL =
+  process.env.PAYTM_STATUS_URL ||
+  "https://securegw-stage.paytm.in/theia/api/v1/transactionStatus";
 
 app.get("/api/ping", (req, res) => {
   res.json({ status: "ok", message: "Express backend connected" });
@@ -27,14 +31,15 @@ app.post("/api/paytm/initiate", async (req, res) => {
     const { amount, email, phone, name, orderId } = req.body;
 
     if (!amount || !email || !phone || !name) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Missing required fields" 
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
       });
     }
 
     // Generate unique order ID if not provided
-    const uniqueOrderId = orderId || `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    const uniqueOrderId =
+      orderId || `DON_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
     const paytmParams = {
       body: {
@@ -59,20 +64,23 @@ app.post("/api/paytm/initiate", async (req, res) => {
     // Generate checksum
     const checksum = await PaytmChecksum.generateSignature(
       JSON.stringify(paytmParams.body),
-      PAYTM_MERCHANT_KEY
+      PAYTM_MERCHANT_KEY,
     );
 
     paytmParams.head = {
       signature: checksum,
     };
 
-    const response = await fetch(PAYTM_TXN_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${PAYTM_TXN_URL}?mid=${PAYTM_MERCHANT_ID}&orderId=${orderId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paytmParams),
       },
-      body: JSON.stringify(paytmParams),
-    });
+    );
 
     const data = await response.json();
 
@@ -110,12 +118,12 @@ app.post("/api/paytm/callback", async (req, res) => {
     const isValid = await PaytmChecksum.verifySignature(
       paytmParams.body,
       PAYTM_MERCHANT_KEY,
-      paytmParams.head.signature
+      paytmParams.head.signature,
     );
 
     if (isValid) {
       console.log("Checksum Matched");
-      
+
       // Check transaction status
       const statusParams = {
         body: {
@@ -126,7 +134,7 @@ app.post("/api/paytm/callback", async (req, res) => {
 
       const checksum = await PaytmChecksum.generateSignature(
         JSON.stringify(statusParams.body),
-        PAYTM_MERCHANT_KEY
+        PAYTM_MERCHANT_KEY,
       );
 
       statusParams.head = {
@@ -146,15 +154,21 @@ app.post("/api/paytm/callback", async (req, res) => {
       // Redirect to frontend with status
       const frontendUrl = process.env.FRONTEND_URL || "http://localhost:4321";
       const status = statusData.body.resultInfo.resultStatus;
-      
-      res.redirect(`${frontendUrl}/donate?status=${status}&orderId=${req.body.ORDERID}`);
+
+      res.redirect(
+        `${frontendUrl}/donate?status=${status}&orderId=${req.body.ORDERID}`,
+      );
     } else {
       console.log("Checksum Mismatched");
-      res.redirect(`${process.env.FRONTEND_URL || "http://localhost:4321"}/donate?status=failure`);
+      res.redirect(
+        `${process.env.FRONTEND_URL || "http://localhost:4321"}/donate?status=failure`,
+      );
     }
   } catch (error) {
     console.error("Callback error:", error);
-    res.redirect(`${process.env.FRONTEND_URL || "http://localhost:4321"}/donate?status=failure`);
+    res.redirect(
+      `${process.env.FRONTEND_URL || "http://localhost:4321"}/donate?status=failure`,
+    );
   }
 });
 
@@ -179,7 +193,7 @@ app.post("/api/paytm/status", async (req, res) => {
 
     const checksum = await PaytmChecksum.generateSignature(
       JSON.stringify(paytmParams.body),
-      PAYTM_MERCHANT_KEY
+      PAYTM_MERCHANT_KEY,
     );
 
     paytmParams.head = {
