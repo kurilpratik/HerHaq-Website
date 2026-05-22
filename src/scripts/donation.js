@@ -110,7 +110,7 @@ form.addEventListener("submit", async (e) => {
 
     if (result.success) {
       // Redirect to Paytm payment page
-      const paytmUrl = `https://securegw-stage.paytm.in/theia/processTransaction?orderid=${result.orderId}&txnToken=${result.txnToken}&amount=${result.amount}&mid=${result.mid}`;
+      const paytmUrl = `https://secure.paytmpayments.com/theia/processTransaction?orderid=${result.orderId}&txnToken=${result.txnToken}&amount=${result.amount}&mid=${result.mid}`;
       window.location.href = paytmUrl;
     } else {
       statusEl.textContent = `Payment initiation failed: ${result.message || "Unknown error"}`;

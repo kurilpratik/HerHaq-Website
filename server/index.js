@@ -46,7 +46,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
         requestType: "Payment",
         mid: PAYTM_MERCHANT_ID,
         websiteName: PAYTM_WEBSITE,
-        orderId: "order_1234",
+        orderId: "order_12345",
         callbackUrl: `${req.protocol}://${req.get("host")}/api/paytm/callback`,
         txnAmount: {
           value: amount.toString(),
@@ -72,7 +72,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     };
 
     const response = await fetch(
-      `${PAYTM_TXN_URL}?mid=${PAYTM_MERCHANT_ID}&orderId=order_1234`,
+      `${PAYTM_TXN_URL}?mid=${PAYTM_MERCHANT_ID}&orderId=order_12345`,
       {
         method: "POST",
         headers: {
