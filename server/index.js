@@ -64,6 +64,8 @@ app.post("/api/paytm/initiate", async (req, res) => {
       },
     };
 
+    console.log("Initiating Paytm transaction with params:", paytmParams);
+
     // Generate checksum
     const checksum = await PaytmChecksum.generateSignature(
       JSON.stringify(paytmParams.body),
@@ -114,142 +116,142 @@ app.post("/api/paytm/initiate", async (req, res) => {
 });
 
 // Paytm Callback Handler
-app.post("/api/paytm/callback", async (req, res) => {
-  try {
-    let payload = req.body || {};
+// app.post("/api/paytm/callback", async (req, res) => {
+//   try {
+//     let payload = req.body || {};
 
-    if (typeof payload.body === "string") {
-      try {
-        payload.body = JSON.parse(payload.body);
-      } catch (err) {
-        // keep original body if not JSON
-      }
-    }
+//     if (typeof payload.body === "string") {
+//       try {
+//         payload.body = JSON.parse(payload.body);
+//       } catch (err) {
+//         // keep original body if not JSON
+//       }
+//     }
 
-    if (typeof payload.head === "string") {
-      try {
-        payload.head = JSON.parse(payload.head);
-      } catch (err) {
-        // keep original head if not JSON
-      }
-    }
+//     if (typeof payload.head === "string") {
+//       try {
+//         payload.head = JSON.parse(payload.head);
+//       } catch (err) {
+//         // keep original head if not JSON
+//       }
+//     }
 
-    // Try to get order id from common fields
-    const orderId =
-      payload.ORDERID ||
-      payload.orderId ||
-      payload.orderID ||
-      payload.order_id ||
-      payload.ORDER_ID ||
-      payload.body?.ORDERID ||
-      payload.body?.orderId ||
-      payload.body?.orderID;
+//     // Try to get order id from common fields
+//     const orderId =
+//       payload.ORDERID ||
+//       payload.orderId ||
+//       payload.orderID ||
+//       payload.order_id ||
+//       payload.ORDER_ID ||
+//       payload.body?.ORDERID ||
+//       payload.body?.orderId ||
+//       payload.body?.orderID;
 
-    if (!orderId) {
-      return res.status(400).json({
-        success: false,
-        status: "failure",
-        message: "Missing order ID in callback payload",
-      });
-    }
+//     if (!orderId) {
+//       return res.status(400).json({
+//         success: false,
+//         status: "failure",
+//         message: "Missing order ID in callback payload",
+//       });
+//     }
 
-    // Verify checksum/signature if present
-    let isValid = true;
-    try {
-      const checksum =
-        payload.head?.signature ||
-        payload.CHECKSUMHASH ||
-        payload.checksum ||
-        payload.signature;
+//     // Verify checksum/signature if present
+//     let isValid = true;
+//     try {
+//       const checksum =
+//         payload.head?.signature ||
+//         payload.CHECKSUMHASH ||
+//         payload.checksum ||
+//         payload.signature;
 
-      if (checksum) {
-        const verifyPayload = payload.head?.signature
-          ? payload.body || {}
-          : payload;
-        isValid = await PaytmChecksum.verifySignature(
-          JSON.stringify(verifyPayload),
-          PAYTM_MERCHANT_KEY,
-          checksum,
-        );
-      }
-    } catch (err) {
-      console.warn("Checksum verification failed:", err?.message || err);
-      isValid = false;
-    }
+//       if (checksum) {
+//         const verifyPayload = payload.head?.signature
+//           ? payload.body || {}
+//           : payload;
+//         isValid = await PaytmChecksum.verifySignature(
+//           JSON.stringify(verifyPayload),
+//           PAYTM_MERCHANT_KEY,
+//           checksum,
+//         );
+//       }
+//     } catch (err) {
+//       console.warn("Checksum verification failed:", err?.message || err);
+//       isValid = false;
+//     }
 
-    if (!isValid) {
-      return res.status(400).json({
-        success: false,
-        status: "failure",
-        message: "Checksum verification failed",
-      });
-    }
+//     if (!isValid) {
+//       return res.status(400).json({
+//         success: false,
+//         status: "failure",
+//         message: "Checksum verification failed",
+//       });
+//     }
 
-    // Build status request to Paytm to get canonical status
-    const statusParams = {
-      body: {
-        mid: PAYTM_MERCHANT_ID,
-        orderId: orderId,
-      },
-    };
+//     // Build status request to Paytm to get canonical status
+//     const statusParams = {
+//       body: {
+//         mid: PAYTM_MERCHANT_ID,
+//         orderId: orderId,
+//       },
+//     };
 
-    const statusChecksum = await PaytmChecksum.generateSignature(
-      JSON.stringify(statusParams.body),
-      PAYTM_MERCHANT_KEY,
-    );
+//     const statusChecksum = await PaytmChecksum.generateSignature(
+//       JSON.stringify(statusParams.body),
+//       PAYTM_MERCHANT_KEY,
+//     );
 
-    statusParams.head = {
-      signature: statusChecksum,
-    };
+//     statusParams.head = {
+//       signature: statusChecksum,
+//     };
 
-    const statusResponse = await fetch(PAYTM_STATUS_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(statusParams),
-    });
+//     const statusResponse = await fetch(PAYTM_STATUS_URL, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(statusParams),
+//     });
 
-    const statusData = await statusResponse.json();
+//     const statusData = await statusResponse.json();
 
-    // Determine result status from Paytm response
-    const resultStatus =
-      statusData?.body?.resultInfo?.resultStatus || statusData?.body?.txnStatus;
+//     // Determine result status from Paytm response
+//     const resultStatus =
+//       statusData?.body?.resultInfo?.resultStatus || statusData?.body?.txnStatus;
 
-    // Map Paytm status to frontend-friendly status and message
-    let statusKey = "failure";
-    let message = "Payment failed or unknown status";
+//     // Map Paytm status to frontend-friendly status and message
+//     let statusKey = "failure";
+//     let message = "Payment failed or unknown status";
 
-    if (resultStatus === "TXN_SUCCESS" || resultStatus === "SUCCESS") {
-      statusKey = "success";
-      message = "Payment successful";
-    } else if (
-      resultStatus === "PENDING" ||
-      resultStatus === "SUBMITTED" ||
-      resultStatus === "IN_PROGRESS"
-    ) {
-      statusKey = "pending";
-      message = "Payment is pending";
-    }
+//     if (resultStatus === "TXN_SUCCESS" || resultStatus === "SUCCESS") {
+//       statusKey = "success";
+//       message = "Payment successful";
+//     } else if (
+//       resultStatus === "PENDING" ||
+//       resultStatus === "SUBMITTED" ||
+//       resultStatus === "IN_PROGRESS"
+//     ) {
+//       statusKey = "pending";
+//       message = "Payment is pending";
+//     }
 
-    // Return JSON to frontend with an appropriate message
-    return res.json({
-      success: statusKey === "success",
-      status: statusKey,
-      message,
-      orderId,
-      raw: statusData?.body,
-    });
-  } catch (error) {
-    console.error("Callback error:", error);
-    return res.status(500).json({
-      success: false,
-      status: "failure",
-      message: "Server error while processing callback",
-      error: error.message,
-    });
-  }
-});
+//     // Return JSON to frontend with an appropriate message
+//     return res.json({
+//       success: statusKey === "success",
+//       status: statusKey,
+//       message,
+//       orderId,
+//       raw: statusData?.body,
+//     });
+//   } catch (error) {
+//     console.error("Callback error:", error);
+//     return res.status(500).json({
+//       success: false,
+//       status: "failure",
+//       message: "Server error while processing callback",
+//       error: error.message,
+//     });
+//   }
+// });
 
 // Check Transaction Status
 app.post("/api/paytm/status", async (req, res) => {
