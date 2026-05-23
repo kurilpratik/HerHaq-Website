@@ -90,9 +90,9 @@ form.addEventListener("submit", async (e) => {
     submitBtn.setAttribute("aria-disabled", "true");
   }
 
-  try {
-    // console.log("Initiating Paytm transaction with payload:", payload);
+  // Call the initiate route that we defined in index.js to get the transaction token and other details
 
+  try {
     const response = await fetch(`${PUBLIC_API_URL}/api/paytm/initiate`, {
       method: "POST",
       headers: {
@@ -107,6 +107,8 @@ form.addEventListener("submit", async (e) => {
     });
 
     const result = await response.json();
+
+    // Invokes the Paytm payment page with the received transaction token
 
     if (result.success) {
       function loadPaytmCheckoutScript() {
@@ -152,10 +154,6 @@ form.addEventListener("submit", async (e) => {
           });
         }
       }
-
-      // Redirect to Paytm payment page
-      /*const paytmUrl = `https://secure.paytmpayments.com/theia/processTransaction?orderid=${result.orderId}&txnToken=${result.txnToken}&amount=${result.amount}&mid=${result.mid}`;
-      window.location.href = paytmUrl;*/
     } else {
       statusEl.textContent = `Payment initiation failed: ${result.message || "Unknown error"}`;
       statusEl.style.color = "red";

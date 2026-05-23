@@ -55,7 +55,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
           currency: "INR",
         },
         userInfo: {
-          custId: email,
+          custId: email, // This only returns, you can use it for PAN
           email: email,
           mobile: phone,
           name: name,
@@ -87,6 +87,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     const data = await response.json();
 
     if (data.body && data.body.txnToken) {
+      console.log(data);
       res.json({
         success: true,
         orderId: orderId,
@@ -114,63 +115,112 @@ app.post("/api/paytm/initiate", async (req, res) => {
 // Paytm Callback Handler
 app.post("/api/paytm/callback", async (req, res) => {
   try {
-    const paytmParams = {};
-    paytmParams.body = req.body;
+    const payload = req.body || {};
 
-    const isValid = await PaytmChecksum.verifySignature(
-      paytmParams.body,
+    // Try to get order id from common fields
+    const orderId =
+      payload.ORDERID || payload.orderId || payload.orderID || payload.order_id;
+
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        status: "failure",
+        message: "Missing order ID in callback payload",
+      });
+    }
+
+    // Verify checksum/signature if present
+    let isValid = true;
+    try {
+      if (payload.head && payload.head.signature) {
+        isValid = await PaytmChecksum.verifySignature(
+          JSON.stringify(payload.body || {}),
+          PAYTM_MERCHANT_KEY,
+          payload.head.signature,
+        );
+      } else if (payload.signature) {
+        isValid = await PaytmChecksum.verifySignature(
+          JSON.stringify(payload),
+          PAYTM_MERCHANT_KEY,
+          payload.signature,
+        );
+      }
+    } catch (err) {
+      console.warn("Checksum verification failed:", err?.message || err);
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return res.status(400).json({
+        success: false,
+        status: "failure",
+        message: "Checksum verification failed",
+      });
+    }
+
+    // Build status request to Paytm to get canonical status
+    const statusParams = {
+      body: {
+        mid: PAYTM_MERCHANT_ID,
+        orderId: orderId,
+      },
+    };
+
+    const statusChecksum = await PaytmChecksum.generateSignature(
+      JSON.stringify(statusParams.body),
       PAYTM_MERCHANT_KEY,
-      paytmParams.head.signature,
     );
 
-    if (isValid) {
-      console.log("Checksum Matched");
+    statusParams.head = {
+      signature: statusChecksum,
+    };
 
-      // Check transaction status
-      const statusParams = {
-        body: {
-          mid: PAYTM_MERCHANT_ID,
-          orderId: req.body.ORDERID,
-        },
-      };
+    const statusResponse = await fetch(PAYTM_STATUS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(statusParams),
+    });
 
-      const checksum = await PaytmChecksum.generateSignature(
-        JSON.stringify(statusParams.body),
-        PAYTM_MERCHANT_KEY,
-      );
+    const statusData = await statusResponse.json();
 
-      statusParams.head = {
-        signature: checksum,
-      };
+    // Determine result status from Paytm response
+    const resultStatus =
+      statusData?.body?.resultInfo?.resultStatus || statusData?.body?.txnStatus;
 
-      const statusResponse = await fetch(PAYTM_STATUS_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(statusParams),
-      });
+    // Map Paytm status to frontend-friendly status and message
+    let statusKey = "failure";
+    let message = "Payment failed or unknown status";
 
-      const statusData = await statusResponse.json();
-
-      // Redirect to frontend with status
-      const frontendUrl = process.env.FRONTEND_URL || "http://localhost:4321";
-      const status = statusData.body.resultInfo.resultStatus;
-
-      res.redirect(
-        `${frontendUrl}/donate?status=${status}&orderId=${req.body.ORDERID}`,
-      );
-    } else {
-      console.log("Checksum Mismatched");
-      res.redirect(
-        `${process.env.FRONTEND_URL || "http://localhost:4321"}/donate?status=failure`,
-      );
+    if (resultStatus === "TXN_SUCCESS" || resultStatus === "SUCCESS") {
+      statusKey = "success";
+      message = "Payment successful";
+    } else if (
+      resultStatus === "PENDING" ||
+      resultStatus === "SUBMITTED" ||
+      resultStatus === "IN_PROGRESS"
+    ) {
+      statusKey = "pending";
+      message = "Payment is pending";
     }
+
+    // Return JSON to frontend with an appropriate message
+    return res.json({
+      success: statusKey === "success",
+      status: statusKey,
+      message,
+      orderId,
+      raw: statusData?.body,
+    });
   } catch (error) {
     console.error("Callback error:", error);
-    res.redirect(
-      `${process.env.FRONTEND_URL || "http://localhost:4321"}/donate?status=failure`,
-    );
+    return res.status(500).json({
+      success: false,
+      status: "failure",
+      message: "Server error while processing callback",
+      error: error.message,
+    });
   }
 });
 
