@@ -115,6 +115,67 @@ app.post("/api/paytm/initiate", async (req, res) => {
   }
 });
 
+app.post("/api/callabck", async (req, res) => {
+  try {
+    console.log("Callback payload received:", req.body);
+
+    const { ORDERID, TXNID, STATUS, CHECKSUMHASH } = req.body;
+
+    // Verify checksum
+    const isValidChecksum = PaytmChecksum.verifySignature(
+      req.body,
+      PAYTM_MERCHANT_KEY,
+      CHECKSUMHASH,
+    );
+
+    if (!isValidChecksum) {
+      return res.status(400).send("Checksum verification failed");
+    }
+
+    // Query Paytm for definitive transaction status
+    const paytmParams = {
+      body: {
+        mid: PAYTM_MERCHANT_ID,
+        orderId: ORDERID,
+      },
+    };
+
+    const checksum = await PaytmChecksum.generateSignature(
+      JSON.stringify(paytmParams.body),
+      PAYTM_MERCHANT_KEY,
+    );
+
+    paytmParams.head = {
+      signature: checksum,
+    };
+
+    const response = await fetch(PAYTM_STATUS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(paytmParams),
+    });
+
+    const result = await response.json();
+
+    console.log("Verified status:", result);
+
+    if (result.body.resultInfo.resultStatus === "TXN_SUCCESS") {
+      // save donation to DB
+      // mark order paid
+      // send email
+    }
+
+    res.redirect(
+      `https://herhaq.com/payment-status?status=${result.body.resultInfo.resultStatus}`,
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Payment verification failed");
+  }
+});
+
 // Paytm Callback Handler
 // app.post("/api/paytm/callback", async (req, res) => {
 //   try {

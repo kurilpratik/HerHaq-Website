@@ -1,0 +1,19 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+const status = Astro.url.searchParams.get("status");
+---
+
+<MainLayout title="Payment Status">
+  <main class="other-content" aria-labelledby="payment-status-heading">
+    <h4 id="payment-status-heading">Payment Status</h4>
+    <p>
+      {
+        status === "TXN_SUCCESS" ? (
+          <h1>Payment Successful 🎉</h1>
+        ) : (
+          <h1>Payment Failed ❌</h1>
+        )
+      }
+    </p>
+  </main>
+</MainLayout>
