@@ -115,7 +115,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
   }
 });
 
-app.post("/api/callabck", async (req, res) => {
+app.post("/api/paytm/callback", async (req, res) => {
   try {
     console.log("Callback payload received:", req.body);
 
