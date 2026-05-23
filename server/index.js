@@ -64,7 +64,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
       },
     };
 
-    console.log("Initiating Paytm transaction with params:", paytmParams);
+    //console.log("Initiating Paytm transaction with params:", paytmParams);
 
     // Generate checksum
     const checksum = await PaytmChecksum.generateSignature(
@@ -90,7 +90,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     const data = await response.json();
 
     if (data.body && data.body.txnToken) {
-      console.log("Paytm initiation successful:", data);
+      //console.log("Paytm initiation successful:", data);
       res.json({
         success: true,
         orderId: orderId,
@@ -117,7 +117,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
 
 app.post("/api/paytm/callback", async (req, res) => {
   try {
-    console.log("Callback payload received:", req.body);
+    //console.log("Callback payload received:", req.body);
 
     const { ORDERID, TXNID, STATUS, CHECKSUMHASH } = req.body;
 
@@ -159,7 +159,7 @@ app.post("/api/paytm/callback", async (req, res) => {
 
     const result = await response.json();
 
-    console.log("Verified status:", result);
+    //console.log("Verified status:", result);
 
     if (result.body.resultInfo.resultStatus === "TXN_SUCCESS") {
       // save donation to DB

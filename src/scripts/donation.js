@@ -7,6 +7,7 @@ const pingBtn = document.getElementById("ping");
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
 
 // Check for payment status in URL parameters
+// This would have worked if we were not redirecting from the callback url, you can change this in the config set redirect = false.
 const urlParams = new URLSearchParams(window.location.search);
 const paymentStatus = urlParams.get("status");
 const orderId = urlParams.get("orderId");
@@ -142,6 +143,11 @@ form.addEventListener("submit", async (e) => {
         };
         if (window.Paytm && window.Paytm.CheckoutJS) {
           window.Paytm.CheckoutJS.onLoad(function excecuteAfterCompleteLoad() {
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Opening Paytm...";
+              submitBtn.setAttribute("aria-disabled", "true");
+            }
             // initialze configuration using init method
             window.Paytm.CheckoutJS.init(config)
               .then(function onSuccess() {
