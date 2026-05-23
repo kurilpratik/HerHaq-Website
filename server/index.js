@@ -50,7 +50,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
         mid: PAYTM_MERCHANT_ID,
         websiteName: PAYTM_WEBSITE,
         orderId: orderId,
-        callbackUrl: `${req.protocol}://${req.get("host")}/api/paytm/callback`,
+        callbackUrl: `${req.protocol}s://${req.get("host")}/api/paytm/callback`,
         txnAmount: {
           value: amount.toString(),
           currency: "INR",
