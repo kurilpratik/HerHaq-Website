@@ -4,6 +4,7 @@ import PaytmChecksum from "paytmchecksum";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Paytm Configuration
@@ -87,7 +88,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     const data = await response.json();
 
     if (data.body && data.body.txnToken) {
-      console.log(data);
+      console.log("Paytm initiation successful:", data);
       res.json({
         success: true,
         orderId: orderId,
@@ -115,11 +116,34 @@ app.post("/api/paytm/initiate", async (req, res) => {
 // Paytm Callback Handler
 app.post("/api/paytm/callback", async (req, res) => {
   try {
-    const payload = req.body || {};
+    let payload = req.body || {};
+
+    if (typeof payload.body === "string") {
+      try {
+        payload.body = JSON.parse(payload.body);
+      } catch (err) {
+        // keep original body if not JSON
+      }
+    }
+
+    if (typeof payload.head === "string") {
+      try {
+        payload.head = JSON.parse(payload.head);
+      } catch (err) {
+        // keep original head if not JSON
+      }
+    }
 
     // Try to get order id from common fields
     const orderId =
-      payload.ORDERID || payload.orderId || payload.orderID || payload.order_id;
+      payload.ORDERID ||
+      payload.orderId ||
+      payload.orderID ||
+      payload.order_id ||
+      payload.ORDER_ID ||
+      payload.body?.ORDERID ||
+      payload.body?.orderId ||
+      payload.body?.orderID;
 
     if (!orderId) {
       return res.status(400).json({
@@ -132,17 +156,20 @@ app.post("/api/paytm/callback", async (req, res) => {
     // Verify checksum/signature if present
     let isValid = true;
     try {
-      if (payload.head && payload.head.signature) {
+      const checksum =
+        payload.head?.signature ||
+        payload.CHECKSUMHASH ||
+        payload.checksum ||
+        payload.signature;
+
+      if (checksum) {
+        const verifyPayload = payload.head?.signature
+          ? payload.body || {}
+          : payload;
         isValid = await PaytmChecksum.verifySignature(
-          JSON.stringify(payload.body || {}),
+          JSON.stringify(verifyPayload),
           PAYTM_MERCHANT_KEY,
-          payload.head.signature,
-        );
-      } else if (payload.signature) {
-        isValid = await PaytmChecksum.verifySignature(
-          JSON.stringify(payload),
-          PAYTM_MERCHANT_KEY,
-          payload.signature,
+          checksum,
         );
       }
     } catch (err) {
