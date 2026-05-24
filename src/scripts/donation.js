@@ -117,6 +117,11 @@ form.addEventListener("submit", async (e) => {
     // Invokes the Paytm payment page with the received transaction token
 
     if (result.success) {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Opening Paytm...";
+        submitBtn.setAttribute("aria-disabled", "true");
+      }
       function loadPaytmCheckoutScript() {
         const script = document.createElement("script");
         script.type = "application/javascript";
@@ -143,6 +148,11 @@ form.addEventListener("submit", async (e) => {
               console.log("notifyMerchant handler function called");
               console.log("eventName => ", eventName);
               console.log("data => ", data);
+              if (eventName === "APP_CLOSED") {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+                submitBtn.removeAttribute("aria-disabled");
+              }
             },
           },
         };
@@ -180,6 +190,11 @@ form.addEventListener("submit", async (e) => {
     statusEl.textContent =
       "An error occurred while processing your payment. Please try again.";
     statusEl.style.color = "red";
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+      submitBtn.removeAttribute("aria-disabled");
+    }
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
