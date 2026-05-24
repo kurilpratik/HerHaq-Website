@@ -94,6 +94,11 @@ form.addEventListener("submit", async (e) => {
   // Call the initiate route that we defined in index.js to get the transaction token and other details
 
   try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Opening Paytm...";
+      submitBtn.setAttribute("aria-disabled", "true");
+    }
     const response = await fetch(`${PUBLIC_API_URL}/api/paytm/initiate`, {
       method: "POST",
       headers: {
@@ -164,6 +169,11 @@ form.addEventListener("submit", async (e) => {
       statusEl.textContent = `Payment initiation failed: ${result.message || "Unknown error"}`;
       statusEl.style.color = "red";
       console.error("Payment initiation failed:", result);
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        submitBtn.removeAttribute("aria-disabled");
+      }
     }
   } catch (error) {
     console.error("Payment error:", error);
