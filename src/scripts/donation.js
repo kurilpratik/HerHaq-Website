@@ -96,7 +96,7 @@ form.addEventListener("submit", async (e) => {
   try {
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = "Opening Paytm...";
+      submitBtn.textContent = "Processing...";
       submitBtn.setAttribute("aria-disabled", "true");
     }
     const response = await fetch(`${PUBLIC_API_URL}/api/paytm/initiate`, {
@@ -112,6 +112,11 @@ form.addEventListener("submit", async (e) => {
       }),
     });
 
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Processing...";
+      submitBtn.setAttribute("aria-disabled", "true");
+    }
     const result = await response.json();
 
     // Invokes the Paytm payment page with the received transaction token
@@ -151,6 +156,11 @@ form.addEventListener("submit", async (e) => {
               if (eventName === "APP_CLOSED") {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
+                submitBtn.removeAttribute("aria-disabled");
+              }
+              if (eventName === "PAYMENT_ERROR") {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Try again";
                 submitBtn.removeAttribute("aria-disabled");
               }
             },
