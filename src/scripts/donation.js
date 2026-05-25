@@ -5,6 +5,29 @@ const statusEl = document.getElementById("form-status");
 const submitBtn = form.querySelector('button[type="submit"]');
 const pingBtn = document.getElementById("ping");
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
+const panInput =
+  document.getElementById("pan") ||
+  (form && form.querySelector('input[name="pan"]'));
+
+if (panInput) {
+  panInput.addEventListener("input", (e) => {
+    const el = e.target;
+    const prevStart = el.selectionStart;
+    const prevEnd = el.selectionEnd;
+    // Force uppercase and strip any non-alphanumeric characters
+    const cleaned = String(el.value || "")
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "");
+    el.value = cleaned;
+    // Try to restore cursor position at end of input
+    try {
+      const pos = Math.min(cleaned.length, prevStart || cleaned.length);
+      el.setSelectionRange(pos, pos);
+    } catch (err) {
+      // ignore if browser doesn't allow
+    }
+  });
+}
 
 // Check for payment status in URL parameters
 // This would have worked if we were not redirecting from the callback url, you can change this in the config set redirect = false.
@@ -74,12 +97,27 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  // Require PAN for donations >= 2000
+  if (amount >= 2000 && (!data.pan || String(data.pan).trim() === "")) {
+    statusEl.textContent = "PAN is mandatory for donations of ₹2,000 or more.";
+    statusEl.style.color = "red";
+    return;
+  }
+
+  // If PAN provided, ensure it only contains letters and numbers (uppercased)
+  if (data.pan && !/^[A-Z0-9]+$/.test(String(data.pan).toUpperCase())) {
+    statusEl.textContent =
+      "PAN can only contain letters and numbers (A–Z, 0–9).";
+    statusEl.style.color = "red";
+    return;
+  }
+
   const payload = {
     name: data.name,
     email: data.email,
     phone: data.phone,
     address: data.address || "",
-    pan: data.pan || "",
+    pan: data.pan ? String(data.pan).toUpperCase() : "",
     nationality: data.nationality || "",
     amount: amount,
     timestamp: new Date().toISOString(),
