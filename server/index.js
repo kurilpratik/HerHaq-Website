@@ -188,7 +188,7 @@ app.post("/api/paytm/callback", async (req, res) => {
     const result = await response.json();
     console.log("Paytm status response after callback:", result);
 
-    if (!result.body || !result.body.resultInfo) {
+    if (result.body || result.body.resultInfo) {
       // Update the order in Supabase with the transaction token
       await supabase
         .from("donations")
