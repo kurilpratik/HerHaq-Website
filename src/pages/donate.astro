@@ -105,6 +105,13 @@ import MainLayout from "../layouts/MainLayout.astro";
           >
         </fieldset>
 
+        <div id="country-container" style="display:none;">
+          <label for="country">Select Country *</label>
+          <select id="country" name="country">
+            <option value="">Choose your country</option>
+          </select>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn-primary">Donate</button>
           <div id="form-status" role="status" aria-live="polite"></div>
@@ -125,7 +132,8 @@ import MainLayout from "../layouts/MainLayout.astro";
       border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
-    .donation-form label {
+    .donation-form label,
+    legend {
       display: block;
       margin-top: 1rem;
       color: #444;
@@ -136,13 +144,30 @@ import MainLayout from "../layouts/MainLayout.astro";
     .donation-form input[type="email"],
     .donation-form input[type="tel"],
     .donation-form input[type="number"],
-    .donation-form textarea {
+    .donation-form textarea,
+    .donation-form select {
       width: 100%;
-      padding: 0.85rem;
+      padding: 0.85rem 1rem;
       border-radius: 8px;
       border: 1px solid #e6e6e6;
       margin-top: 0.5rem;
       font-size: 0.95rem;
+      background: #fff;
+      color: #222;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6' fill='%23666'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 10px 6px;
+      padding-right: 2.5rem;
+    }
+
+    .donation-form select:focus {
+      outline: none;
+      border-color: var(--primary, #891d1a);
+      box-shadow: 0 0 0 3px rgba(137, 29, 26, 0.1);
     }
 
     .amount-options {

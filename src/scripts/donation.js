@@ -1,3 +1,5 @@
+import { countries } from "../data/countries";
+
 const form = document.getElementById("donation-form");
 const presets = Array.from(document.querySelectorAll(".preset"));
 const otherAmountInput = document.getElementById("otherAmount");
@@ -28,6 +30,50 @@ if (panInput) {
     }
   });
 }
+
+// Nationality -> show country select when Non-Indian is chosen
+const nationalityRadios = Array.from(
+  document.querySelectorAll('input[name="nationality"]'),
+);
+const countryContainer = document.getElementById("country-container");
+const countrySelect = document.getElementById("country");
+
+// Minimal country list; can be expanded if needed
+
+function populateCountries() {
+  if (!countrySelect) return;
+  // avoid duplicate population
+  if (countrySelect.options.length > 1) return;
+  countries.sort().forEach((c) => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    countrySelect.appendChild(opt);
+  });
+}
+
+function updateCountryVisibility() {
+  const selected = document.querySelector(
+    'input[name="nationality"]:checked',
+  )?.value;
+  if (selected === "Non-Indian") {
+    if (countryContainer) countryContainer.style.display = "";
+    if (countrySelect) countrySelect.required = true;
+    populateCountries();
+  } else {
+    if (countryContainer) countryContainer.style.display = "none";
+    if (countrySelect) {
+      countrySelect.required = false;
+      countrySelect.value = "";
+    }
+  }
+}
+
+nationalityRadios.forEach((r) =>
+  r.addEventListener("change", updateCountryVisibility),
+);
+// Initialize on load
+updateCountryVisibility();
 
 // Check for payment status in URL parameters
 // This would have worked if we were not redirecting from the callback url, you can change this in the config set redirect = false.
@@ -112,16 +158,25 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  // Resolve nationality: if 'Indian' chosen -> 'India', otherwise use selected country
+  let resolvedNationality = "";
+  if (data.nationality === "Indian") resolvedNationality = "India";
+  else if (data.nationality === "Non-Indian")
+    resolvedNationality = data.country || "";
+
   const payload = {
     name: data.name,
     email: data.email,
     phone: data.phone,
     address: data.address || "",
     pan: data.pan ? String(data.pan).toUpperCase() : "",
-    nationality: data.nationality || "",
+    nationality: data.nationality,
+    country: resolvedNationality,
     amount: amount,
     timestamp: new Date().toISOString(),
   };
+
+  console.log("Initiating payment with payload:", payload);
 
   if (submitBtn) {
     submitBtn.disabled = true;
