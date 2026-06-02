@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^6.5.3",
+    "@supabase/supabase-js": "^2.106.2",
     "astro": "^5.12.6",
     "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "paytmchecksum": "^1.5.1",
     "sass": "^1.81.0"

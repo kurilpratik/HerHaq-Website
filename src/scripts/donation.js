@@ -202,6 +202,10 @@ form.addEventListener("submit", async (e) => {
         email: data.email,
         phone: data.phone,
         name: data.name,
+        address: data.address || "",
+        pan: data.pan ? String(data.pan).toUpperCase() : "",
+        nationality: data.nationality,
+        country: resolvedNationality,
       }),
     });
 

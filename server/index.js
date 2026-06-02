@@ -1,6 +1,10 @@
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import PaytmChecksum from "paytmchecksum";
+import { supabase } from "./lib/supabase.js";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -28,8 +32,10 @@ app.get("/api/ping", (req, res) => {
 
 // Initiate Paytm Transaction
 app.post("/api/paytm/initiate", async (req, res) => {
+  console.log("Initiate transaction payload:", req.body);
   try {
-    const { amount, email, phone, name } = req.body;
+    const { amount, email, phone, name, address, pan, nationality, country } =
+      req.body;
 
     if (!amount || !email || !phone || !name) {
       return res.status(400).json({
@@ -43,6 +49,27 @@ app.post("/api/paytm/initiate", async (req, res) => {
     //orderId = orderId + "";
 
     //orderId = Json.stringify(uniqueOrderId).replace(/"/g, ""); // Remove quotes if any
+
+    // Saving the order details to Supabase first
+    const { error } = await supabase.from("donations").insert({
+      order_id: orderId,
+      name,
+      email,
+      phone,
+      amount,
+      address,
+      pan,
+      nationality,
+      country,
+      status: "INITIATED",
+    });
+
+    if (error) {
+      console.error(error);
+      throw error;
+    } else {
+      console.log("Order saved to database with ID:", orderId);
+    }
 
     const paytmParams = {
       body: {
