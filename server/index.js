@@ -115,6 +115,7 @@ app.post("/api/paytm/initiate", async (req, res) => {
     );
 
     const data = await response.json();
+    console.log("Paytm initiation response:", data);
 
     if (data.body && data.body.txnToken) {
       //console.log("Paytm initiation successful:", data);
@@ -125,6 +126,16 @@ app.post("/api/paytm/initiate", async (req, res) => {
         amount: amount,
         mid: PAYTM_MERCHANT_ID,
       });
+      // Update the order in Supabase with the transaction token
+      await supabase
+        .from("donations")
+        .update({
+          status,
+          txn_id: result.body.txnId,
+          paytm_response: result.body,
+          updated_at: new Date(),
+        })
+        .eq("order_id", orderId);
     } else {
       res.status(500).json({
         success: false,
