@@ -90,7 +90,7 @@ import MainLayout from "../layouts/MainLayout.astro";
           id="pan"
           name="pan"
           type="text"
-          placeholder="Enter PAN if you want 80G benefit, mandatory for donations ≥ ₹2000"
+          placeholder="Mandatory for donations ≥ ₹2000 and 80G benefits"
         />
 
         <fieldset class="nationality-group">
@@ -144,8 +144,23 @@ import MainLayout from "../layouts/MainLayout.astro";
     .donation-form input[type="email"],
     .donation-form input[type="tel"],
     .donation-form input[type="number"],
-    .donation-form textarea,
-    .donation-form select {
+    .donation-form textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #e6e6e6;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      color: #222;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding-right: 1rem;
+    }
+
+    /* Show the dropdown arrow only for the country select */
+    .donation-form select#country {
       width: 100%;
       padding: 0.85rem 1rem;
       border-radius: 8px;
