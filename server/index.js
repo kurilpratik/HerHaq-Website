@@ -126,16 +126,6 @@ app.post("/api/paytm/initiate", async (req, res) => {
         amount: amount,
         mid: PAYTM_MERCHANT_ID,
       });
-      // Update the order in Supabase with the transaction token
-      await supabase
-        .from("donations")
-        .update({
-          status,
-          txn_id: result.body.txnId,
-          paytm_response: result.body,
-          updated_at: new Date(),
-        })
-        .eq("order_id", orderId);
     } else {
       res.status(500).json({
         success: false,
@@ -196,6 +186,20 @@ app.post("/api/paytm/callback", async (req, res) => {
     });
 
     const result = await response.json();
+    console.log("Paytm status response after callback:", result);
+
+    if (!result.body || !result.body.resultInfo) {
+      // Update the order in Supabase with the transaction token
+      await supabase
+        .from("donations")
+        .update({
+          status: result.body.resultInfo.resultStatus || "UNKNOWN",
+          txn_id: result.body.txnId,
+          paytm_response: result.body,
+          updated_at: new Date(),
+        })
+        .eq("order_id", ORDERID);
+    }
 
     //console.log("Verified status:", result);
 
