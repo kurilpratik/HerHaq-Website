@@ -1,0 +1,88 @@
+---
+interface Props {
+  text: string;
+  enabled?: boolean;
+  label?: string;
+}
+
+const {
+  text,
+  enabled = true,
+  label = "DONATE",
+} = Astro.props as Props;
+---
+
+{
+  enabled && (
+    <div class="site-banner" id="site-banner">
+      <a class="banner-inner">
+        {label && <span class="banner-label">{label}</span>}
+        <span class="banner-text">{text}</span>
+        <span class="banner-arrow" aria-hidden="true"></span>
+      </a>
+    </div>
+  )
+}
+
+<script>
+  const banner = document.getElementById("site-banner");
+  if (banner) {
+    const setHeight = () => {
+      document.documentElement.style.setProperty(
+        "--banner-height",
+        banner.offsetHeight + "px"
+      );
+    };
+    setHeight();
+    window.addEventListener("resize", setHeight);
+  }
+</script>
+
+<style lang="scss" is:global>
+  @import "../styles/styles.scss";
+
+  .site-banner {
+    width: 100%;
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 5px 16px;
+    z-index: 1000;
+    position: fixed;
+    border-bottom: 
+    1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .banner-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #222;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+
+  }
+
+  .banner-label {
+    display: inline-block;
+    background-color: $primary;
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .banner-text {
+    color: #333;
+  }
+
+  .banner-arrow {
+    color: #333;
+    font-size: 1rem;
+  }
+</style>
