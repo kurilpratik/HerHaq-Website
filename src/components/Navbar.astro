@@ -12,7 +12,7 @@ const normalizePath = (path) => {
 const normalizedCurrentPath = normalizePath(currentPath);
 
 const navLinks = navbarData.filter(
-  (item) => item.name !== "Contact Us" && item.name !== "Donate"
+  (item) => item.name !== "Contact Us" && item.name !== "Donate",
 );
 ---
 
@@ -177,7 +177,9 @@ const navLinks = navbarData.filter(
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
     white-space: nowrap;
 
     &:hover {
@@ -208,7 +210,10 @@ const navLinks = navbarData.filter(
     font-size: 0.9rem;
     font-weight: 600;
     border: 2px solid rgba(30, 30, 30, 0.55);
-    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
     white-space: nowrap;
 
     &:hover {
@@ -227,7 +232,10 @@ const navLinks = navbarData.filter(
     font-size: 0.9rem;
     font-weight: 600;
     border: 2px solid $primary;
-    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    transition:
+      background 0.2s ease,
+      transform 0.15s ease,
+      box-shadow 0.2s ease;
     white-space: nowrap;
 
     &:hover {
@@ -247,13 +255,13 @@ const navLinks = navbarData.filter(
     border-radius: 9999px;
     display: inline-block;
 
-    @media (max-width: 1095px) {
+    @media (max-width: 900px) {
       display: none;
     }
   }
 
   .desktop-link {
-    @media (max-width: 1095px) {
+    @media (max-width: 900px) {
       display: none;
     }
   }
@@ -263,7 +271,7 @@ const navLinks = navbarData.filter(
     padding: 0 !important;
     cursor: pointer;
 
-    @media (max-width: 1095px) {
+    @media (max-width: 900px) {
       display: flex;
       align-items: center;
       justify-content: center;
