@@ -65,7 +65,7 @@ body {
   height: 100vh !important;
   font-family: $font-family-base;
   font-weight: $font-weight-normal;
-  padding-top: 64px; // Add padding to account for fixed navbar
+  padding-top: 0px; // Add padding to account for fixed navbar
 
   @include mobile {
     padding-top: 64px; // Keep same padding on mobile
@@ -167,11 +167,13 @@ body {
 }
 
 .hero-title {
+  color: white;
   font-weight: $font-weight-bold;
   font-size: 4rem;
   line-height: 1.2;
-  margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
 
   @include mobile {
     font-size: 2.5rem;

@@ -133,6 +133,16 @@ const instagramPosts: InstagramPost[] = [
         target="_blank"
         class="btn-primary">Follow Us on Instagram</a
       >
+      <a
+        href="https://herhaqofficial.substack.com/"
+        target="_blank"
+        class="btn-primary">Subscribe To Our Newsletter</a
+      >
+      <a
+        href="https://www.linkedin.com/company/her-haq-official/"
+        target="_blank"
+        class="btn-primary">Follow Us On LinkedIn</a
+      >
     </div>
   </div>
 </div>
@@ -383,6 +393,27 @@ const instagramPosts: InstagramPost[] = [
   }
 
   .instagram-cta {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+
+    // Override global btn-primary mobile width so buttons stay compact and side-by-side
+    .btn-primary {
+      @include mobile {
+        width: auto;
+        min-width: unset;
+        max-width: unset;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    @include mobile {
+      gap: 0.75rem;
+    }
   }
 </style>

@@ -1,6 +1,5 @@
 ---
 import { navbarData } from "../data/navbarData";
-import Link from "./Link.astro";
 
 // Get current path for active link detection
 const currentPath = Astro.url.pathname;
@@ -11,15 +10,20 @@ const normalizePath = (path) => {
 };
 
 const normalizedCurrentPath = normalizePath(currentPath);
+
+const navLinks = navbarData.filter(
+  (item) => item.name !== "Contact Us" && item.name !== "Donate"
+);
 ---
 
-<nav class="container" aria-label="Primary">
-  <a href="/" class="logo">
+<header class="navbar-header" aria-label="Primary">
+  <a href="/" class="navbar-logo">
     <img src="/logos/logo.png" alt="Logo for HerHaq" />
   </a>
-  <div class="nav-links">
+
+  <nav class="navbar-glass" role="navigation">
     {
-      navbarData.map((item) => {
+      navLinks.map((item) => {
         const isActive =
           normalizedCurrentPath === normalizePath(item.path) ||
           (normalizedCurrentPath === "/" && item.path === "/");
@@ -28,19 +32,24 @@ const normalizedCurrentPath = normalizePath(currentPath);
         return (
           <a
             href={item.path}
-            class={`desktop-link ${isActive ? "active" : ""}`}
+            class={`nav-link desktop-link ${isActive ? "active" : ""}`}
           >
             {item.name}
           </a>
         );
       })
     }
+  </nav>
+
+  <div class="navbar-actions">
     <!-- <Link href='/contact.html' text='Contact Us' style='btn-outline' /> -->
+    <a href="/contact" class="btn-ghost desktop-link">Contact Us</a>
+    <a href="/donate" class="btn-primary desktop-link">Donate Us</a>
     <a class="menu" id="menu">
       <img src="/menu-icon.png" class="menu-icon" id="menu-icon" alt="" />
     </a>
   </div>
-</nav>
+</header>
 
 <div class="mobile-nav" id="mobile-nav">
   <div class="container">
@@ -65,7 +74,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     /* Mobile Nav */
-    const menu = document.getElementById("menu") as HTMLImageElement;
+    const menu = document.getElementById("menu") as HTMLElement;
     const menuIcon = document.getElementById("menu-icon") as HTMLImageElement;
     const mobileNav = document.getElementById("mobile-nav");
 
@@ -82,7 +91,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
         // Add staggered animation to menu items
         const menuItems = mobileNav.querySelectorAll("a");
         menuItems.forEach((item, index) => {
-          item.style.animationDelay = `${index * 0.1}s`;
+          (item as HTMLElement).style.animationDelay = `${index * 0.1}s`;
           item.classList.add("slide-in");
         });
       } else {
@@ -104,94 +113,169 @@ const normalizedCurrentPath = normalizePath(currentPath);
 
 <style lang="scss" is:global>
   @import "../styles/styles.scss";
-  nav {
+
+  .navbar-header {
     position: fixed;
-    top: 0;
+    top: var(--banner-height);
     left: 0;
-    background-color: #fff;
+    width: 100%;
     z-index: 999;
-    width: 100vw;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 16px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    padding: 12px 5%;
+    box-sizing: border-box;
+    background: transparent;
 
-    // Override container class constraints
-    &.container {
-      width: 100%;
-      margin: 0;
-      padding-left: 10%;
-      padding-right: 10%;
-
-      @include mobile {
-        padding-left: 5%;
-        padding-right: 5%;
-      }
+    @media (max-width: 1095px) {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 10px 5%;
     }
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
 
     img {
-      height: 36px;
+      height: 44px;
+      width: auto;
+
       @include mobile {
         height: 36px;
       }
     }
-    .nav-links {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  }
 
-    .nav-links a {
-      padding: 0 8px;
-      margin: 0 8px;
-      color: $primary;
-      text-decoration: none;
-      @include mobile {
-        padding: 0 2px;
-      }
-    }
-    .nav-links a:hover {
-      color: $primary;
-    }
+  .navbar-glass {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    .nav-links a.active {
-      color: $primary;
-      font-weight: $font-weight-bold;
-      position: relative;
+    border-radius: 9999px;
+    padding: 8px 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 95%;
-        height: 4px;
-        background-color: $primary;
-        border-radius: 1px;
-      }
-    }
-
-    .desktop-link {
-      @include mobile {
-        display: none;
-      }
-    }
-    .menu {
+    @media (max-width: 1095px) {
       display: none;
-      padding: 0 !important;
-      @include mobile {
-        display: block;
-      }
     }
-    .menu img {
-      height: 36px;
-      width: 36px;
+  }
+
+  .navbar-glass .nav-link {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.4);
+      color: #000;
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.45);
+      color: #000;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .btn-ghost {
+    padding: 8px 20px;
+    border-radius: 9999px;
+    background: transparent;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid rgba(30, 30, 30, 0.55);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: $primary;
+      border-color: $primary;
+      color: #fff;
+    }
+  }
+
+  .btn-cta {
+    padding: 8px 20px;
+    border-radius: 9999px;
+    background: $primary;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid $primary;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: darken(#891d1a, 5%);
+      border-color: darken(#891d1a, 5%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  // Navbar-scoped override: keep btn-primary proportionate inside the navbar
+  .navbar-header .btn-primary {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    min-width: unset;
+    width: auto;
+    border-radius: 9999px;
+    display: inline-block;
+
+    @media (max-width: 1095px) {
+      display: none;
+    }
+  }
+
+  .desktop-link {
+    @media (max-width: 1095px) {
+      display: none;
+    }
+  }
+
+  .menu {
+    display: none;
+    padding: 0 !important;
+    cursor: pointer;
+
+    @media (max-width: 1095px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    img {
+      height: 28px;
+      width: 28px;
       transition: transform 0.3s ease;
     }
 
-    .menu:hover img {
+    &:hover img {
       transform: scale(1.1);
     }
   }
@@ -199,7 +283,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
   .mobile-nav {
     width: 100vw;
     position: fixed;
-    top: 64px; // Position below the fixed navbar
+    top: calc(var(--banner-height, 0px) + 64px);
     left: 0;
     background-color: #fff;
     z-index: 9;
@@ -282,7 +366,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
       }
     }
 
-    @include mobile {
+    @media (max-width: 1095px) {
       display: block;
     }
   }

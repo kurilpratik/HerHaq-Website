@@ -1,30 +1,27 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import Banner from "../components/Banner.astro";
 import InstagramPosts from "../components/InstagramPosts.astro";
 import NewsletterLightbox from "../components/NewsletterLightbox.astro";
 import ImpactSection from "../components/ImpactSection.astro";
 ---
 
 <MainLayout title="Home" description="Home Page of the Her Haq Organization">
+  <Banner
+    text="Help us in creating a safer, healthier and equal world for women."
+    enabled={true}
+    label="DONATE"
+  />
   <section class="hero">
     <div class="hero-background">
-      <img
-        src="https://res.cloudinary.com/dbjdfox1r/image/upload/f_auto,q_auto/v1763589319/Home_Page_Min_xibbg6.png"
-        alt="Empowering Women"
-        class="hero-image"
-      />
-      <div class="hero-overlay"></div>
+      <img src="/home-page.png" alt="Empowering Women" class="hero-image" />
     </div>
     <div class="hero-content">
       <div class="container">
-        <h1 class="hero-title">
-          Empowering Women.<br /> Transforming Communities
-        </h1>
+        <h1 class="hero-title">BE A PART OF THE CHANGE</h1>
         <p class="hero-subtitle">
-          Join us in creating lasting change and building a more equitable world
-          for all
+          HELP US IN CREATING A SAFER, HEALTHIER AND <br>EQUAL WORLD FOR WOMEN
         </p>
-        <a href="/donate" class="btn-primary">Make a donation</a>
       </div>
     </div>
   </section>
@@ -74,11 +71,12 @@ import ImpactSection from "../components/ImpactSection.astro";
           and no woman has to fight for <span class="highlight">HER HAQ.</span>
         </h2>
         <div class="cta-buttons">
-          <a href="/contact" class="btn-primary">Volunteer With Us</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFYcjdgBzZVkAUdb
+EYpCW05iH49GoBtttpoHnB7b0cRLHtiw/viewform" class="btn-primary">Volunteer With Us</a>
           <!-- <div class="cta-separator"></div> -->
-          <a href="/contact" class="btn-primary">Partner With Us</a>
-          <!-- <div class="cta-separator"></div> -->
-          <a href="/events" class="btn-primary">Meet Us</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdwN2pO2H12a2EbQ
+puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform" class="btn-primary">Partner With Us</a>
+          
         </div>
       </div>
     </div>
