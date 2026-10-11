@@ -30,6 +30,90 @@ app.get("/api/ping", (req, res) => {
   res.json({ status: "ok", message: "Express backend connected" });
 });
 
+// Add a newsletter subscriber.
+app.post("/api/newsletter/subscribe", async (req, res) => {
+
+    const {
+        firstName,
+        lastName,
+        email,
+        website
+    } = req.body || {};
+
+
+    // Honeypot
+    if (typeof website === "string" && website.trim()) {
+        return res.json({
+            success: true
+        });
+    }
+
+
+    // Validate fields
+
+    const fields = {
+        firstName,
+        lastName,
+        email
+    };
+
+    const limits = {
+        firstName: 100,
+        lastName: 100,
+        email: 254,
+    };
+
+
+    for (const [field, value] of Object.entries(fields)) {
+
+        if (
+            typeof value !== "string" ||
+            !value.trim() ||
+            value.trim().length > limits[field]
+        ) {
+
+            return res.status(400).json({
+                success: false,
+                message: `Please provide a valid ${field.replace(
+                    /[A-Z]/g,
+                    (letter) => ` ${letter.toLowerCase()}`
+                )}.`
+            });
+
+        }
+
+    }
+
+
+    const normalizedEmail =
+        email.trim().toLowerCase();
+
+
+    // Validate email
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Please provide a valid email address."
+        });
+
+    }
+
+
+    console.log("Newsletter signup:", {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: normalizedEmail,
+    });
+
+
+    return res.status(201).json({
+        success: true
+    });
+
+});
+
 // Initiate Paytm Transaction
 app.post("/api/paytm/initiate", async (req, res) => {
   console.log("Initiate transaction payload:", req.body);

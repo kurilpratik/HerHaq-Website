@@ -1,7 +1,9 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import InstagramPosts from "../components/InstagramPosts.astro";
 import Banner from "../components/Banner.astro";
+import InstagramPosts from "../components/InstagramPosts.astro";
+import NewsletterLightbox from "../components/NewsletterLightbox.astro";
+import ImpactSection from "../components/ImpactSection.astro";
 ---
 
 <MainLayout title="Home" description="Home Page of the Her Haq Organization">
@@ -24,11 +26,12 @@ import Banner from "../components/Banner.astro";
     </div>
   </section>
 
+  <ImpactSection />
   <!-- Mission Section -->
   <section class="mission-section">
     <div class="container">
       <!-- Statistics -->
-      <div class="stats-container">
+      <!-- <div class="stats-container">
         <div class="stat-item">
           <div class="stat-number" data-target="30" data-suffix="+">0+</div>
           <div class="stat-label">Partners</div>
@@ -41,27 +44,19 @@ import Banner from "../components/Banner.astro";
           <div class="stat-number" data-target="1000" data-suffix="+">0+</div>
           <div class="stat-label">Beneficiaries</div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Mission Statement -->
       <div class="mission-content">
         <h2 class="mission-title">OUR MISSION</h2>
         <div class="mission-text">
           <p>
-            We believe gender justice isn't just a campaign, it is a lifelong
-            commitment to listening, building, and transforming. At Her Haq,
-            this belief is both personal and structural. Our work is powered by
-            passion but anchored in practice. We don't parachute in with
-            ready-made answers; we start by showing up, listening closely, and
-            working alongside communities to understand what justice looks like
-            in their context. From there, we co-create solutions that are
-            practical, scalable, and rooted in lived experience.
+            At Her Haq, we believe gender justice starts with listening. We work
+            alongside communities to amplify unheard voices, co-create practical
+            solutions, and challenge the systems that shape inequality, turning
+            lived experiences into lasting change.
           </p>
-          <p>
-            Every action we take stems from a deep commitment to amplifying
-            voices that have long been ignored and shifting power where it
-            belongs.
-          </p>
+          
         </div>
       </div>
     </div>
@@ -72,8 +67,8 @@ import Banner from "../components/Banner.astro";
     <div class="container">
       <div class="cta-content">
         <h2 class="cta-mission-text">
-          At Her Haq, we aren't just raising awareness. We're shifting
-          narratives, redistributing power, and building structures that last.
+          We are striving to build a world where every woman is heard, respected, and seen, 
+          and no woman has to fight for <span class="highlight">HER HAQ.</span>
         </h2>
         <div class="cta-buttons">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFYcjdgBzZVkAUdb
@@ -89,6 +84,7 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform" class="btn-primary">Partner With Us<
 
   <!-- Instagram Posts Section -->
   <InstagramPosts />
+  <NewsletterLightbox />
 </MainLayout>
 
 <style lang="scss" is:global>
@@ -96,7 +92,7 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform" class="btn-primary">Partner With Us<
 
   // Mission Section Styles
   .mission-section {
-    padding: 5rem 1rem 0 0;
+    padding: 1rem 1rem 0 0;
     background: white;
   }
 
@@ -148,7 +144,7 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform" class="btn-primary">Partner With Us<
     font-weight: $font-weight-bold;
     font-size: 2.5rem;
     color: $primary;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 2px;
 
@@ -176,7 +172,7 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform" class="btn-primary">Partner With Us<
 
   // Call to Action Section Styles
   .cta-section {
-    padding: 5rem 0;
+    padding: 1rem 0;
     background: white;
   }
 
@@ -189,14 +185,19 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform" class="btn-primary">Partner With Us<
   .cta-mission-text {
     font-weight: $font-weight-bold;
     font-size: 1.5rem;
-    color: $primary;
+    color: black;
     margin-bottom: 3rem;
     line-height: 1.4;
+    padding-bottom: 1rem;
 
     @include mobile {
       font-size: 1.25rem;
       margin-bottom: 2rem;
     }
+  }
+
+  .highlight{
+    color: $primary;
   }
 
   .cta-buttons {
