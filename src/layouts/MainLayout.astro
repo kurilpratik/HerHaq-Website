@@ -1,9 +1,10 @@
 ---
 import MainHead from "./MainHead.astro";
 
+import Banner from "../components/Banner.astro";
 import Navbar from "../components/Navbar.astro";
-
 import Footer from "../components/Footer.astro";
+
 //Using typescript
 interface Props {
   title: string;
@@ -15,6 +16,11 @@ const { title, description } = Astro.props as Props; //Destructured
 <html lang="en">
   <MainHead title={title} description={description} />
   <body>
+    <Banner
+      text="Help us in creating a safer, healthier and equal world for women."
+      enabled={true}
+      label="DONATE"
+    />
     <Navbar />
     <slot />
     <Footer />
