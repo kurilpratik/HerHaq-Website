@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import MainLayout from "../layouts/MainLayout.astro";
 import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
+import teamData from "../data/teamData";
 ---
 
 <MainLayout title="About" description="About Her Haq">
@@ -184,6 +185,57 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
             />
             <!-- <h4>PEACE, JUSTICE AND STRONG INSTITUTIONS</h4> -->
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <div class="container">
+      <!-- Trustees Section -->
+      <div class="team-category">
+        <h2 class="team-category-title">TRUSTEES</h2>
+        <div class="team-grid">
+          {
+            teamData.trustees.map((member) => (
+              <div class="team-member">
+                <div class="team-member-image-wrapper">
+                  <img
+                    src={member.imageUrl}
+                    alt={member.name}
+                    class="team-member-image"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="team-member-name">{member.name}</h3>
+                <p class="team-member-title">{member.title}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Core Team Section -->
+      <div class="team-category">
+        <h2 class="team-category-title">CORE TEAM</h2>
+        <div class="team-grid">
+          {
+            teamData.coreTeam.map((member) => (
+              <div class="team-member">
+                <div class="team-member-image-wrapper">
+                  <img
+                    src={member.imageUrl}
+                    alt={member.name}
+                    class="team-member-image"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="team-member-name">{member.name}</h3>
+                <p class="team-member-title">{member.title}</p>
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -516,5 +568,106 @@ import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
     font-weight: 600;
     color: #333;
     margin-top: 0.5rem;
+  }
+
+  // Team Section Styles
+  .team-section {
+    padding: 5rem 0;
+    background: white;
+
+    @include mobile {
+      padding: 3rem 0;
+    }
+  }
+
+  .team-category {
+    margin-bottom: 5rem;
+
+    @include mobile {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .team-category-title {
+    text-align: center;
+    font-weight: $font-weight-bold;
+    font-size: 2.5rem;
+    color: $primary;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    @include mobile {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 400px;
+    }
+  }
+
+  .team-member {
+    text-align: center;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  .team-member-image-wrapper {
+    margin: 0 auto 1.5rem;
+    aspect-ratio: 3 / 4; // pick the rectangle ratio you prefer
+    width: 100%;
+    max-width: 260px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    @include mobile {
+      max-width: 220px;
+    }
+  }
+
+  .team-member-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .team-member-name {
+    font-weight: $font-weight-bold;
+    font-size: 1.2rem;
+    color: $primary;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+
+  .team-member-title {
+    font-weight: $font-weight-normal;
+    font-size: 0.95rem;
+    color: $primary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @include mobile {
+      font-size: 0.875rem;
+    }
   }
 </style>
