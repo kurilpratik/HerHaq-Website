@@ -44,7 +44,7 @@ const navLinks = navbarData.filter(
   <div class="navbar-actions">
     <!-- <Link href='/contact.html' text='Contact Us' style='btn-outline' /> -->
     <a href="/contact" class="btn-ghost desktop-link">Contact Us</a>
-    <a href="/donate" class="btn-cta desktop-link">Donate Us</a>
+    <a href="/donate" class="btn-primary desktop-link">Donate Us</a>
     <a class="menu" id="menu">
       <img src="/menu-icon.png" class="menu-icon" id="menu-icon" alt="" />
     </a>
@@ -126,6 +126,12 @@ const navLinks = navbarData.filter(
     padding: 12px 5%;
     box-sizing: border-box;
     background: transparent;
+
+    @media (max-width: 1095px) {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 10px 5%;
+    }
   }
 
   .navbar-logo {
@@ -159,7 +165,7 @@ const navLinks = navbarData.filter(
     padding: 8px 20px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 
-    @include mobile {
+    @media (max-width: 1095px) {
       display: none;
     }
   }
@@ -232,8 +238,22 @@ const navLinks = navbarData.filter(
     }
   }
 
+  // Navbar-scoped override: keep btn-primary proportionate inside the navbar
+  .navbar-header .btn-primary {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    min-width: unset;
+    width: auto;
+    border-radius: 9999px;
+    display: inline-block;
+
+    @media (max-width: 1095px) {
+      display: none;
+    }
+  }
+
   .desktop-link {
-    @include mobile {
+    @media (max-width: 1095px) {
       display: none;
     }
   }
@@ -241,14 +261,17 @@ const navLinks = navbarData.filter(
   .menu {
     display: none;
     padding: 0 !important;
+    cursor: pointer;
 
-    @include mobile {
-      display: block;
+    @media (max-width: 1095px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     img {
-      height: 36px;
-      width: 36px;
+      height: 28px;
+      width: 28px;
       transition: transform 0.3s ease;
     }
 
@@ -260,7 +283,7 @@ const navLinks = navbarData.filter(
   .mobile-nav {
     width: 100vw;
     position: fixed;
-    top: 64px;
+    top: calc(var(--banner-height, 0px) + 64px);
     left: 0;
     background-color: #fff;
     z-index: 9;
@@ -343,7 +366,7 @@ const navLinks = navbarData.filter(
       }
     }
 
-    @include mobile {
+    @media (max-width: 1095px) {
       display: block;
     }
   }
