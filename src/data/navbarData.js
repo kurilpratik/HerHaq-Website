@@ -4,7 +4,7 @@ const navbarData = [
     path: "/",
   },
   {
-    name: "Fieldwork",
+    name: "About",
     path: "/about",
   },
   {
@@ -15,10 +15,10 @@ const navbarData = [
     name: "Advocacy",
     path: "/events",
   },
-  // {
-  //   name: "Fieldowrk",
-  //   path: "/team",
-  // },
+  {
+    name: "Fieldowrk",
+    path: "/fieldwork",
+  },
   {
     name: "Contact Us",
     path: "/contact",

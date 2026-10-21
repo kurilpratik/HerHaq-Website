@@ -1,0 +1,32 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout
+  title="Fieldwork"
+  description="Fieldwork Page of the Her Haq Organization"
+>
+  <section class="fieldwork-hero">
+    <h1>Fieldwork</h1>
+  </section>
+</MainLayout>
+
+<style>
+  .fieldwork-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: #f7f4ef;
+  }
+
+  .fieldwork-hero h1 {
+    margin: 0;
+    color: #891d1a;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>
