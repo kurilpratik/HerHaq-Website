@@ -5,21 +5,21 @@ interface Props {
   label?: string;
 }
 
-const {
-  text,
-  enabled = true,
-  label = "DONATE",
-} = Astro.props as Props;
+const { text, enabled = true, label = "DONATE" } = Astro.props as Props;
 ---
 
 {
   enabled && (
     <div class="site-banner" id="site-banner">
-      <a class="banner-inner">
-        {label && <span class="banner-label">{label}</span>}
+      <div class="banner-inner">
+        {label && (
+          <a href="/donate" class="banner-label">
+            {label}
+          </a>
+        )}
         <span class="banner-text">{text}</span>
-        <span class="banner-arrow" aria-hidden="true"></span>
-      </a>
+        <span class="banner-arrow" aria-hidden="true" />
+      </div>
     </div>
   )
 }
@@ -30,7 +30,7 @@ const {
     const setHeight = () => {
       document.documentElement.style.setProperty(
         "--banner-height",
-        banner.offsetHeight + "px"
+        banner.offsetHeight + "px",
       );
     };
     setHeight();
@@ -77,19 +77,20 @@ const {
     }
   }
 
-  // Banner Label Styles 
+  // Banner Label Styles
 
   .banner-label {
     display: inline-block;
     background-color: $primary;
     color: #fff;
-    font-size: 0.9rem;   // ← control text size here
+    font-size: 0.9rem; // ← control text size here
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 4px 10px;   // ← control pill size here
+    padding: 4px 10px; // ← control pill size here
     border-radius: 3px;
     flex-shrink: 0;
+    text-decoration: none;
 
     @include mobile {
       font-size: 0.7rem;
