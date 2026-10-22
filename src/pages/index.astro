@@ -98,6 +98,9 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform"
   .mission-section {
     padding: 0.1rem 0 0 0;
     background: white;
+    @include mobile {
+      padding-top: 4rem;
+    }
   }
 
   .stats-container {
@@ -177,7 +180,11 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform"
   // Call to Action Section Styles
   .cta-section {
     padding: 1rem 0;
+    padding-bottom: 8rem;
     background: white;
+    @include mobile {
+      padding-bottom: 4rem;
+    }
   }
 
   .cta-content {
@@ -190,7 +197,7 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform"
     font-weight: $font-weight-bold;
     font-size: 1.5rem;
     color: black;
-    margin-bottom: 4.3rem;
+    margin-bottom: 2rem;
     line-height: 1.4;
 
     @include mobile {
@@ -212,7 +219,7 @@ puHGX6M2akqHXQhJXg1LFa8jwXr3_bqLA/viewform"
     justify-content: center;
     align-items: center;
     gap: 4rem;
-    margin-bottom: 2rem;
+    // margin-bottom: 2rem;
 
     @include mobile {
       flex-direction: column;
