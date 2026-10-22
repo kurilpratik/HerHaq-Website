@@ -64,12 +64,18 @@
     .map-state:is(
         [data-state="AS"],
         [data-state="HR"],
-        [data-state="DL"],
         [data-state="UP"],
         [data-state="TS"],
         [data-state="MH"]
     ) {
         fill: #891d1a;
+        cursor: pointer;
+    }
+
+    .map-state:is(
+        [data-state="DL"]
+    ){
+        fill: #ce3a50 ;
         cursor: pointer;
     }
 
