@@ -17,6 +17,10 @@ $primary-og: #db4152;
 $accent: #fcb415;
 $mobile: 600px;
 
+:root {
+  --page-top-offset: var(--banner-height, 0px);
+}
+
 // Import Poppins font from Google Fonts with multiple weights
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
@@ -65,10 +69,10 @@ body {
   height: 100vh !important;
   font-family: $font-family-base;
   font-weight: $font-weight-normal;
-  padding-top: 0px; // Add padding to account for fixed navbar
+  padding-top: var(--page-top-offset); // Account for fixed banner
 
   @include mobile {
-    padding-top: 64px; // Keep same padding on mobile
+    padding-top: var(--page-top-offset); // Keep same offset on mobile
   }
 }
 
@@ -119,7 +123,7 @@ body {
 
 .hero {
   position: relative;
-  height: 85vh;
+  height: 75vh;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -173,7 +177,6 @@ body {
   line-height: 1.2;
   margin-bottom: 0.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
 
   @include mobile {
     font-size: 2.5rem;
