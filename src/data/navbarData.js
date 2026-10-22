@@ -16,7 +16,7 @@ const navbarData = [
     path: "/events",
   },
   {
-    name: "Fieldowrk",
+    name: "Fieldwork",
     path: "/fieldwork",
   },
   {
