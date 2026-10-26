@@ -14,7 +14,7 @@ import teamData from "../data/teamData";
           <h1 class="about-title">ABOUT US</h1>
           <p class="about-description">
             What started as a student-led initiative has evolved into a
-            youth-powered nonprofit operating across six states, leading
+            youth-powered nonprofit operating across multiple states, leading
             community-driven programs that advance <strong
               >women's rights, public dialogue, and grassroots research</strong
             >. We centre lived experience, shift power, and build structures
@@ -208,7 +208,11 @@ import teamData from "../data/teamData";
                     loading="lazy"
                   />
                 </div>
-                <h3 class="team-member-name">{member.name}</h3>
+                <h3 class="team-member-name">
+                  <a href={member.linkedinUrl} target="_blank">
+                    {member.name}
+                  </a>
+                </h3>
                 <p class="team-member-title">{member.title}</p>
               </div>
             ))
@@ -231,7 +235,11 @@ import teamData from "../data/teamData";
                     loading="lazy"
                   />
                 </div>
-                <h3 class="team-member-name">{member.name}</h3>
+                <h3 class="team-member-name">
+                  <a href={member.linkedinUrl} target="_blank">
+                    {member.name}
+                  </a>
+                </h3>
                 <p class="team-member-title">{member.title}</p>
               </div>
             ))
@@ -645,6 +653,13 @@ import teamData from "../data/teamData";
     object-fit: cover;
     display: block;
   }
+
+  .team-member-name a {
+    color: $primary;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
 
   .team-member-name {
     font-weight: $font-weight-bold;
