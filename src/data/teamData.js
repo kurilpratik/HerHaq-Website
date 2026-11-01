@@ -2,7 +2,7 @@ const teamData = {
   trustees: [
     {
       name: "AANYA WIG",
-      title: "CO-FOUNDER",
+      title: "CO-FOUNDER & MANAGING DIRECTOR",
       imageUrl:
         "https://res.cloudinary.com/q9ivm4og/image/upload/f_auto,q_auto/Aanya",
       linkedinUrl: "https://www.linkedin.com/in/aanya-wig/",
