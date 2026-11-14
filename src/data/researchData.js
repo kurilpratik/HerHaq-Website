@@ -1,7 +1,7 @@
 export const researchData = [
   {
     title: "Women’s Safety In Public Transportation Report",
-    img: "/research/public-safety-report-2015.png",
+    img: "/research/1.png",
     link: "https://drive.google.com/file/d/1J7wakZl_49xCRyKzHqbIq9z-KOQ9ZtWI/view?usp=sharing",
     category: "report",
     description:
@@ -9,7 +9,7 @@ export const researchData = [
   },
   {
     title: "Budget Report 2025-26",
-    img: "/research/haq-budget-check.png",
+    img: "/research/2.png",
     link: "https://drive.google.com/file/d/1hV1KCa-w4UTcFVUZx04Ml1gkFBHn3JZZ/view?usp=sharing",
     category: "report",
     description:
@@ -17,15 +17,15 @@ export const researchData = [
   },
   {
     title: "Digital Safety Report",
-    img: "/research/digital-safety.png",
+    img: "/research/3.png",
     link: "https://drive.google.com/file/d/19bMiBiPzVCFjnYZAuynLG3vvkZcgtfyQ/view?usp=sharing",
     category: "report",
     description:
       "The report uses field interviews and secondary databases to investigate the digital safety of women in India, examining how gender-based harm unfolds across social media platforms and how effective current redressal mechanisms are. It calls for stronger platform accountability, simplified reporting tools, multilingual user support, and integration of IT Rules into community guidelines to create safer, more inclusive digital spaces.",
   },
   {
-    title: "SPRF Commentary",
-    img: "/research/sprf.png",
+    title: "Decoding the Gender Budget and Its True Gains for ‘Naari Shakti'",
+    img: "/research/4.png",
     link: "https://sprf.in/decoding-the-gender-budget-and-its-true-gains-for-naari-shakti/",
     category: "policy",
     description:
@@ -33,7 +33,7 @@ export const researchData = [
   },
   {
     title: "Her Voice, Her Rights - Budget Monsoon Session 2024 Brief",
-    img: "/research/monsoon.png",
+    img: "/research/5.png",
     link: "https://drive.google.com/file/d/1pjM_Q-uPo9iiCApKuAHOgPIOYeTGI5SU/view?usp=sharing",
     category: "report",
     description:
