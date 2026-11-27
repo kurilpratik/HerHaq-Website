@@ -6,7 +6,6 @@ const otherAmountInput = document.getElementById("otherAmount");
 const statusEl = document.getElementById("form-status");
 const submitBtn = form.querySelector('button[type="submit"]');
 const pingBtn = document.getElementById("ping");
-const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
 const panInput =
   document.getElementById("pan") ||
   (form && form.querySelector('input[name="pan"]'));
@@ -192,7 +191,7 @@ form.addEventListener("submit", async (e) => {
       submitBtn.textContent = "Processing...";
       submitBtn.setAttribute("aria-disabled", "true");
     }
-    const response = await fetch(`${PUBLIC_API_URL}/api/paytm/initiate`, {
+    const response = await fetch("/api/paytm/initiate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

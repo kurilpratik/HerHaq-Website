@@ -1,5 +1,9 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+
+// Static content: build to HTML and serve from the CDN rather than
+// invoking the SSR function on every request.
+export const prerender = true;
 ---
 <MainLayout title="Our Work" description="Highlights of the work done by Her Haq">
     <p>Changing default branch to astro from master - works</p>

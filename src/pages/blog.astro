@@ -1,6 +1,10 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Link from '../components/Link.astro';
+
+// Static content: build to HTML and serve from the CDN rather than
+// invoking the SSR function on every request.
+export const prerender = true;
 ---
 <MainLayout title='Blog' description='The blog page for Her Haq, find all the latest articles over here.'>
     <h1>Blog</h1>

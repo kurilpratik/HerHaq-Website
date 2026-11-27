@@ -5,6 +5,10 @@ import teamData from "../data/teamData";
 
 // Import hero banner image
 import heroBanner from "../../public/banner/home.jpg";
+
+// Static content: build to HTML and serve from the CDN rather than
+// invoking the SSR function on every request.
+export const prerender = true;
 ---
 
 <MainLayout title="Our Team" description="The Her Haq Team">
