@@ -310,16 +310,18 @@ export const prerender = true;
   .who-we-are-gallery-top img { 
     display: block; 
     width: 100%; 
-    aspect-ratio: 4 / 5; 
+    aspect-ratio: 4 / 5.5; 
     object-fit: cover; 
+    border-radius: 14px; 
   }
 
 
   .who-we-are-gallery-wide { 
     display: block; 
     width: 100%; 
-    aspect-ratio: 16 / 9; 
+    aspect-ratio: 16 / 9.8; 
     object-fit: cover; 
+    border-radius: 14px; 
   }
   .who-we-are-text { 
     min-width: 0; 
@@ -343,7 +345,7 @@ export const prerender = true;
   .interventions-section { 
     background: #ffe5dc; 
     // padding: 1.75rem 0 2rem; 
-    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    padding: 1.25rem 0 2.25rem;
   }
   .interventions-container { 
     width: min(92%, 1120px); 
@@ -441,7 +443,7 @@ export const prerender = true;
   // How We Work Section Styles
   .how-we-work-section {
     background: #ffffff;
-    padding: 4rem 0;
+    padding: 3rem 0 1.5rem;
     color: #333;
   }
 
@@ -609,19 +611,15 @@ export const prerender = true;
 
   // Team Section Styles
   .team-section {
-    padding: 2rem 0;
+    padding: 2.25rem 0 0;
     background: white;
-
-    @include mobile {
-      padding: 3rem 0;
-    }
   }
 
   .team-category {
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 
-    @include mobile {
-      margin-bottom: 3rem;
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 
@@ -630,13 +628,12 @@ export const prerender = true;
     font-weight: $font-weight-bold;
     font-size: 2.5rem;
     color: $primary;
-    margin-bottom: 3rem;
+    margin: 0 0 1.75rem;
     text-transform: uppercase;
     letter-spacing: 2px;
 
     @include mobile {
       font-size: 2rem;
-      margin-bottom: 2rem;
     }
   }
 

@@ -30,11 +30,19 @@ const { text, enabled = true, label = "DONATE" } = Astro.props as Props;
     const setHeight = () => {
       document.documentElement.style.setProperty(
         "--banner-height",
-        banner.offsetHeight + "px",
+        `${banner.getBoundingClientRect().height}px`,
       );
     };
+
     setHeight();
     window.addEventListener("resize", setHeight);
+
+    // The banner can gain or lose a line when fonts load or its available
+    // width changes. Keep the fixed navbar offset in sync with that height.
+    const resizeObserver = new ResizeObserver(setHeight);
+    resizeObserver.observe(banner);
+
+    document.fonts?.ready.then(setHeight);
   }
 </script>
 
