@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import PaytmChecksum from "paytmchecksum";
-import { supabase } from "./lib/supabase.js";
+import { sql } from "./lib/db.js";
 
 dotenv.config();
 
@@ -134,26 +134,18 @@ app.post("/api/paytm/initiate", async (req, res) => {
 
     //orderId = Json.stringify(uniqueOrderId).replace(/"/g, ""); // Remove quotes if any
 
-    // Saving the order details to Supabase first
-    const { error } = await supabase.from("donations").insert({
-      order_id: orderId,
-      name,
-      email,
-      phone,
-      amount,
-      address,
-      pan,
-      nationality,
-      country,
-      status: "INITIATED",
-    });
+    // Record the order before handing off to Paytm
+    await sql`
+      insert into donations
+        (order_id, name, email, phone, amount,
+         address, pan, nationality, country, status)
+      values
+        (${orderId}, ${name}, ${email}, ${phone}, ${amount},
+         ${address || null}, ${pan || null}, ${nationality || null},
+         ${country || null}, 'INITIATED')
+    `;
 
-    if (error) {
-      console.error(error);
-      throw error;
-    } else {
-      console.log("Order saved to database with ID:", orderId);
-    }
+    console.log("Order saved to database with ID:", orderId);
 
     const paytmParams = {
       body: {
@@ -272,17 +264,16 @@ app.post("/api/paytm/callback", async (req, res) => {
     const result = await response.json();
     console.log("Paytm status response after callback:", result);
 
-    if (result.body || result.body.resultInfo) {
-      // Update the order in Supabase with the transaction token
-      await supabase
-        .from("donations")
-        .update({
-          status: result.body.resultInfo.resultStatus || "UNKNOWN",
-          txn_id: result.body.txnId,
-          paytm_response: result.body,
-          updated_at: new Date(),
-        })
-        .eq("order_id", ORDERID);
+    if (result.body && result.body.resultInfo) {
+      // Record Paytm's verdict against the order
+      await sql`
+        update donations
+           set status         = ${result.body.resultInfo.resultStatus || "UNKNOWN"},
+               txn_id         = ${result.body.txnId || null},
+               paytm_response = ${JSON.stringify(result.body)}::jsonb,
+               updated_at     = now()
+         where order_id = ${ORDERID}
+      `;
     }
 
     //console.log("Verified status:", result);
