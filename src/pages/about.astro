@@ -3,6 +3,10 @@ import { Image } from "astro:assets";
 import MainLayout from "../layouts/MainLayout.astro";
 import { howWeWorkSteps } from "../data/howWeWorkSteps.js";
 import teamData from "../data/teamData";
+
+// Static content: build to HTML and serve from the CDN rather than
+// invoking the SSR function on every request.
+export const prerender = true;
 ---
 
 <MainLayout title="About" description="About Her Haq">

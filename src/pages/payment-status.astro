@@ -1,6 +1,9 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 const status = Astro.url.searchParams.get("status");
+
+// Reads ?status= at request time, so this page must stay on-demand.
+export const prerender = false;
 ---
 
 <MainLayout title="Payment Status">

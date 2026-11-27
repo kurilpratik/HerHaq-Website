@@ -2,6 +2,10 @@
 import MainLayout from "../../layouts/MainLayout.astro";
 
 MainLayout;
+
+// Static content: build to HTML and serve from the CDN rather than
+// invoking the SSR function on every request.
+export const prerender = true;
 ---
 
 <MainLayout title="Refund Policy">
