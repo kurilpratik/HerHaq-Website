@@ -1,0 +1,23 @@
+# Netlify build settings. The build command and publish directory stay
+# configured in the Netlify UI; this file only carries settings that belong
+# with the code.
+
+[build.environment]
+  # Netlify's secrets scanner fails the build when the value of any build
+  # environment variable appears in the repo or in the build output. These
+  # are public config, not credentials, and each one legitimately shows
+  # up in committed files:
+  #
+  #   FRONTEND_URL        the site's own URL (README, astro.config.mjs)
+  #   PAYTM_WEBSITE       "DEFAULT" — Paytm's production website name
+  #   PAYTM_TXN_URL       public Paytm endpoint, also a hardcoded fallback
+  #   PAYTM_STATUS_URL    public Paytm endpoint, also a hardcoded fallback
+  #   PAYTM_MERCHANT_ID   sent to the browser by design, in the Paytm
+  #                       checkout script URL in src/scripts/donation.js
+  #   PAYTM_CHANNEL_ID    "WEB"
+  #   PAYTM_INDUSTRY_TYPE "Retail"
+  #   PUBLIC_API_URL      PUBLIC_-prefixed, so bundled into client code
+  #
+  # The actual secrets — PAYTM_MERCHANT_KEY, DATABASE_URL, APPS_SCRIPT_URL —
+  # are deliberately left in the scan, so a real leak still fails the build.
+  SECRETS_SCAN_OMIT_KEYS = "FRONTEND_URL,PAYTM_WEBSITE,PAYTM_TXN_URL,PAYTM_STATUS_URL,PAYTM_MERCHANT_ID,PAYTM_CHANNEL_ID,PAYTM_INDUSTRY_TYPE,PUBLIC_API_URL"
