@@ -111,11 +111,100 @@ function setActivePreset(btn) {
 
 presets.forEach((p) => p.addEventListener("click", () => setActivePreset(p)));
 
+const PAYTM_CHECKOUT_SRC =
+  "https://secure.paytmpayments.com/merchantpgpui/checkoutjs/merchants/XSoslk96319757734940.js";
+
+// Bounded so a CheckoutJS that loads but never signals ready becomes an error
+// the donor can retry, instead of a button stuck on "Processing...".
+const CHECKOUT_LOAD_TIMEOUT_MS = 15000;
+
+// Read before any submit can run. A failed attempt relabels the button to
+// "Try again", so reading it later would make that label permanent.
+const SUBMIT_BTN_LABEL = submitBtn
+  ? submitBtn.textContent.trim() || "Donate"
+  : "Donate";
+
+function lockSubmitBtn(label) {
+  if (!submitBtn) return;
+  submitBtn.disabled = true;
+  submitBtn.textContent = label;
+  submitBtn.setAttribute("aria-disabled", "true");
+}
+
+function releaseSubmitBtn(label = SUBMIT_BTN_LABEL) {
+  if (!submitBtn) return;
+  submitBtn.disabled = false;
+  submitBtn.textContent = label;
+  submitBtn.removeAttribute("aria-disabled");
+}
+
+// Paytm's checkout bundle does not depend on the order, so it downloads while
+// the donor is still filling the form — only init(config) needs the token.
+// Memoised, so a retry awaits the same load instead of appending a second
+// <script> and opening a second checkout.
+let checkoutScriptPromise = null;
+
+function loadPaytmCheckout() {
+  if (checkoutScriptPromise) return checkoutScriptPromise;
+
+  checkoutScriptPromise = new Promise((resolve, reject) => {
+    let settled = false;
+
+    const fail = (message) => {
+      if (settled) return;
+      settled = true;
+      // Drop the cached promise so the next submit retries the download
+      // rather than awaiting one that has already rejected.
+      checkoutScriptPromise = null;
+      reject(new Error(message));
+    };
+
+    const timer = setTimeout(
+      () => fail("Paytm checkout script timed out"),
+      CHECKOUT_LOAD_TIMEOUT_MS,
+    );
+
+    const script = document.createElement("script");
+    script.type = "application/javascript";
+    script.src = PAYTM_CHECKOUT_SRC;
+    script.crossOrigin = "anonymous";
+
+    script.onerror = () => {
+      clearTimeout(timer);
+      script.remove();
+      fail("Paytm checkout script failed to load");
+    };
+
+    script.onload = () => {
+      if (!window.Paytm || !window.Paytm.CheckoutJS) {
+        clearTimeout(timer);
+        fail("Paytm CheckoutJS missing after script load");
+        return;
+      }
+      // CheckoutJS carries on initialising after the tag fires onload, so
+      // onLoad is what actually marks it usable.
+      window.Paytm.CheckoutJS.onLoad(() => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve(window.Paytm.CheckoutJS);
+      });
+    };
+
+    document.body.appendChild(script);
+  });
+
+  return checkoutScriptPromise;
+}
+
+// Warm it now. A failure here is not worth showing anyone, because the submit
+// path loads it again and reports the error where the donor can act on it.
+loadPaytmCheckout().catch(() => {});
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   statusEl.textContent = "";
   statusEl.style.color = "";
-  const originalBtnText = submitBtn ? submitBtn.textContent : "Donate";
 
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
@@ -177,20 +266,12 @@ form.addEventListener("submit", async (e) => {
 
   console.log("Initiating payment with payload:", payload);
 
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Processing...";
-    submitBtn.setAttribute("aria-disabled", "true");
-  }
-
-  // Call the initiate route that we defined in index.js to get the transaction token and other details
+  // The button stays locked from here through to the Paytm modal, released
+  // only by a failure path or by notifyMerchant. Every window in which it
+  // looks clickable is a window for a duplicate order.
+  lockSubmitBtn("Processing...");
 
   try {
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Processing...";
-      submitBtn.setAttribute("aria-disabled", "true");
-    }
     const response = await fetch("/api/paytm/initiate", {
       method: "POST",
       headers: {
@@ -208,104 +289,67 @@ form.addEventListener("submit", async (e) => {
       }),
     });
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Processing...";
-      submitBtn.setAttribute("aria-disabled", "true");
-    }
     const result = await response.json();
 
-    // Invokes the Paytm payment page with the received transaction token
-
-    if (result.success) {
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Opening Paytm...";
-        submitBtn.setAttribute("aria-disabled", "true");
-      }
-      function loadPaytmCheckoutScript() {
-        const script = document.createElement("script");
-        script.type = "application/javascript";
-        script.src =
-          "https://secure.paytmpayments.com/merchantpgpui/checkoutjs/merchants/XSoslk96319757734940.js";
-        script.crossOrigin = "anonymous";
-        script.onload = onScriptLoad;
-        document.body.appendChild(script);
-      }
-      loadPaytmCheckoutScript();
-
-      function onScriptLoad() {
-        var config = {
-          root: "",
-          flow: "DEFAULT",
-          data: {
-            orderId: result.orderId /* update order id */,
-            token: result.txnToken /* update token value */,
-            tokenType: "TXN_TOKEN",
-            amount: result.amount /* update amount */,
-          },
-          handler: {
-            notifyMerchant: function (eventName, data) {
-              console.log("notifyMerchant handler function called");
-              console.log("eventName => ", eventName);
-              console.log("data => ", data);
-              if (eventName === "APP_CLOSED") {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
-                submitBtn.removeAttribute("aria-disabled");
-              }
-              if (eventName === "PAYMENT_ERROR") {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Try again";
-                submitBtn.removeAttribute("aria-disabled");
-              }
-            },
-          },
-        };
-        if (window.Paytm && window.Paytm.CheckoutJS) {
-          window.Paytm.CheckoutJS.onLoad(function excecuteAfterCompleteLoad() {
-            if (submitBtn) {
-              submitBtn.disabled = true;
-              submitBtn.textContent = "Opening Paytm...";
-              submitBtn.setAttribute("aria-disabled", "true");
-            }
-            // initialze configuration using init method
-            window.Paytm.CheckoutJS.init(config)
-              .then(function onSuccess() {
-                // after successfully updating configuration, invoke JS Checkout
-                window.Paytm.CheckoutJS.invoke();
-              })
-              .catch(function onError(error) {
-                console.log("error => ", error);
-              });
-          });
-        }
-      }
-    } else {
+    if (!result.success) {
       statusEl.textContent = `Payment initiation failed: ${result.message || "Unknown error"}`;
       statusEl.style.color = "red";
       console.error("Payment initiation failed:", result);
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
-        submitBtn.removeAttribute("aria-disabled");
-      }
+      releaseSubmitBtn();
+      return;
+    }
+
+    let checkout;
+    try {
+      checkout = await loadPaytmCheckout();
+    } catch (error) {
+      console.error("Paytm checkout unavailable:", error);
+      statusEl.textContent =
+        "Couldn't reach Paytm. Please check your connection and try again.";
+      statusEl.style.color = "red";
+      releaseSubmitBtn("Try again");
+      return;
+    }
+
+    lockSubmitBtn("Opening Paytm...");
+
+    const config = {
+      root: "",
+      flow: "DEFAULT",
+      data: {
+        orderId: result.orderId,
+        token: result.txnToken,
+        tokenType: "TXN_TOKEN",
+        amount: result.amount,
+      },
+      handler: {
+        notifyMerchant: function (eventName, eventData) {
+          console.log("notifyMerchant:", eventName, eventData);
+          if (eventName === "APP_CLOSED") {
+            releaseSubmitBtn();
+          }
+          if (eventName === "PAYMENT_ERROR") {
+            releaseSubmitBtn("Try again");
+          }
+        },
+      },
+    };
+
+    try {
+      await checkout.init(config);
+      checkout.invoke();
+    } catch (error) {
+      console.error("Paytm checkout failed to open:", error);
+      statusEl.textContent =
+        "Couldn't open the Paytm payment window. Please try again.";
+      statusEl.style.color = "red";
+      releaseSubmitBtn("Try again");
     }
   } catch (error) {
     console.error("Payment error:", error);
     statusEl.textContent =
       "An error occurred while processing your payment. Please try again.";
     statusEl.style.color = "red";
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalBtnText;
-      submitBtn.removeAttribute("aria-disabled");
-    }
-  } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalBtnText;
-      submitBtn.removeAttribute("aria-disabled");
-    }
+    releaseSubmitBtn();
   }
 });
