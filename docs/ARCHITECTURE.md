@@ -79,14 +79,27 @@ Locally they come from `.env`.
 | `RECONCILE_STALE_MINUTES` | reconcile script | No (default 15) |
 | `RECONCILE_AUDIT_FILE` | reconcile script | No |
 
-`PAYTM_CHANNEL_ID`, `PAYTM_INDUSTRY_TYPE` and `FRONTEND_URL` appear in
-`.env.example` but nothing reads them. They are leftovers from the Express
-service and can be deleted.
+`.env.example` carries this same set with instructions; it is committed, so
+keep the two in step when a variable is added or retired.
 
-Note that `.env.example` is listed in `.gitignore`, so it does not travel with
-the repo. That is almost certainly unintentional — an example env file is
-normally the one file you do commit. This table is the real reference until
-that is fixed.
+`PAYTM_CHANNEL_ID`, `PAYTM_INDUSTRY_TYPE` and `FRONTEND_URL` are leftovers
+from the Express service — nothing reads them, and they are gone from
+`.env.example`. `PROXY_SECRET`, `APPS_SCRIPT_URL` and `PUBLIC_SHEET_ENDPOINT`
+survive in some local `.env` files and in a `netlify.toml` comment, but no
+code in this repo reads them either.
+
+### Which database
+
+The Neon project `herhaq` (`rapid-river-81005603`) has two branches:
+
+| Branch | Contents | `DATABASE_URL` belongs in |
+| --- | --- | --- |
+| `main` | production donations | Netlify, Production context only |
+| `test` | schema only, no rows | local `.env`, deploy previews, branch deploys |
+
+`test` was created schema-only, so it has never held donor data. Reset it with
+`psql "$DATABASE_URL" -f db/schema.sql` when it gets messy. Scope the Netlify
+variable per deploy context so a preview build cannot write to `main`.
 
 ## The donation flow
 
