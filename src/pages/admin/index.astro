@@ -1,0 +1,381 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+import { maskPan, recordAudit } from "../../lib/admin.js";
+import {
+  PAGE_SIZE,
+  STATUSES,
+  fetchDonations,
+  fetchStatusCounts,
+  filtersAreActive,
+  filtersToQuery,
+  formatIst,
+  formatRupees,
+  parseFilters,
+} from "../../lib/donations.js";
+
+export const prerender = false;
+
+const admin = Astro.locals.admin!;
+const filters = parseFilters(Astro.url.searchParams);
+const reveal = Astro.url.searchParams.get("reveal") === "1";
+const offset = (filters.page - 1) * PAGE_SIZE;
+
+type Loaded = Awaited<ReturnType<typeof fetchDonations>>;
+
+let data: Loaded | null = null;
+let counts: Record<string, number> = {};
+let failure: { heading: string; detail: string } | null = null;
+
+try {
+  data = await fetchDonations(filters, { limit: PAGE_SIZE, offset });
+  counts = await fetchStatusCounts();
+} catch (error) {
+  console.error("admin donations query failed:", (error as Error).message);
+  failure = {
+    heading: "The donations could not be read",
+    detail:
+      "The database did not answer. Nothing is wrong with your sign-in. Try again, and if it keeps happening check DATABASE_URL.",
+  };
+}
+
+// Fail closed. The audit row is the record of who saw these donors, so if it
+// cannot be written the rows are not shown. Doing it the other way round would
+// leave a log that reads as complete while quietly missing entries.
+if (data) {
+  try {
+    await recordAudit({
+      adminEmail: admin.email,
+      action: reveal ? "reveal_pan" : "view_donations",
+      detail: {
+        status: filters.status || null,
+        from: filters.from || null,
+        to: filters.to || null,
+        q: filters.q || null,
+        sort: `${filters.sort} ${filters.dir}`,
+        page: filters.page,
+      },
+      rowCount: data.rows.length,
+      request: Astro.request,
+    });
+  } catch (error) {
+    console.error(
+      "admin_audit write failed, view refused:",
+      (error as Error).message,
+    );
+    data = null;
+    failure = {
+      heading: "This view was not shown",
+      detail:
+        "Donor records are only displayed when the view can be written to the audit log, and that write failed. The log would otherwise read as a complete record while missing this entry.",
+    };
+  }
+}
+
+const STATUS_CLASS: Record<string, string> = {
+  TXN_SUCCESS: "status-success",
+  TXN_FAILURE: "status-failure",
+  PENDING: "status-waiting",
+  INITIATED: "status-waiting",
+  UNKNOWN: "status-unknown",
+};
+
+const STATUS_LABEL: Record<string, string> = {
+  TXN_SUCCESS: "Success",
+  TXN_FAILURE: "Failed",
+  PENDING: "Pending",
+  INITIATED: "Initiated",
+  UNKNOWN: "Unknown",
+};
+
+const linkTo = (overrides: Record<string, unknown>) => {
+  const query = filtersToQuery({ ...filters, reveal }, overrides);
+  return query ? `/admin?${query}` : "/admin";
+};
+
+const sortLink = (key: string) =>
+  linkTo({
+    sort: key,
+    dir: filters.sort === key && filters.dir === "desc" ? "asc" : "desc",
+    page: 1,
+  });
+
+const sortState = (key: string) =>
+  filters.sort === key
+    ? filters.dir === "asc"
+      ? "ascending"
+      : "descending"
+    : undefined;
+
+const sortArrow = (key: string) =>
+  filters.sort === key ? (filters.dir === "asc" ? "↑" : "↓") : "";
+
+const matched = data?.matched ?? 0;
+const lastPage = Math.max(1, Math.ceil(matched / PAGE_SIZE));
+const firstOnPage = matched === 0 ? 0 : offset + 1;
+const lastOnPage = Math.min(offset + PAGE_SIZE, matched);
+const narrowed = filtersAreActive(filters);
+const exportQuery = filtersToQuery(filters);
+const totalRecorded = Object.values(counts).reduce((sum, n) => sum + n, 0);
+---
+
+<AdminLayout title="Donations" tab="donations">
+  <div class="page-head">
+    <div>
+      <h1>Donations</h1>
+      {
+        data && (
+          <p>
+            <span class="tally">{matched.toLocaleString("en-IN")}</span>
+            {matched === 1 ? " donation" : " donations"}
+            {narrowed ? " match these filters" : " recorded"}, of which
+            <span class="tally"> {formatRupees(data.raised)}</span> came in
+            successfully.
+          </p>
+        )
+      }
+    </div>
+
+    {
+      data && data.rows.length > 0 && (
+        <div class="filters-actions">
+          {/*
+            Revealing a PAN is a round trip, not a client-side toggle: the
+            full numbers are never in the HTML until this link is followed,
+            and following it writes a reveal_pan row to the audit log.
+          */}
+          <a
+            class="btn btn-quiet"
+            href={linkTo({ reveal: !reveal, page: filters.page })}
+          >
+            {reveal ? "Hide PANs again" : "Show PANs in full"}
+          </a>
+          <a
+            class="btn btn-quiet"
+            href={`/api/admin/export.csv?${exportQuery}`}
+          >
+            Export as CSV
+          </a>
+        </div>
+      )
+    }
+  </div>
+
+  {
+    failure && (
+      <div class="note note-error">
+        <strong>{failure.heading}.</strong> {failure.detail}
+      </div>
+    )
+  }
+
+  <form class="filters" method="get" action="/admin">
+    {reveal && <input type="hidden" name="reveal" value="1" />}
+    <div class="filters-row">
+      <div class="field field-search">
+        <label for="q">Name, email, phone or order id</label>
+        <input
+          type="search"
+          id="q"
+          name="q"
+          value={filters.q}
+          placeholder="priya, 98100, DON_17"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">
+            All statuses{totalRecorded ? ` (${totalRecorded})` : ""}
+          </option>
+          {
+            STATUSES.map((value) => (
+              <option value={value} selected={filters.status === value}>
+                {STATUS_LABEL[value]}
+                {counts[value] ? ` (${counts[value]})` : " (0)"}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="from">From (IST)</label>
+        <input type="date" id="from" name="from" value={filters.from} />
+      </div>
+
+      <div class="field">
+        <label for="to">To (IST)</label>
+        <input type="date" id="to" name="to" value={filters.to} />
+      </div>
+
+      <input type="hidden" name="sort" value={filters.sort} />
+      <input type="hidden" name="dir" value={filters.dir} />
+
+      <div class="filters-actions">
+        <button class="btn" type="submit">Apply filters</button>
+        {
+          narrowed && (
+            <a class="btn btn-quiet" href="/admin">
+              Clear
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </form>
+
+  {
+    /*
+      Only renders when something is actually narrowing or unmasking the view.
+      The toggle that used to live here moved up beside the export button, so
+      with no filters and no reveal there is nothing left to say.
+    */
+    (narrowed || reveal) && (
+      <div class="chip-row">
+        {filters.status && (
+          <span class="chip">Status: {STATUS_LABEL[filters.status]}</span>
+        )}
+        {filters.from && <span class="chip">From {filters.from}</span>}
+        {filters.to && <span class="chip">To {filters.to}</span>}
+        {filters.q && <span class="chip">Matching "{filters.q}"</span>}
+        {reveal && <span class="chip">PANs shown in full</span>}
+      </div>
+    )
+  }
+
+  {
+    data && (
+      <>
+        <div class="table-wrap">
+          {data.rows.length === 0 ? (
+            <div class="empty">
+              {narrowed ? (
+                <>
+                  <h2>Nothing matches these filters</h2>
+                  <p>
+                    No donation matches that combination of search, status and
+                    dates. Dates are IST calendar days, and the range includes
+                    both ends.
+                  </p>
+                  <a class="btn btn-quiet" href="/admin">
+                    Clear the filters
+                  </a>
+                </>
+              ) : (
+                <>
+                  <h2>No donations recorded yet</h2>
+                  <p>
+                    Donations appear here as soon as someone submits the form on
+                    the donate page. A row is written when the donor is handed
+                    to Paytm, before they pay, so an INITIATED row means an
+                    attempt rather than a gift.
+                  </p>
+                </>
+              )}
+            </div>
+          ) : (
+            <table>
+              <caption>
+                Showing {firstOnPage.toLocaleString("en-IN")} to{" "}
+                {lastOnPage.toLocaleString("en-IN")} of{" "}
+                {matched.toLocaleString("en-IN")}. Times are IST.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col" aria-sort={sortState("date")}>
+                    <a href={sortLink("date")}>When {sortArrow("date")}</a>
+                  </th>
+                  <th scope="col" aria-sort={sortState("name")}>
+                    <a href={sortLink("name")}>Donor {sortArrow("name")}</a>
+                  </th>
+                  <th scope="col">Phone</th>
+                  <th
+                    scope="col"
+                    class="cell-num"
+                    aria-sort={sortState("amount")}
+                  >
+                    <a href={sortLink("amount")}>
+                      Amount {sortArrow("amount")}
+                    </a>
+                  </th>
+                  <th scope="col" aria-sort={sortState("status")}>
+                    <a href={sortLink("status")}>
+                      Status {sortArrow("status")}
+                    </a>
+                  </th>
+                  <th scope="col">PAN</th>
+                  <th scope="col">Order</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.rows.map((row) => (
+                  <tr>
+                    <td class="cell-when">{formatIst(row.created_at)}</td>
+                    <td>
+                      <div class="donor-name">{row.name}</div>
+                      <div class="donor-mail">{row.email}</div>
+                    </td>
+                    <td class="cell-mono">{row.phone}</td>
+                    <td class="cell-num">{formatRupees(row.amount)}</td>
+                    <td>
+                      <span
+                        class={`status ${STATUS_CLASS[row.status] ?? "status-unknown"}`}
+                      >
+                        {STATUS_LABEL[row.status] ?? row.status}
+                      </span>
+                    </td>
+                    <td>
+                      {row.pan ? (
+                        reveal ? (
+                          <span class="pan-shown">{row.pan}</span>
+                        ) : (
+                          <span class="pan-masked">{maskPan(row.pan)}</span>
+                        )
+                      ) : (
+                        <span class="pan-none">not given</span>
+                      )}
+                    </td>
+                    <td class="cell-mono">
+                      {row.order_id}
+                      {row.txn_id && <div class="donor-mail">{row.txn_id}</div>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {matched > PAGE_SIZE && (
+          <nav class="pager" aria-label="Pages of donations">
+            <span>
+              Page <strong>{filters.page}</strong> of{" "}
+              <strong>{lastPage}</strong>
+            </span>
+            <span class="pager-links">
+              {filters.page > 1 && (
+                <a
+                  class="btn btn-quiet"
+                  href={linkTo({ page: filters.page - 1 })}
+                >
+                  Previous
+                </a>
+              )}
+              {filters.page < lastPage && (
+                <a
+                  class="btn btn-quiet"
+                  href={linkTo({ page: filters.page + 1 })}
+                >
+                  Next
+                </a>
+              )}
+            </span>
+          </nav>
+        )}
+      </>
+    )
+  }
+</AdminLayout>

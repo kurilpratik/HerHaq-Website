@@ -1,0 +1,129 @@
+---
+import "../../styles/admin.css";
+
+import { findAdmin } from "../../lib/admin.js";
+import {
+  SESSION_COOKIE,
+  readSessionValue,
+  safeNext,
+} from "../../lib/session.js";
+
+export const prerender = false;
+
+const url = Astro.url;
+const next = safeNext(url.searchParams.get("next"));
+
+// Someone who is already signed in has no business on a login page. The
+// allowlist is re-read rather than trusted from the cookie, for the same
+// reason the middleware re-reads it.
+const existing = readSessionValue(Astro.cookies.get(SESSION_COOKIE)?.value);
+if (existing) {
+  try {
+    if (await findAdmin(existing.email)) {
+      return Astro.redirect(next, 302);
+    }
+  } catch (error) {
+    // Fall through to the login page. A database that cannot be reached is
+    // reported below, not as a 500 on the way in.
+    console.error("admin allowlist lookup failed:", (error as Error).message);
+  }
+}
+
+type Notice = { tone: "note" | "note-warn" | "note-error"; text: string };
+
+const NOTICES: Record<string, Notice> = {
+  signin: {
+    tone: "note",
+    text: "Sign in to open the donations admin.",
+  },
+  revoked: {
+    tone: "note-error",
+    text: "That account is no longer on the admin list, so its session has ended.",
+  },
+  allowlist: {
+    tone: "note-error",
+    text: "That Google account is not on the admin list. Reach out to Pratik Kuril to have it added before you can sign in.",
+  },
+  state: {
+    tone: "note-warn",
+    text: "That sign-in attempt expired or did not match. Please start again.",
+  },
+  cancelled: {
+    tone: "note-warn",
+    text: "Sign-in was cancelled.",
+  },
+  google: {
+    tone: "note-error",
+    text: "Google could not complete the sign-in. Please try again.",
+  },
+  config: {
+    tone: "note-error",
+    text: "Google sign-in is not set up on this site yet. GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET are missing from the environment.",
+  },
+  unavailable: {
+    tone: "note-error",
+    text: "The admin database could not be reached. Please try again shortly.",
+  },
+};
+
+const denied = url.searchParams.get("denied") || "";
+const signedOut = url.searchParams.get("signedout") === "1";
+
+const notice: Notice | null = signedOut
+  ? { tone: "note", text: "You have been signed out." }
+  : (NOTICES[denied] ?? null);
+
+const startUrl =
+  next === "/admin"
+    ? "/api/admin/auth/google/start"
+    : `/api/admin/auth/google/start?next=${encodeURIComponent(next)}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="same-origin" />
+    <link rel="icon" type="image/png" href="/logos/icon.png" />
+    <!-- Poppins is served from this origin, declared in admin.css. -->
+    <title>Sign in - Her Haq admin</title>
+  </head>
+
+  <body>
+    <main class="login-wrap">
+      <div class="login-card">
+        <!--
+          Decorative: the <h1> directly below says "Her Haq Admin", so naming
+          the image here makes a screen reader read it twice.
+        -->
+        <img
+          src="/logos/icon.png"
+          alt=""
+          width="52"
+          height="48"
+          fetchpriority="high"
+        />
+        <h1>Her Haq Admin</h1>
+        <p>For staff and volunteers on the admin list.</p>
+
+        {notice && <p class={`note ${notice.tone}`}>{notice.text}</p>}
+
+        <a class="btn" href={startUrl}>Sign in with Google</a>
+
+        <p class="login-foot">
+          Sign-ins, refusals and every view of donor data are recorded.
+        </p>
+
+        <!--
+          The same way out as the admin tab row, and it matters more here:
+          whoever is looking at this screen is the one who cannot get in.
+          Root-relative, so it follows the origin rather than jumping to
+          herhaq.com from localhost.
+        -->
+        <a class="admin-exit" href="/">Back to the website</a>
+      </div>
+    </main>
+  </body>
+</html>

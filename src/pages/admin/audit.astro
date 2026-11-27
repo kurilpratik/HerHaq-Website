@@ -1,0 +1,221 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+import {
+  AUDIT_PAGE_SIZE,
+  fetchAuditActions,
+  fetchAuditPage,
+  recordAuditQuietly,
+} from "../../lib/admin.js";
+import { formatIst } from "../../lib/donations.js";
+
+export const prerender = false;
+
+const admin = Astro.locals.admin!;
+const action = (Astro.url.searchParams.get("action") || "").slice(0, 40);
+const page = Math.max(
+  1,
+  Number.parseInt(Astro.url.searchParams.get("page") || "1", 10) || 1,
+);
+const offset = (page - 1) * AUDIT_PAGE_SIZE;
+
+type Loaded = Awaited<ReturnType<typeof fetchAuditPage>>;
+
+let data: Loaded | null = null;
+let actions: { action: string; count: number }[] = [];
+let failure = false;
+
+try {
+  data = await fetchAuditPage({ action, limit: AUDIT_PAGE_SIZE, offset });
+  actions = await fetchAuditActions();
+} catch (error) {
+  console.error("admin audit query failed:", (error as Error).message);
+  failure = true;
+}
+
+// Quietly, unlike the donations list. If audit writes are failing, this is the
+// page you need in order to find that out, and refusing to show it would turn
+// one broken insert into a locked door.
+await recordAuditQuietly({
+  adminEmail: admin.email,
+  action: "view_audit",
+  detail: { action: action || null, page },
+  rowCount: data?.rows.length ?? 0,
+  request: Astro.request,
+});
+
+const ACTION_LABEL: Record<string, string> = {
+  signin: "Signed in",
+  signin_denied: "Sign-in refused",
+  signout: "Signed out",
+  view_donations: "Viewed donations",
+  reveal_pan: "Revealed PANs",
+  export_csv: "Exported CSV",
+  // The Form 10BD export was removed. The label stays so entries written
+  // while it existed still read as something.
+  export_10bd: "Exported for 10BD",
+  view_audit: "Viewed this log",
+};
+
+const matched = data?.matched ?? 0;
+const lastPage = Math.max(1, Math.ceil(matched / AUDIT_PAGE_SIZE));
+
+const linkTo = (overrides: { action?: string; page?: number }) => {
+  const params = new URLSearchParams();
+  const nextAction = overrides.action ?? action;
+  const nextPage = overrides.page ?? page;
+  if (nextAction) params.set("action", nextAction);
+  if (nextPage > 1) params.set("page", String(nextPage));
+  const query = params.toString();
+  return query ? `/admin/audit?${query}` : "/admin/audit";
+};
+
+/** The filter or outcome recorded with an entry, as a short readable line. */
+const describe = (detail: unknown) => {
+  if (!detail || typeof detail !== "object") return "";
+  return Object.entries(detail as Record<string, unknown>)
+    .filter(
+      ([, value]) => value !== null && value !== undefined && value !== "",
+    )
+    .map(([key, value]) => `${key}: ${value}`)
+    .join(", ");
+};
+---
+
+<AdminLayout title="Audit log" tab="audit">
+  <div class="page-head">
+    <div>
+      <h1>Audit log</h1>
+      <p>
+        Who signed in, who was refused, and every view or export of donor
+        records. Written by the application, never edited or deleted by it.
+      </p>
+    </div>
+  </div>
+
+  {
+    failure && (
+      <div class="note note-error">
+        <strong>The log could not be read.</strong> The database did not answer.
+        Try again, and if it persists check DATABASE_URL.
+      </div>
+    )
+  }
+
+  {
+    actions.length > 0 && (
+      <form class="filters" method="get" action="/admin/audit">
+        <div class="filters-row">
+          <div class="field field-search">
+            <label for="action">Action</label>
+            <select id="action" name="action">
+              <option value="">
+                All actions ({matched.toLocaleString("en-IN")})
+              </option>
+              {actions.map((row) => (
+                <option value={row.action} selected={action === row.action}>
+                  {ACTION_LABEL[row.action] ?? row.action} ({row.count})
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="filters-actions">
+            <button class="btn" type="submit">
+              Filter
+            </button>
+            {action && (
+              <a class="btn btn-quiet" href="/admin/audit">
+                Clear
+              </a>
+            )}
+          </div>
+        </div>
+      </form>
+    )
+  }
+
+  {
+    data && (
+      <>
+        <div class="table-wrap">
+          {data.rows.length === 0 ? (
+            <div class="empty">
+              <h2>
+                {action
+                  ? "Nothing recorded for that action"
+                  : "Nothing recorded yet"}
+              </h2>
+              <p>
+                {action
+                  ? "No entry of that kind has been written. Clear the filter to see everything."
+                  : "The log fills as people sign in and open donor records. Your own sign-in should appear here shortly after it happens."}
+              </p>
+              {action && (
+                <a class="btn btn-quiet" href="/admin/audit">
+                  Clear the filter
+                </a>
+              )}
+            </div>
+          ) : (
+            <table>
+              <caption>
+                Newest first. {matched.toLocaleString("en-IN")}{" "}
+                {matched === 1 ? "entry" : "entries"}. Times are IST.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">When</th>
+                  <th scope="col">Who</th>
+                  <th scope="col">Action</th>
+                  <th scope="col" class="cell-num">
+                    Rows
+                  </th>
+                  <th scope="col">Detail</th>
+                  <th scope="col">From</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.rows.map((row) => (
+                  <tr>
+                    <td class="cell-when">{formatIst(row.created_at)}</td>
+                    <td class="donor-mail">{row.admin_email ?? "unknown"}</td>
+                    <td class="audit-action">
+                      {ACTION_LABEL[row.action] ?? row.action}
+                    </td>
+                    <td class="cell-num">
+                      {row.row_count === null
+                        ? ""
+                        : row.row_count.toLocaleString("en-IN")}
+                    </td>
+                    <td class="audit-detail">{describe(row.detail)}</td>
+                    <td class="cell-mono">{row.ip ?? ""}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {matched > AUDIT_PAGE_SIZE && (
+          <nav class="pager" aria-label="Pages of the audit log">
+            <span>
+              Page <strong>{page}</strong> of <strong>{lastPage}</strong>
+            </span>
+            <span class="pager-links">
+              {page > 1 && (
+                <a class="btn btn-quiet" href={linkTo({ page: page - 1 })}>
+                  Previous
+                </a>
+              )}
+              {page < lastPage && (
+                <a class="btn btn-quiet" href={linkTo({ page: page + 1 })}>
+                  Next
+                </a>
+              )}
+            </span>
+          </nav>
+        )}
+      </>
+    )
+  }
+</AdminLayout>
