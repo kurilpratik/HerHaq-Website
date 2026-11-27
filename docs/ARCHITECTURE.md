@@ -108,8 +108,9 @@ variable per deploy context so a preview build cannot write to `main`.
 2. `initiate` validates, generates an order id, **inserts the row as
    `INITIATED`**, then calls Paytm's `initiateTransaction` and returns a
    `txnToken`.
-3. The browser loads Paytm's checkout script and the donor pays on Paytm's
-   hosted page.
+3. The browser opens Paytm's checkout and the donor pays on Paytm's hosted
+   page. The checkout script was already downloaded on page load, so this
+   needs no network round trip of its own.
 4. Paytm sends the donor's browser to `/api/paytm/callback` as a form POST.
 5. `callback` verifies the checksum, then **queries Paytm's status API** for
    the authoritative outcome, writes it to the row, and redirects the donor to
@@ -120,6 +121,35 @@ Order ids look like `DON_<epoch_ms>_<0-9999>` and are unique in the database.
 Statuses: `INITIATED` on creation, then whatever Paytm reports —
 `TXN_SUCCESS`, `TXN_FAILURE`, `PENDING`, or `UNKNOWN` if the response carries
 no `resultStatus`.
+
+### The submit button in step 3 is a lock, not a label
+
+Between the donor's click and the Paytm modal appearing there are two waits:
+the `initiate` round trip, and Paytm's checkout bundle downloading from their
+CDN. For as long as either is in flight the Donate button must stay disabled,
+because the form is live and a second click means a **second order id, a
+second `INITIATED` row, and a second Paytm order** — orders the reconciler
+will later have to chase and resolve as abandoned.
+
+So exactly one thing owns the button at a time, and on the success path
+`donation.js` never hands it back:
+
+| State | Label | Released by |
+| --- | --- | --- |
+| `initiate` in flight | `Processing...` | failure paths only |
+| checkout bundle loading | `Processing...` | load error or timeout |
+| modal opening and open | `Opening Paytm...` | `notifyMerchant` |
+
+`notifyMerchant` re-enables it on `APP_CLOSED` (donor dismissed the modal) and
+on `PAYMENT_ERROR`. On a completed payment nothing re-enables it, which is
+correct — Paytm navigates the whole page away to the callback.
+
+**Do not add a `finally` that resets the button.** There was one, and because
+appending the `<script>` tag returns immediately while its `onload` fires
+later, it ran on the success path too: the button went `Processing...` →
+`Donate`, enabled, for the entire length of the CDN download, then
+`Opening Paytm...`, then the modal. Donors read the bounce back to `Donate` as
+a failure. Every state change now sits on a path that owns it.
 
 ### Two things about step 4 that matter
 
@@ -235,6 +265,32 @@ India's financial year runs 1 April to 31 March. A donation at 02:00 IST on
 financial year and the wrong tax filing. Always convert:
 `created_at at time zone 'Asia/Kolkata'`.
 
+**Paytm's checkout script loads on page load, not on submit.** The bundle
+depends on nothing from the order — only `init(config)` needs the order id and
+token — so there is no reason to make the donor wait for it after they have
+already committed. Loading it on submit put the whole CDN download inside the
+checkout flow, where it is dead time in front of someone holding a card.
+Loading it on page load moves that download to a moment when the donor is
+still typing. The cost is that everyone who opens `/donate` fetches it,
+including people who never donate. That trade is worth it on this page in
+particular, where intent is high. To bill it to the engaged instead, call
+`loadPaytmCheckout()` from a `focusin` listener on the form rather than at
+module scope; the memoisation makes it safe to call from anywhere, any number
+of times.
+
+**The loader is memoised and its failure is cached as a miss.** One promise
+serves every caller, so a retry after a failed `initiate` cannot append a
+second `<script>` tag or open a second checkout. On error or timeout the
+cached promise is cleared, so the next submit retries the download instead of
+awaiting a promise that has already rejected.
+
+**The loader resolves on `CheckoutJS.onLoad`, not on the tag's `onload`.**
+CheckoutJS carries on initialising after the script tag reports loaded, so the
+tag firing is not a signal that `init` can be called. The 15-second timeout
+exists because `onLoad` is Paytm's callback, not ours: if it never fires, the
+donor gets a retryable error rather than a button stuck on `Processing...`
+forever.
+
 ## 80G and Form 10BD
 
 Donors claiming a deduction need a receipt, and the organisation files Form
@@ -255,6 +311,16 @@ from the Express version rather than silently fixed.
 
 ## History
 
+- **Nov 2026 — checkout button states.** The Donate button fell back to its
+  default enabled state mid-flow, between `initiate` returning and Paytm's
+  checkout bundle finishing its download, because a `finally` block reset it on
+  the success path as well as the failure ones. Donors saw the button go back
+  to `Donate` and read it as a failed attempt. The window was also genuinely
+  clickable, which means duplicate orders were possible for the whole life of
+  the bug: a second click fired a second `initiate` and created a second
+  `INITIATED` row. Whether any donor actually did this has not been checked —
+  look for rows sharing an email within a few seconds of each other before
+  treating the historical abandonment rate as donor behaviour.
 - **Nov 2026 — Supabase to Neon.** The Supabase free tier pauses a project
   after 7 days of inactivity, taking the donation flow down with it. Worth
   knowing for next time: a *paused* Supabase project loses its DNS entirely,
