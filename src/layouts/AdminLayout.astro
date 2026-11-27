@@ -1,0 +1,107 @@
+---
+import "../styles/admin.css";
+
+interface Props {
+  title: string;
+  tab?: "donations" | "audit";
+}
+
+const { title, tab } = Astro.props as Props;
+
+// Set by src/middleware.ts. Every page using this layout sits behind the gate,
+// so it is always present by the time this renders.
+const admin = Astro.locals.admin;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Donor records. Not for search engines, and not for link previews. -->
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="same-origin" />
+    <link rel="icon" type="image/png" href="/logos/icon.png" />
+    <!--
+      Poppins is served from this origin, declared in admin.css. No request
+      leaves the site from an admin page, so opening donor records tells
+      nobody but us.
+    -->
+    <title>{title} - Her Haq admin</title>
+  </head>
+
+  <body>
+    <div class="admin-shell">
+      <header class="admin-top">
+        <a class="admin-brand" href="/admin">
+          <img
+            src="/logos/icon-white.png"
+            alt=""
+            width="28"
+            height="26"
+            decoding="async"
+          />
+          <span>
+            Her Haq
+            <small>Admin</small>
+          </span>
+        </a>
+
+        {
+          admin && (
+            <>
+              <span class="admin-who">
+                {admin.name && <strong>{admin.name}</strong>}
+                {admin.email}
+              </span>
+              <form
+                class="admin-signout"
+                method="post"
+                action="/api/admin/auth/logout"
+              >
+                <button type="submit">Sign out</button>
+              </form>
+            </>
+          )
+        }
+      </header>
+
+      <nav class="admin-tabs" aria-label="Admin sections">
+        <a
+          href="/admin"
+          aria-current={tab === "donations" ? "page" : undefined}
+        >
+          Donations
+        </a>
+        <a
+          href="/admin/audit"
+          aria-current={tab === "audit" ? "page" : undefined}
+        >
+          Audit log
+        </a>
+      </nav>
+
+      <main>
+        <slot />
+      </main>
+
+      <!--
+        Who you are belongs next to what is recorded about you, not in the
+        header. It is reference, not navigation: you read it once when you
+        want to check whose session this is, and never again.
+      -->
+      <footer class="admin-foot">
+        {
+          admin && (
+            <span class="admin-who">
+              Signed in as {admin.name ? `${admin.name}, ` : ""}
+              {admin.email}.
+            </span>
+          )
+        }
+        Donor records, including PAN, are shown here. Every view and export on these
+        pages is written to the audit log.
+      </footer>
+    </div>
+  </body>
+</html>

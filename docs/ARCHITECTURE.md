@@ -14,6 +14,7 @@ database off Supabase and the API off Render.
 | DB driver | `@neondatabase/serverless` | Queries over HTTP, no pool |
 | Payments | Paytm, production gateway | `paytmchecksum` for signing |
 | Correctness backstop | `scripts/reconcile-donations.js` | Polls Paytm for dropped callbacks |
+| Admin | `/admin`, Google OAuth + allowlist | Server-rendered, no client JS, audited |
 
 There is no separate backend service. The API lives in the same Astro project
 as the website and deploys with it.
@@ -50,10 +51,24 @@ build artifact of the prerender step; they are never routed to.
 ```
 astro.config.mjs                       adapter + dotenv (see Decisions)
 db/schema.sql                          canonical schema, apply with psql
+db/seed-test.sql                       fake donations for the test branch
 scripts/reconcile-donations.js         npm run reconcile
+scripts/manage-admins.js               npm run admins
+src/middleware.ts                      the /admin gate, one place
 src/lib/db.js                          lazy Neon client
 src/lib/paytm.js                       config, signing, order status
 src/lib/http.js                        json() response helper
+src/lib/session.js                     signed admin session cookie
+src/lib/google-oauth.js                Google sign-in, id_token claims
+src/lib/admin.js                       allowlist, audit log, PAN masking
+src/lib/donations.js                   filters, paging, IST and rupee display
+src/layouts/AdminLayout.astro          admin chrome, no public styles
+src/styles/admin.css                   admin stylesheet, separate on purpose
+src/pages/admin/login.astro            GET  sign-in page
+src/pages/admin/index.astro            GET  donations list
+src/pages/admin/audit.astro            GET  audit log
+src/pages/api/admin/auth/...           Google start, callback, logout
+src/pages/api/admin/export.csv.js      GET  CSV export of the filtered rows
 src/pages/api/ping.js                  GET  health check
 src/pages/api/newsletter/subscribe.js  POST (see 80G and known gaps)
 src/pages/api/paytm/initiate.js        POST create order, hand off to Paytm
@@ -78,6 +93,10 @@ Locally they come from `.env`.
 | `PUBLIC_SITE_URL` | callback URL and redirect origin | Yes |
 | `RECONCILE_STALE_MINUTES` | reconcile script | No (default 15) |
 | `RECONCILE_AUDIT_FILE` | reconcile script | No |
+| `ADMIN_SESSION_SECRET` | `src/lib/session.js` | Only for `/admin` |
+| `ADMIN_SESSION_HOURS` | `src/lib/session.js` | No (default 12) |
+| `GOOGLE_OAUTH_CLIENT_ID` | `src/lib/google-oauth.js` | Only for `/admin` |
+| `GOOGLE_OAUTH_CLIENT_SECRET` | `src/lib/google-oauth.js` | Only for `/admin` |
 
 `.env.example` carries this same set with instructions; it is committed, so
 keep the two in step when a variable is added or retired.
@@ -202,6 +221,17 @@ Do not exercise `/api/paytm/initiate` casually. `.env` points at the
 shows up as an abandoned donation. `/api/paytm/status` is read-only and safe
 to call freely.
 
+## The admin dashboard
+
+`/admin` is documented on its own, in **[ADMIN.md](ADMIN.md)**: setting up the
+Google OAuth client, the environment, who may sign in, and why the gate, the
+audit log and the exports work the way they do.
+
+The short version: one middleware gate over `/admin` and `/api/admin`, Google
+OAuth against an `admin_users` allowlist that is re-read on every request,
+server-rendered with no client-side JavaScript, and an `admin_audit` trail that
+fails closed on any view or export of donor data.
+
 ## Troubleshooting
 
 | Symptom | Likely cause |
@@ -230,8 +260,17 @@ project is not paused or removed for inactivity.
 psql "$DATABASE_URL" -f db/schema.sql
 ```
 
-One table, `donations`, plus a `successful_donations` view over
-`status = 'TXN_SUCCESS'`. The primary key is `uuid`, not a sequence.
+Three tables. `donations`, plus a `successful_donations` view over
+`status = 'TXN_SUCCESS'`; the primary key is `uuid`, not a sequence. Then
+`admin_users`, the sign-in allowlist, and `admin_audit`, the record of who
+looked at donor data. Both are per branch, so `test` and `main` have separate
+admin lists.
+
+`db/seed-test.sql` fills the `test` branch with 87 fake donations spanning two
+financial years, including the edge cases worth having on hand: a donation at
+02:00 IST on 1 April, its pair at 23:30 IST on 31 March, a double-click pair
+stranded in `INITIATED`, a successful gift with neither address nor PAN, and a
+donor name shaped like a spreadsheet formula. Never run it against `main`.
 
 `src/lib/db.js` exports `db()`, not a client — call it to get the `sql` tagged
 template. Queries run over HTTP, so there is nothing to pool or close, and the
@@ -311,6 +350,10 @@ from the Express version rather than silently fixed.
 
 ## History
 
+- **Nov 2026, admin dashboard.** `/admin`, gated by Google OAuth against an
+  `admin_users` allowlist, with an `admin_audit` trail that fails closed on
+  donor-data views. Built and verified against the `test` branch with seeded
+  data; receipts were left for later.
 - **Nov 2026 — checkout button states.** The Donate button fell back to its
   default enabled state mid-flow, between `initiate` returning and Paytm's
   checkout bundle finishing its download, because a `finally` block reset it on
@@ -357,9 +400,15 @@ from the Express version rather than silently fixed.
   successfully delivered callback is lost entirely. Recording "Paytm contacted
   us about this order" first would preserve the strongest available signal
   that a donor paid.
-- **Admin dashboard.** Google OAuth against an allowlist table, gated in
-  `src/middleware.ts` rather than per page, server-rendered so donor data
-  never reaches a client bundle, with PAN masked by default and an audit log
-  of views and exports. Receipt marking needs gapless per-financial-year
-  numbering and should be treated as irreversible: void and reissue rather
-  than un-mark.
+- **80G receipt marking.** Deliberately left out of the admin dashboard, which
+  is read-only over `donations`. Marking needs gapless per-financial-year
+  numbering, allocated inside a transaction, and should be treated as
+  irreversible: void and reissue rather than un-mark. Find out how many
+  successful donations are actually receiptable before building for it: the
+  80G section above explains why a significant share are not.
+- **Summary figures.** Totals by financial year, month by month, success rate.
+  The list page carries only the tally for the current filter.
+- **Session revocation without a database read.** The middleware reads
+  `admin_users` on every admin request, which is one round trip per page load.
+  Fine for a handful of people; it would want a short cache if the admin ever
+  grew busy.

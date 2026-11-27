@@ -1,0 +1,946 @@
+/*
+ * Poppins, self-hosted.
+ *
+ * The admin used to pull this from fonts.googleapis.com, which put a
+ * render-blocking third-party request in front of every page and told Google
+ * each time somebody opened donor records. Neither belongs on a page of
+ * personal data, so the files are served from this origin instead.
+ *
+ * Nine files: three weights across latin, latin-ext and devanagari. The
+ * devanagari subsets are 38 KB each and the latin ones under 8 KB, but
+ * unicode-range means a browser fetches a file only when the page actually
+ * contains characters from that block. A donor list in Latin script costs
+ * three files; a donor whose name is in Devanagari renders correctly rather
+ * than falling back to a system face.
+ *
+ * Poppins is licensed under the SIL Open Font License 1.1. The licence text
+ * is at public/fonts/OFL.txt and ships with the files, as it requires.
+ */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/poppins-400-devanagari.woff2") format("woff2");
+  unicode-range:
+    U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0,
+    U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/poppins-400-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/poppins-400-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/poppins-500-devanagari.woff2") format("woff2");
+  unicode-range:
+    U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0,
+    U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/poppins-500-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/poppins-500-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-600-devanagari.woff2") format("woff2");
+  unicode-range:
+    U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0,
+    U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-600-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-600-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * Admin dashboard styles.
+ *
+ * Deliberately separate from styles.scss. The public stylesheet carries the
+ * banner, navbar, footer, hero and section rules that no admin screen uses,
+ * and the admin needs things the public site never does: tabular figures,
+ * dense table rows, a filter bar. Two stylesheets with nothing in common is
+ * cheaper than one that serves neither.
+ *
+ * Colours come from styles.scss so this reads as Her Haq: $primary #891d1a,
+ * $accent #fcb415. Amber has exactly one job here, and it is not decoration:
+ * it marks a view that is narrowed or revealing something it normally hides.
+ */
+
+:root {
+  --maroon: #891d1a;
+  --maroon-dark: #6b1614;
+  --maroon-wash: #f6ebea;
+
+  --amber: #fcb415;
+  --amber-ink: #6f4a00;
+  --amber-wash: #fdf4e0;
+
+  /* Warm neutrals rather than pure grey, so the maroon does not read cold. */
+  --ink: #1f1a19;
+  --ink-soft: #5c5250;
+  /* 4.87:1 on --paper and 5.19:1 on white. Was #8a807d, which measured
+     3.60 and 3.84 and failed WCAG AA on the masked PAN and the footer. */
+  --ink-faint: #746b68;
+  --paper: #faf7f5;
+  --card: #ffffff;
+  --rule: #e4dcd9;
+
+  --success-ink: #1b5e3f;
+  --success-wash: #e7f1ec;
+  --slate-ink: #3f4a52;
+  --slate-wash: #eceff1;
+
+  --radius: 4px;
+  --radius-card: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* The table is wide. Let the wrapper scroll, never the document. */
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--maroon);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--maroon-dark);
+}
+
+/* One focus treatment for everything, and it is never removed. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* R-39: anything you can operate says so. */
+a[href],
+button:not(:disabled),
+select:not(:disabled),
+summary,
+label[for] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ---------------------------------------------------------------- chrome -- */
+
+.admin-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-top {
+  background: var(--maroon);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+/*
+ * The brand sits on the maroon bar and does not react to the pointer.
+ *
+ * Without this it inherits the generic a:hover, which is --maroon-dark on a
+ * --maroon background: about 1.3:1, so the word disappears under the cursor.
+ * It is still a link to /admin and still takes the focus ring; it just has
+ * nothing useful to say on hover.
+ */
+.admin-brand:hover,
+.admin-brand:focus-visible {
+  color: #fff;
+}
+
+.admin-brand img {
+  display: block;
+}
+
+.admin-brand span {
+  font-size: 0.95rem;
+}
+
+.admin-brand small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #f0d6d5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Identity now lives in the footer; see AdminLayout. */
+/*
+ * Identity shows in two places and never both at once. On a wide screen the
+ * bar has room for it, which is where you look for it. On a phone the bar
+ * does not, so it drops to the footer and sits with the line about what is
+ * recorded, which is the sentence it belongs to anyway.
+ */
+.admin-top .admin-who {
+  font-size: 0.8rem;
+  color: #f0d6d5;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.admin-top .admin-who strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-foot .admin-who {
+  display: none;
+  color: var(--ink-soft);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.admin-signout {
+  margin: 0;
+}
+
+.admin-signout button {
+  font: inherit;
+  font-size: 0.8rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--radius);
+  padding: 0.35rem 0.75rem;
+  min-height: 34px;
+}
+
+.admin-signout button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+}
+
+.admin-signout button:active {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.admin-tabs {
+  background: var(--card);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 1.25rem;
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+}
+
+.admin-tabs a {
+  display: block;
+  padding: 0.7rem 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+
+.admin-tabs a:hover {
+  color: var(--maroon);
+}
+
+.admin-tabs a[aria-current="page"] {
+  color: var(--maroon);
+  border-bottom-color: var(--maroon);
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.admin-foot {
+  border-top: 1px solid var(--rule);
+  padding: 1rem 1.25rem;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+/* ----------------------------------------------------------- page header -- */
+
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-head h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.page-head p {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.page-head .tally {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ----------------------------------------------------------------- notes -- */
+
+.note {
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--ink-faint);
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  font-size: 0.85rem;
+  margin: 0 0 1.25rem;
+}
+
+.note-warn {
+  border-left-color: var(--amber);
+  background: var(--amber-wash);
+  color: var(--amber-ink);
+}
+
+.note-error {
+  border-left-color: var(--maroon);
+  background: var(--maroon-wash);
+  color: var(--maroon-dark);
+}
+
+.note strong {
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- filters -- */
+
+.filters {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.field label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.field input,
+.field select {
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0.45rem 0.55rem;
+  min-height: 38px;
+}
+
+.field input:hover,
+.field select:hover {
+  border-color: var(--ink-faint);
+}
+
+.field-search {
+  flex: 1 1 15rem;
+}
+
+.field-search input {
+  width: 100%;
+}
+
+.filters-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  padding: 0.45rem 0.9rem;
+  min-height: 38px;
+  border: 1px solid var(--maroon);
+  background: var(--maroon);
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn:hover {
+  background: var(--maroon-dark);
+  border-color: var(--maroon-dark);
+  color: #fff;
+}
+
+.btn:active {
+  background: #561110;
+}
+
+.btn-quiet {
+  background: #fff;
+  color: var(--maroon);
+  border-color: var(--rule);
+}
+
+.btn-quiet:hover {
+  background: var(--maroon-wash);
+  border-color: var(--maroon);
+  color: var(--maroon-dark);
+}
+
+.btn-quiet:active {
+  background: #ecd9d8;
+}
+
+/* Amber, used only where a view is narrowed or unmasked. */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--amber-wash);
+  color: var(--amber-ink);
+  border: 1px solid #f0d9a6;
+  border-radius: var(--radius);
+  padding: 0.2rem 0.5rem;
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------------- table -- */
+
+.table-wrap {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+caption {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: #f4efec;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+thead th a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+thead th a:hover {
+  color: var(--maroon);
+  text-decoration: underline;
+}
+
+thead th[aria-sort] a {
+  color: var(--maroon);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #fcfaf9;
+}
+
+.cell-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cell-when {
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+
+.cell-mono {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.donor-name {
+  font-weight: 500;
+}
+
+.donor-mail {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.pan-masked {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.pan-shown {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  background: var(--amber-wash);
+  color: var(--amber-ink);
+  padding: 0.1rem 0.3rem;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.pan-none {
+  color: var(--ink-faint);
+}
+
+/*
+ * Status carries a tint and a word. Never the tint alone: four lifecycle
+ * states have to be told apart at a glance in a long table, which is the
+ * purpose the colour serves, but the label is what actually says which.
+ */
+.status {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.status-success {
+  background: var(--success-wash);
+  color: var(--success-ink);
+}
+
+.status-failure {
+  background: var(--maroon-wash);
+  color: var(--maroon-dark);
+}
+
+.status-waiting {
+  background: var(--amber-wash);
+  color: var(--amber-ink);
+}
+
+.status-unknown {
+  background: var(--slate-wash);
+  color: var(--slate-ink);
+}
+
+/* ------------------------------------------------------- empty and pages -- */
+
+.empty {
+  padding: 3rem 1.25rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.empty h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.empty p {
+  margin: 0 auto 1rem;
+  max-width: 34rem;
+  font-size: 0.875rem;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.pager-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pager strong {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ----------------------------------------------------------------- login -- */
+
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: var(--paper);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 25rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  text-align: center;
+}
+
+.login-card img {
+  display: block;
+  margin: 0 auto 1.25rem;
+}
+
+.login-card h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.login-card p {
+  margin: 0 0 1.5rem;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.login-card .btn {
+  width: 100%;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.login-card .note {
+  text-align: left;
+  margin-bottom: 1.25rem;
+}
+
+/*
+ * Two classes, not one. As `.login-foot` alone this rule lost every property
+ * to `.login-card p` above, which is a class plus a type and therefore wins:
+ * the line rendered at 14px in --ink-soft with no top margin at all, sitting
+ * flush against the sign-in button. Keep the selector at this weight.
+ */
+.login-card .login-foot {
+  margin: 1.5rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+/*
+ * The same exit link as the admin tab row, on the one screen where the person
+ * reading it is the one who could not get in. Separated by a rule rather than
+ * more whitespace, so it reads as leaving rather than as a third thing to try.
+ */
+.login-card .admin-exit {
+  display: block;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+
+.login-card .admin-exit:hover {
+  color: var(--maroon);
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------ audit log -- */
+
+.audit-action {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.audit-detail {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------------- mobile -- */
+
+@media (max-width: 700px) {
+  body {
+    font-size: 14px;
+  }
+
+  main {
+    padding: 1.25rem 0.9rem 2.5rem;
+  }
+
+  .admin-top,
+  .admin-tabs {
+    padding-inline: 0.9rem;
+  }
+
+  /*
+   * The bar carries two things now, the brand and the way out, so it is one
+   * row at every width. It used to stack brand, then identity, then a
+   * full-width Sign out: 151px of chrome before a single donation showed,
+   * with three competing type treatments in it.
+   */
+  .admin-top {
+    padding-block: 0.6rem;
+  }
+
+  .admin-top .admin-who {
+    display: none;
+  }
+
+  .admin-foot .admin-who {
+    display: inline;
+  }
+
+  .page-head h1 {
+    font-size: 1.15rem;
+  }
+
+  /* Full-width controls beat three cramped columns on a phone. */
+  .filters-row {
+    gap: 0.75rem;
+  }
+
+  .field,
+  .field-search {
+    flex: 1 1 100%;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+  }
+
+  .filters-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  thead th {
+    position: static;
+  }
+}
+
+/*
+ * Touch targets.
+ *
+ * A fingertip needs about 44px. Measured at 375px wide, the column sort links
+ * were 17px tall, the PAN reveal link 19px and the sign-out button 34px. The
+ * query covers coarse pointers as well as narrow screens, because a touch
+ * laptop is not a narrow screen.
+ */
+@media (max-width: 700px), (pointer: coarse) {
+  thead th a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .admin-signout button,
+  .login-card .admin-exit {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
